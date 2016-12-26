@@ -67,6 +67,7 @@ class User_model extends CI_Model{
         $row=$this->User_model->get_by_account($user_account)->row();
         $this->session->set_userdata('user_id', $row->user_id);
         $this->session->set_userdata('user_account', $row->user_account);
+        $this->session->set_userdata('user_authority', $row->user_authority);
         $current = time();
         $this->session->set_userdata('lastActiveTime', $current);
     }
@@ -93,6 +94,7 @@ class User_model extends CI_Model{
         $data['user_id']=$this->session->userdata('user_id');
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_account');
+        $this->session->unset_userdata('user_authority');
         $this->session->unset_userdata('lastActiveTime');
     }
 }
