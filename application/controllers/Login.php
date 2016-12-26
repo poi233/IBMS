@@ -34,7 +34,7 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('user_password', 'Password', 'callback_password_check');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('login');
+            $this->load->view('userSystem/login');
         } else {
             $this->User_model->to_login($_POST['user_account']);
             redirect('Index');
