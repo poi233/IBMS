@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-22 16:39:15
+-- Generation Time: 2016-12-26 17:55:13
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -43,8 +43,19 @@ CREATE TABLE IF NOT EXISTS `user` (
 `user_id` int(11) NOT NULL,
   `user_account` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_authority` int(11) NOT NULL COMMENT '0:超级管理员 1:授权用户 2:审查用户'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_account`, `user_password`, `user_name`, `user_authority`) VALUES
+(1, 'admin', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12345', 0),
+(9, '12312312', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12344', 1),
+(10, '123', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '123', 0),
+(11, '1234', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '1234', 0);
 
 -- --------------------------------------------------------
 
@@ -81,7 +92,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
