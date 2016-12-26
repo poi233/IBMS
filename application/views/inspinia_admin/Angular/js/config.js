@@ -657,7 +657,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         })
         .state('app.clients', {
             url: "/clients",
-            templateUrl: "views/clients.html",
+            templateUrl: "views/allUser.php",
             data: { pageTitle: 'Clients' }
         })
         .state('app.teams_board', {

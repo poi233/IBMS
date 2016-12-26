@@ -52,14 +52,14 @@ class User_model extends CI_Model{
         return $this->db->insert('user', $data);
     }
 
-    public function delete($id)
+    public function delete($user_account)
     {
-        $this->db->delete('user', array('user_id' => $id));
+        $this->db->delete('user', array('user_account' => $user_account));
     }
 
     public function update($data)
     {
-        $this->db->update('user', $data, array('user_id' => $data['user_id']));
+        $this->db->update('user', $data, array('user_account' => $data['user_account']));
     }
 
     public function to_login($user_account)

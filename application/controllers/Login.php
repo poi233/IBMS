@@ -14,7 +14,6 @@ class Login extends CI_Controller
         $this->load->helper('url');
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $this->load->model('User_model');
     }
 
     public function index()
@@ -55,7 +54,7 @@ class Login extends CI_Controller
     public function password_check()
     {
         $user = $this->User_model->get_by_account($_POST['user_account']);
-        if ($user->num_rows() > 0 && $user->row()->user_password != ($_POST['user_password'])) {
+        if ($user->num_rows() > 0 && $user->row()->user_password != sha1($_POST['user_password'])) {
             $this->form_validation->set_message('password_check', '密码错误');
             return FALSE;
         } else {
