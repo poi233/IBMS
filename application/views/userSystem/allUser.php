@@ -558,7 +558,7 @@
                 <div class="modal-body">
                 <form class="m-t" role="form" method="post" id="modifyUserForm">
                 <div class="form-group">
-                        <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" value="<?= set_value('user_account'); ?>" onBlur="validate_account()" id="modifyUserAccount">
+                        <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" value="<?= set_value('user_account'); ?>" onchange="validate_account()" id="modifyUserAccount">
                      <div style="color:red" id="modifyUserError"></div>
                     </div>
                     <div class="form-group">

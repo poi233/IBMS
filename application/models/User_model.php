@@ -59,7 +59,7 @@ class User_model extends CI_Model{
 
     public function update($data)
     {
-        $this->db->update('user', $data, array('user_account' => $data['user_account']));
+        $this->db->update('user', $data, array('user_id' => $data['user_id']));
     }
 
     public function to_login($user_account)
