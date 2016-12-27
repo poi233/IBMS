@@ -73,7 +73,26 @@ class UserManage extends CI_Controller
             $data['allUser'] = $this->User_model->get_by_account($_POST['search']);
             $this->load->view('userSystem/allUser', $data);
         }
-        //$url ='SystemManage/userManage/index/'.$_POST['search'];
-        //redirect($url);
+    }
+
+    public function passwordCheck($password)
+    {
+        $pass = $this->User_model
+            ->get_by_id($this->session->userdata('user_id'))
+            ->row()
+            ->user_password;
+        if($pass == sha1($password))
+            echo true;
+        else
+            echo false;
+    }
+
+    public function changePassword()
+    {
+        $user_id = $this->session->userdata('user_id');
+        $data['user_id'] = $user_id;
+        $data['user_password'] = sha1($_POST['newPassword']);
+        $this->User_model->update($data);
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }

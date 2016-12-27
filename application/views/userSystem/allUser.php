@@ -38,18 +38,75 @@
 
         function addToSubmit()
         {
-            if($('#addUserError').html()=='')
-                $('#addUserForm').submit();
+            if($('#addUserAccount').val()=='')
+                $('#addUserAccountError').html('<p>输入不能为空</p>');
+            else if($('#addUserAccountError').html()=='<p>输入不能为空</p>')
+                $('#addUserAccountError').html('');
+            if($('#addUserName').val()=='')
+                $('#addUserNameError').html('<p>输入不能为空</p>');
             else
-                alert('请输入正确信息后提交');
+                $('#addUserNameError').html('');
+
+            if($('#addUserAccountError').html()=='' && $('#addUserNameError').html()=='')
+                $('#addUserForm').submit();
         }
 
         function modifyToSubmit()
         {
-            if($('#modifyUserError').html()=='')
-                $('#modifyUserForm').submit();
+            if($('#modifyUserAccount').val()=='')
+                $('#modifyUserAccountError').html('<p>输入不能为空</p>');
+            else if($('#modifyUserAccountError').html()=='<p>输入不能为空</p>')
+                $('#modifyUserAccountError').html('');
+            if($('#modifyUserName').val()=='')
+                $('#modifyUserNameError').html('<p>输入不能为空</p>');
             else
-                alert('请输入正确信息后提交');
+                $('#modifyUserNameError').html('');
+            if($('#modifyUserAccountError').html()=='' && $('#modifyUserNameError').html()=='')
+                $('#modifyUserForm').submit();
+        }
+
+        function changePasswordToSubmit()
+        {
+            if($('#passwordChangeFormer').val()=='')
+                $('#formerPasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#formerPasswordError').html('');
+
+            if($('#passwordChange').val()=='')
+                $('#changePasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#changePasswordError').html('');
+
+            if($('#passwordChangeConfirm').val()=='')
+                $('#confirmPasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#confirmPasswordError').html('');
+
+            if($('#passwordChange').val()!='' && $('#passwordChangeConfirm').val()!='' && ($('#passwordChange').val()!=$('#passwordChangeConfirm').val()))
+                $('#confirmPasswordError').html('<p>请输入两次相同的密码</p>');
+
+            if($('#changePasswordError').html()=='' && $('#confirmPasswordError').html()=='' && $('#formerPasswordError').html()=='')
+            {
+                var url = '<?= site_url('SystemManage/UserManage/passwordCheck/')?>'+$('#passwordChangeFormer').val();
+                //alert(url);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    error: changePassworderrFunction,  //错误执行方法
+                    success: changePasswordSuccFunction //成功执行方法
+                })
+            }
+        }
+
+        function changePasswordSuccFunction(data) {
+            //alert('密码修改成功');
+            $('#changePasswordForm').submit();
+
+        }
+
+        function changePassworderrFunction(data) {
+                $('#formerPasswordError').html('<p>原密码输入不正确</p>');
         }
 
         function validate_account() {
@@ -80,7 +137,7 @@
                 })
             }
             else {
-                $('#modifyUserError').html('');
+                $('#modifyUserAccountError').html('');
             }
 
         }
@@ -88,18 +145,18 @@
         function modifySuccFunction(data) {
             var json = eval(data);
             if (json != null)
-                $('#modifyUserError').html('<p>用户名已存在</p>');
+                $('#modifyUserAccountError').html('<p>用户名已存在</p>');
             else
-                $('#modifyUserError').html('');
+                $('#modifyUserAccountError').html('');
 
         }
 
         function addSuccFunction(data) {
             var json = eval(data);
             if (json != null)
-                $('#addUserError').html('<p>用户名已存在</p>');
+                $('#addUserAccountError').html('<p>用户名已存在</p>');
             else
-                $('#addUserError').html('');
+                $('#addUserAccountError').html('');
 
         }
         function errFunction(data) {
@@ -123,11 +180,9 @@
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">王昆</strong>
                              </span> <span class="text-muted text-xs block">管理员 <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="profile.html">个人信息</a></li>
-                                <li><a href="contacts.html">联系方式</a></li>
-                                <li><a href="mailbox.html">邮箱</a></li>
+                                <li><a data-toggle="modal" data-target="#passwordChangeModal">修改密码</a></li>
                                 <li class="divider"></li>
-                                <li><a href="login.html">退出登录</a></li>
+                                <li><a href="<?= site_url('Login/logout') ?>">退出登录</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
@@ -344,11 +399,6 @@
         <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-            <form role="search" class="navbar-form-custom">
-                <div class="form-group">
-                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                </div>
-            </form>
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
@@ -457,10 +507,9 @@
                     </a>
                 </li>
             </ul>
-
         </nav>
         </div>
-            <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
                     <h2>用户信息</h2>
                     <ol class="breadcrumb">
@@ -520,8 +569,9 @@
                                                     <td width="25%">
                                                         <?php if($allUserRow->user_account!=$this->session->userdata('user_account')): ?>
                                                         <button type="button" style="float:right;margin:0px 5px;;" class="btn btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" onclick="setDeleteInfo('<?=$allUserRow->user_account?>')">删除用户</button>
-                                                        <button style="float:right" type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#modifyUserModal" onclick="setModifyInfo('<?=$allUserRow->user_account?>','<?=$allUserRow->user_name?>','<?=$allUserRow->user_authority?>')">修改用户</button>
                                                         <?php endif; ?>
+                                                        <button style="float:right" type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#modifyUserModal" onclick="setModifyInfo('<?=$allUserRow->user_account?>','<?=$allUserRow->user_name?>','<?=$allUserRow->user_authority?>')">修改用户</button>
+
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>
@@ -543,7 +593,6 @@
                 <strong>Copyright</strong> Example Company &copy; 2014-2015
             </div>
         </div>
-
         </div>
         </div>
 
@@ -558,14 +607,15 @@
                 <div class="modal-body">
                 <form class="m-t" role="form" method="post" id="modifyUserForm">
                 <div class="form-group">
-                        <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" value="<?= set_value('user_account'); ?>" onchange="validate_account()" id="modifyUserAccount">
-                     <div style="color:red" id="modifyUserError"></div>
+                        <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" onchange="validate_account()" id="modifyUserAccount">
+                     <div style="color:red" id="modifyUserAccountError"></div>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="真实姓名" name="user_name" required="required" id="modifyUserName">
+                        <div style="color:red" id="modifyUserNameError"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="密码(密码为空时不修改密码)" name="user_password" required="required" id="modifyUserPassword">
+                        <input type="text" class="form-control" placeholder="密码(密码为空时不修改密码)" name="user_password" id="modifyUserPassword">
                     </div>
                     <div class="form-group">
                             <select class="form-control" name="user_authority" id="modifyUserAuthority">
@@ -593,11 +643,12 @@
                 <div class="modal-body">
                     <form class="m-t" role="form" action="<?=site_url('SystemManage/UserManage/addUser')?>" method="post" id="addUserForm">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" value="<?= set_value('user_account'); ?>" onBlur="validate_account()" id="addUserAccount">
-                            <div style="color:red" id="addUserError"></div>
+                            <input type="text" class="form-control" placeholder="用户名" name="user_account" required="required" maxlength="30" pattern="^[\w\d_]*$" onblur="validate_account()" id="addUserAccount">
+                            <div style="color:red" id="addUserAccountError"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="真实姓名" name="user_name" required="required">
+                            <input type="text" class="form-control" placeholder="真实姓名" name="user_name" required="required" id="addUserName">
+                            <div style="color:red" id="addUserNameError"></div>
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="user_authority">
@@ -626,6 +677,36 @@
                             <button type="button" class="btn btn-danger" id="confirmDelete" onclick="">确认删除</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="m-t" role="form" action="<?=site_url('SystemManage/UserManage/changePassword')?>" method="post" id="changePasswordForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="原密码" name="user_password" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChangeFormer">
+                            <div style="color:red" id="formerPasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="新密码" name="newPassword" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChange">
+                            <div style="color:red" id="changePasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="确认新密码" name="newPasswordConfirm" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChangeConfirm">
+                            <div style="color:red" id="confirmPasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="changePasswordToSubmit()">提交</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
