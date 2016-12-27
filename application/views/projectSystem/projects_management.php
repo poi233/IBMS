@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>项目信息维护</title>
+    <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/plugins/summernote/summernote.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/plugins/summernote/summernote-bs3.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css') ?>" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
 </head>
 
@@ -373,7 +375,7 @@
                 <h2>项目信息维护</h2>
                 <ol class="breadcrumb">
                     <li>
-                    <a href="index.html">首页</a>
+                        <a href="index.html">首页</a>
                     </li>
                     <li>
                         <a>项目管理</a>
@@ -484,14 +486,25 @@
 </div>
 
 <!-- Mainly scripts -->
-<script src="js/jquery-2.1.1.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<?= base_url('assets/js/jquery-2.1.1.js') ?>"></script>
+<script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/metisMenu/jquery.metisMenu.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
-<script src="js/plugins/pace/pace.min.js"></script>
+<script src="<?= base_url('assets/js/inspinia.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+
+<!-- SUMMERNOTE -->
+<script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>
+
+<!-- Data picker -->
+<script src="<?= base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js') ?>"></script>
+
+<!-- Ladda -->
+<script src="<?= base_url('assets/js/plugins/ladda/spin.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/ladda/ladda.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/plugins/ladda/ladda.jquery.min.js') ?>"></script>
 
 <script>
     $(document).ready(function(){
