@@ -415,19 +415,21 @@
                                                 <input type="text" class="form-control" placeholder="" >
                                             </div>
                                             <div>
-                                                <button class="ladda-button btn btn-primary pull-left" >提交</button>
+                                                <button class="ladda-button btn btn-primary" >提交</button>
                                             </div>
                                         </div>
 
                                         <div class="form-group"><label class="col-sm-2 control-label">已添加项目成员:</label>
                                             <div class="col-sm-5">
-                                                <button class="btn btn-white btn-sm">admin<a class="close-link">
-                                                        <i class="fa fa-times"></i>
+                                                <label class="btn btn-white">admin<button class="btn-link"><a class="close-link">s
+                                                      <i class="fa fa-times"></i>
                                                     </a></button>
+                                                </label>
 
-                                                <button class="btn btn-white btn-sm">admin<a class="close-link">
-                                                        <i class="fa fa-times"></i>
-                                                    </a></button>
+                                                <label class="btn btn-white">admin<button class="btn-link"><a class="close-link">
+                                                            <i class="fa fa-times"></i>
+                                                        </a></button>
+                                                </label>
                                             </div>
 
 
