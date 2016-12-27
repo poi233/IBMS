@@ -568,9 +568,9 @@
 
                                                     <td width="25%">
                                                         <?php if($allUserRow->user_account!=$this->session->userdata('user_account')): ?>
-                                                        <button type="button" style="float:right;margin:0px 5px;;" class="btn btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" onclick="setDeleteInfo('<?=$allUserRow->user_account?>')">删除用户</button>
+                                                        <button type="button" style="float:right;margin:0px 5px;" class="btn btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" onclick="setDeleteInfo('<?=$allUserRow->user_account?>')">删除用户</button>
                                                         <?php endif; ?>
-                                                        <button style="float:right" type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#modifyUserModal" onclick="setModifyInfo('<?=$allUserRow->user_account?>','<?=$allUserRow->user_name?>','<?=$allUserRow->user_authority?>')">修改用户</button>
+                                                        <button style="float:right;margin:0px 5px;" type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#modifyUserModal" onclick="setModifyInfo('<?=$allUserRow->user_account?>','<?=$allUserRow->user_name?>','<?=$allUserRow->user_authority?>')">修改用户</button>
 
                                                     </td>
                                                 </tr>

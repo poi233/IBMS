@@ -70,7 +70,7 @@ class UserManage extends CI_Controller
             $this->load->view('userSystem/allUser', $data);
 
         } else {
-            $data['allUser'] = $this->User_model->get_by_account($_POST['search']);
+            $data['allUser'] = $this->User_model->search($_POST['search']);
             $this->load->view('userSystem/allUser', $data);
         }
     }

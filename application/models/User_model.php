@@ -97,4 +97,15 @@ class User_model extends CI_Model{
         $this->session->unset_userdata('user_authority');
         $this->session->unset_userdata('lastActiveTime');
     }
+
+    public function search($account)
+    {
+        $like_array = array('user_account' => $account, 'user_name' => $account);
+        $res = $this->db
+            ->select('*')
+            ->from('user')
+            ->or_like($like_array)
+            ->get();
+        return $res;
+    }
 }
