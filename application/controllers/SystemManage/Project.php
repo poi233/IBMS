@@ -116,9 +116,7 @@ class Project extends CI_Controller
     public function search()
     {
         if ($_POST['search'] == '') {
-            $data['project'] = $this->Project_model->get_all();
-            $this->load->view('projectSystem/projects_management', $data);
-
+            redirect('SystemManage/Project');
         } else {
             $data['project'] = $this->Project_model->search($_POST['search']);
             $this->load->view('projectSystem/projects_management', $data);

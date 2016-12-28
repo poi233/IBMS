@@ -66,9 +66,7 @@ class UserManage extends CI_Controller
     public function search()
     {
         if ($_POST['search'] == '') {
-            $data['allUser'] = $this->User_model->get_all();
-            $this->load->view('userSystem/allUser', $data);
-
+            redirect('SystemManage/userManage');
         } else {
             $data['allUser'] = $this->User_model->search($_POST['search']);
             $this->load->view('userSystem/allUser', $data);
