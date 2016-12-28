@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-27 15:35:41
+-- Generation Time: 2016-12-28 12:34:48
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -29,18 +29,38 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `project` (
   `project_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `project_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `project_version` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `project_subsys` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `project_version` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `project`
 --
 
-INSERT INTO `project` (`project_id`, `project_name`, `project_version`, `project_subsys`) VALUES
-('123', '123', '123', '123'),
-('1234', '123', '123', '123'),
-('12345', '123', '1234123', '123124123');
+INSERT INTO `project` (`project_id`, `project_name`, `project_version`) VALUES
+('P1', 'project1', 'v1.2'),
+('P2', 'project2', 'v0.3');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `project_subsystem`
+--
+
+CREATE TABLE IF NOT EXISTS `project_subsystem` (
+  `project_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_turkish_ci NOT NULL,
+  `subsystem` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `project_subsystem`
+--
+
+INSERT INTO `project_subsystem` (`project_id`, `subsystem`) VALUES
+('P1', 'sub1'),
+('P1', 'sub2'),
+('P1', 'sub3'),
+('P2', 'subpro1'),
+('P2', 'subpro2');
 
 -- --------------------------------------------------------
 
@@ -54,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_authority` int(11) NOT NULL COMMENT '0:超级管理员 1:授权用户 2:审查用户'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `user`
@@ -85,20 +105,8 @@ CREATE TABLE IF NOT EXISTS `user_project` (
 --
 
 INSERT INTO `user_project` (`user_id`, `project_id`) VALUES
-(22, '123'),
-(26, '123'),
-(1, '1234'),
-(22, '1234'),
-(23, '1234'),
-(24, '1234'),
-(25, '1234'),
-(26, '1234'),
-(27, '1234'),
-(22, '12345'),
-(1, '12345'),
-(23, '12345'),
-(24, '12345'),
-(25, '12345');
+(22, 'P2'),
+(24, 'P1');
 
 --
 -- Indexes for dumped tables
@@ -124,7 +132,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
