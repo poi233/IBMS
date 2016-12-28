@@ -133,6 +133,50 @@
                 $('#addProjectForm').submit();
             }
         }
+
+        function changePasswordToSubmit()
+        {
+            if($('#passwordChangeFormer').val()=='')
+                $('#formerPasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#formerPasswordError').html('');
+
+            if($('#passwordChange').val()=='')
+                $('#changePasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#changePasswordError').html('');
+
+            if($('#passwordChangeConfirm').val()=='')
+                $('#confirmPasswordError').html('<p>输入不能为空</p>');
+            else
+                $('#confirmPasswordError').html('');
+
+            if($('#passwordChange').val()!='' && $('#passwordChangeConfirm').val()!='' && ($('#passwordChange').val()!=$('#passwordChangeConfirm').val()))
+                $('#confirmPasswordError').html('<p>请输入两次相同的密码</p>');
+
+            if($('#changePasswordError').html()=='' && $('#confirmPasswordError').html()=='' && $('#formerPasswordError').html()=='')
+            {
+                var url = '<?= site_url('SystemManage/UserManage/passwordCheck/')?>'+$('#passwordChangeFormer').val();
+                //alert(url);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    error: changePassworderrFunction,  //错误执行方法
+                    success: changePasswordSuccFunction //成功执行方法
+                })
+            }
+        }
+
+        function changePasswordSuccFunction(data) {
+            //alert('密码修改成功');
+            $('#changePasswordForm').submit();
+
+        }
+
+        function changePassworderrFunction(data) {
+            $('#formerPasswordError').html('<p>原密码输入不正确</p>');
+        }
     </script>
 
 
@@ -173,9 +217,7 @@
                         </a>
 
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="profile.html">个人信息</a></li>
-                            <li><a href="contacts.html">联系方式</a></li>
-
+                            <li><a href="#" data-toggle="modal" data-target="#passwordChangeModal">修改密码</a></li>
                             <li class="divider"></li>
                             <li><a href="<?= site_url('Login/logout') ?>">退出登录</a></li>
 
@@ -185,17 +227,16 @@
                         IN+
                     </div>
                 </li>
-                <li class="active">
+                <li>
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="index.html">修改密码</a></li>
                         <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
 
                     </ul>
                 </li>
 
-                <li>
-                    <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span class="fa arrow"></span></a>
+                <li  class="active">
+                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
                         <li><a href="<?= site_url('SystemManage/Project') ?>">项目信息维护</a></li>
@@ -225,7 +266,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <a href="login.html">
+                        <a href="<?= site_url('Login/logout') ?>">
                             <i class="fa fa-sign-out"></i> 退出登录
                         </a>
                     </li>
@@ -389,6 +430,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-t" role="form" action="<?=site_url('SystemManage/UserManage/changePassword')?>" method="post" id="changePasswordForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="原密码" name="user_password" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChangeFormer">
+                        <div style="color:red" id="formerPasswordError"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="新密码" name="newPassword" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChange">
+                        <div style="color:red" id="changePasswordError"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="确认新密码" name="newPasswordConfirm" required="required" maxlength="30" pattern="^[\w\d_]*$" id="passwordChangeConfirm">
+                        <div style="color:red" id="confirmPasswordError"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" onclick="changePasswordToSubmit()">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Mainly scripts -->
 <script src="<?= base_url('assets/js/jquery-2.1.1.js') ?>"></script>
