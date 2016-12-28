@@ -34,6 +34,16 @@ class Project_model extends CI_Model{
         return $result;
     }
 
+    public function get_all_subsystem($projectID)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('project_subsystem')
+            ->where('project_id', $projectID)
+            ->get();
+        return $res;
+    }
+
     public function insert($data)
     {
         return $this->db->insert('project', $data);
@@ -52,5 +62,25 @@ class Project_model extends CI_Model{
     public function add_to_project($data)
     {
         $this->db->insert('user_project',$data);
+    }
+
+    public function add_subsystem($data)
+    {
+        $this->db->insert('project_subsystem',$data);
+    }
+
+    public function search($search)
+    {
+        $like_array = array(
+            'project.project_id' => $search,
+            'project_name' => $search,
+            'project_version' => $search,
+        );
+        $res = $this->db
+            ->select('*')
+            ->from('project')
+            ->or_like($like_array)
+            ->get();
+        return $res;
     }
 }

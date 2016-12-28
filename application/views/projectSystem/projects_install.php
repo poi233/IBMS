@@ -56,10 +56,34 @@
             }
         }
 
+        function addSubsystem() {
+            var $subSys = $('#projectSubsystem').val();
+            if ($subSys != '') {
+                var $flag = true;
+                $("label[name='toAddSubsystem']").each(function (index, item) {
+                        if ($(this).html() == $subSys)
+                        $flag = false;
+                    }
+                );
+                if ($flag) {
+                    var $label = $('<label style=\"margin-right:10px\" id=\"toAddSubsystem' + $subSys + '\">' + '<label name=\"toAddSubsystem\">' + $subSys + '</label>' + '<a  href=\"javascript:cancelAddSubsystem(' + '\'' + $subSys + '\'' + ');\"><i class="fa fa-times"></i></a></label>');
+                    $('#toAddSubsystems').append($label);
+                } else {alert('子系统已存在');}
+            } else {
+                alert('请输入需添加子系统名');
+            }
+
+        }
+
         function cancelAddMember($member_id, $member_account) {
             var $option = $('<option value=\"' + $member_id + '\">' + $member_account + '</option>');
             $("select[name=projectMember]").append($option);
             var $loc = $('#toAdd' + $member_id);
+            $(document).find($loc).remove();
+        }
+
+        function cancelAddSubsystem($subSys) {
+            var $loc = $('#toAddSubsystem' + $subSys);
             $(document).find($loc).remove();
         }
 
@@ -70,7 +94,15 @@
                     $toAddValue += ',';
                 }
             );
+            $toAddSubsystemValue ='';
+            $("label[name='toAddSubsystem']").each(function (index, item) {
+                        $toAddSubsystemValue += $(this).html();
+                        $toAddSubsystemValue += ',';
+                }
+            );
             $('#allAddMembers').val($toAddValue);
+            $('#allAddSubsystems').val($toAddSubsystemValue);
+
             //错误处理
             if ($('#projectID').val() == '')
                 $('#projectIDError').html('<p>内容不能为空</p>');
@@ -87,7 +119,7 @@
             else
                 $('#projectVersionError').html('');
 
-            if ($('#projectSubsystem').val() == '')
+            if ($('#allAddSubsystems').val() == '')
                 $('#projectSubsysError').html('<p>内容不能为空</p>');
             else
                 $('#projectSubsysError').html('');
@@ -570,13 +602,25 @@
                                             </div>
 
                                             <div class="form-group"><label class="col-sm-2 control-label">子系统:</label>
-
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-4">
                                                     <input type="text" class="form-control" placeholder="子系统"
                                                            required="required" id="projectSubsystem"
                                                            name="projectSubsystem">
 
                                                     <div style="color:red" id="projectSubsysError"></div>
+                                                </div>
+                                                <div>
+                                                    <button onclick="addSubsystem()" class="btn btn-primary" type="button">
+                                                        添加
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group"><label
+                                                    class="col-sm-2 control-label">已添加子系统:</label>
+
+                                                <div class="col-sm-5" style="margin-top:7px;" name="toAddSubsystems"
+                                                     id="toAddSubsystems">
                                                 </div>
                                             </div>
 
@@ -586,6 +630,15 @@
                                                 <div class="col-sm-5"><input type="text" class="form-control"
                                                                              placeholder="添加用户" required="required"
                                                                              id="allAddMembers" name="allAddMembers">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" hidden="hidden"><label
+                                                    class="col-sm-2 control-label">添加的子系统:</label>
+
+                                                <div class="col-sm-5"><input type="text" class="form-control"
+                                                                             placeholder="添加用户" required="required"
+                                                                             id="allAddSubsystems" name="allAddSubsystems">
                                                 </div>
                                             </div>
 
@@ -622,10 +675,6 @@
 <script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/plugins/metisMenu/jquery.metisMenu.js') ?>"></script>
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
-
-<!-- Custom and plugin javascript -->
-<script src="<?= base_url('assets/js/inspinia.js') ?>"></script>
-<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>

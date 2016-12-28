@@ -17,6 +17,11 @@
     <link href="<?= base_url('assets/css/animate.css')?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css')?>" rel="stylesheet">
     <script type="text/javascript">
+        function toURL(url)
+        {
+            window.location.href = url;
+        }
+
         function setModifyInfo(account,name,authority)
         {
             $('#modifyUserAccount').val(account);
@@ -25,15 +30,33 @@
             $('#modifyUserForm').attr("action", "<?=site_url('SystemManage/UserManage/modifyUser/')?>"+account)
         }
 
-        function setDeleteInfo(account)
+        function setDeleteInfo(user_id)
         {
-            var url = '<?=site_url('SystemManage/UserManage/deleteUser/')?>'+account;
-            $('#confirmDelete').attr('onclick','toURL(\''+url+'\')');
+            $('#deleteUserForm').attr("action", "<?=site_url('SystemManage/UserManage/deleteUser/')?>"+user_id);
+            $('#confirmDelete').attr('onclick','deleteToSubmit(\''+user_id+'\')');
         }
 
-        function toURL(url)
+        function deleteToSubmit(user_id)
         {
-            window.location.href = url;
+            var url = '<?= site_url('SystemManage/UserManage/deleteCheck/')?>'+user_id;
+            //alert(url);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                error: deleteErrFunction,  //错误执行方法
+                success: deleteSuccFunction //成功执行方法
+            })
+        }
+
+        function deleteErrFunction(data)
+        {
+            alert('用户有参与项目,无法删除');
+        }
+
+        function deleteSuccFunction(data)
+        {
+            $('#deleteUserForm').submit();
         }
 
         function addToSubmit()
@@ -538,7 +561,7 @@
                                 </div>
                             <form method="post" action="<?= site_url('SystemManage/UserManage/search') ?>">
                             <div class="input-group">
-                                <input type="text" placeholder="搜索用户 " class="input form-control" name="search">
+                                <input type="text" placeholder="搜索用户 " class="input form-control" name="search" value="<?= set_value('search') ?>">
                                 <span class="input-group-btn">
                                         <button type="submit" class="btn btn btn-primary"> <i class="fa fa-search"></i> 开始搜索</button>
                                 </span>
@@ -568,7 +591,7 @@
 
                                                     <td width="25%">
                                                         <?php if($allUserRow->user_account!=$this->session->userdata('user_account')): ?>
-                                                        <button type="button" style="float:right;margin:0px 5px;" class="btn btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" onclick="setDeleteInfo('<?=$allUserRow->user_account?>')">删除用户</button>
+                                                        <button type="button" style="float:right;margin:0px 5px;" class="btn btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" onclick="setDeleteInfo('<?=$allUserRow->user_id?>')">删除用户</button>
                                                         <?php endif; ?>
                                                         <button style="float:right;margin:0px 5px;" type="button" class="btn btn btn-primary" data-toggle="modal" data-target="#modifyUserModal" onclick="setModifyInfo('<?=$allUserRow->user_account?>','<?=$allUserRow->user_name?>','<?=$allUserRow->user_authority?>')">修改用户</button>
 
@@ -666,17 +689,22 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">确认删除</h4>
                 </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="confirmDelete" onclick="">确认删除</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        </div>
+                <form action="" method="post" id="deleteUserForm">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDelete" onclick="">确认删除
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>

@@ -5,7 +5,8 @@
  * Date: 2016/12/22
  * Time: 23:40
  */
-class User_model extends CI_Model{
+class User_model extends CI_Model
+{
     public function __construct()
     {
         parent::__construct();
@@ -27,8 +28,8 @@ class User_model extends CI_Model{
         $res = $this->db
             ->select('*')
             ->from('user')
-            ->join('user_project','user.user_id=user_project.user_id')
-            ->where('user.user_id',$user_id)
+            ->join('user_project', 'user.user_id=user_project.user_id')
+            ->where('user.user_id', $user_id)
             //->order_by('add_time', 'DESC')
             ->get();
         return $res;
@@ -52,9 +53,14 @@ class User_model extends CI_Model{
         return $this->db->insert('user', $data);
     }
 
-    public function delete($user_account)
+    public function delete($user_id)
     {
-        $this->db->delete('user', array('user_account' => $user_account));
+        $this->db->delete('user', array('user_id' => $user_id));
+    }
+
+    public function delete_user_project($project_id)
+    {
+        $this->db->delete('user_project', array('project_id' => $project_id));
     }
 
     public function update($data)
@@ -64,7 +70,7 @@ class User_model extends CI_Model{
 
     public function to_login($user_account)
     {
-        $row=$this->User_model->get_by_account($user_account)->row();
+        $row = $this->User_model->get_by_account($user_account)->row();
         $this->session->set_userdata('user_id', $row->user_id);
         $this->session->set_userdata('user_account', $row->user_account);
         $this->session->set_userdata('user_authority', $row->user_authority);
@@ -91,7 +97,7 @@ class User_model extends CI_Model{
 
     public function logout()
     {
-        $data['user_id']=$this->session->userdata('user_id');
+        $data['user_id'] = $this->session->userdata('user_id');
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_account');
         $this->session->unset_userdata('user_authority');
@@ -105,6 +111,43 @@ class User_model extends CI_Model{
             ->select('*')
             ->from('user')
             ->or_like($like_array)
+            ->get();
+        return $res;
+    }
+
+    public function get_user_project_by_projectID($projectID)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('user_project')
+            ->join('user', 'user_project.user_id=user.user_id')
+            ->where('user_project.project_id', $projectID)
+            ->get();
+        return $res;
+    }
+
+    public function get_other_user_by_projectID($projectID)
+    {
+        $id_exist = array();
+        $id = $this->User_model->get_user_project_by_projectID($projectID);
+        foreach($id->result() as $idRow)
+        {
+            array_push($id_exist,$idRow->user_id);
+        }
+          $res = $this->db
+            ->select('*')
+            ->from('user')
+            ->where_not_in('user.user_id', $id_exist)
+            ->get();
+        return $res;
+    }
+
+    public function get_project_by_userAccount($userID)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('user_project')
+            ->where('user_id', $userID)
             ->get();
         return $res;
     }

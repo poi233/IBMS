@@ -50,9 +50,9 @@ class UserManage extends CI_Controller
         redirect('SystemManage/userManage');
     }
 
-    public function deleteUser($user_account)
+    public function deleteUser($user_id)
     {
-        $this->User_model->delete($user_account);
+        $this->User_model->delete($user_id);
         redirect('SystemManage/userManage');
     }
 
@@ -82,6 +82,16 @@ class UserManage extends CI_Controller
             ->row()
             ->user_password;
         if($pass == sha1($password))
+            echo true;
+        else
+            echo false;
+    }
+
+    public function deleteCheck($userID)
+    {
+        $res = $this->User_model->get_project_by_userAccount($userID);
+
+        if($res->num_rows()==0)
             echo true;
         else
             echo false;

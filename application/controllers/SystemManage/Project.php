@@ -13,13 +13,11 @@ class Project extends CI_Controller
         $this->load->helper('url');
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $this->load->model('Project_model');
     }
 
-    public function index()
-    {
-        $data['allUser'] = $this->User_model->get_all();
-        $this->load->view('projectSystem/projects_install',$data);
+    public function index(){
+        $data['project'] = $this->Project_model->get_all();
+        $this->load->view('projectSystem/projects_management',$data);
     }
 
     public function projectCheck($project_id)
@@ -28,18 +26,71 @@ class Project extends CI_Controller
         echo json_encode($res);
     }
 
+    public function addProjectIndex()
+    {
+        $data['allUser'] = $this->User_model->get_all();
+        $this->load->view('projectSystem/projects_install',$data);
+    }
+
     public function addProject()
     {
+        $projectID = $_POST['projectID'];
         $allMembers = $_POST['allAddMembers'];
         $user_account = explode(',',$allMembers);
+        $allSubsystems = $_POST['allAddSubsystems'];
+        $subsystems = explode(',',$allSubsystems);
         $data = array(
-            'project_id' => $_POST['projectID'],
+            'project_id' => $projectID,
             'project_name' => $_POST['projectName'],
             'project_version' => $_POST['projectVersion'],
-            'project_subsys'=> $_POST['projectSubsystem']
         );
         $this->Project_model->insert($data);
 
+        for($index=0;$index<count($user_account)-1;$index++)
+        {
+            $id = $this->User_model->get_by_account($user_account[$index])->row()->user_id;
+            $to_project = array(
+                'user_id' => $id,
+                'project_id' => $projectID
+            );
+            $this->Project_model->add_to_project($to_project);
+        }
+
+        for($index=0;$index<count($subsystems)-1;$index++)
+        {
+            $to_project = array(
+                'subsystem' => $subsystems[$index],
+                'project_id' => $projectID
+            );
+            $this->Project_model->add_subsystem($to_project);
+        }
+
+        redirect('SystemManage/Project');
+    }
+
+    public function modifyProjectIndex($projectID=0)
+    {
+        $data['otherUsers'] = $this->User_model->get_other_user_by_projectID($projectID);
+        $data['allMembers'] = $this->User_model->get_user_project_by_projectID($projectID);
+        $data['allSubsystem'] = $this->Project_model->get_all_subsystem($projectID);
+        $data['project'] = $this->Project_model->get_by_id($projectID);
+        $this->load->view('projectSystem/projects_modify',$data);
+
+    }
+
+    public function modifyProject()
+    {
+        $allMembers = $_POST['allAddMembers'];
+        $user_account = explode(',',$allMembers);
+        $allSubsystems = $_POST['allAddSubsystems'];
+        $subsystems = explode(',',$allSubsystems);
+        $data = array(
+            'project_id' => $_POST['projectID'],
+            'project_version' => $_POST['projectVersion'],
+        );
+        $this->Project_model->update($data);
+
+        $this->User_model->delete_user_project($_POST['projectID']);
         for($index=0;$index<count($user_account)-1;$index++)
         {
             $id = $this->User_model->get_by_account($user_account[$index])->row()->user_id;
@@ -49,7 +100,28 @@ class Project extends CI_Controller
             );
             $this->Project_model->add_to_project($to_project);
         }
-        redirect($_SERVER['HTTP_REFERER']);
 
+        /*for($index=0;$index<count($subsystems)-1;$index++)
+        {
+            $to_project = array(
+                'subsystem' => $subsystems[$index],
+                'project_id' => $_POST['projectID']
+            );
+            $this->Project_model->add_subsystem($to_project);
+        }*/
+
+        redirect('SystemManage/Project');
+    }
+
+    public function search()
+    {
+        if ($_POST['search'] == '') {
+            $data['project'] = $this->Project_model->get_all();
+            $this->load->view('projectSystem/projects_management', $data);
+
+        } else {
+            $data['project'] = $this->Project_model->search($_POST['search']);
+            $this->load->view('projectSystem/projects_management', $data);
+        }
     }
 }
