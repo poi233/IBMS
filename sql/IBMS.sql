@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2016-12-28 12:34:48
+-- Generation Time: 2017-01-01 07:03:28
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -23,6 +23,84 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `fault_basic`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_basic` (
+`fault_id` int(11) NOT NULL,
+  `fault_level` int(11) NOT NULL,
+  `fault_detail` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fault_reappear_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fault_open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fault_close_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `fault_status` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `project_id` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fault_check`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_check` (
+  `fault_id` int(11) NOT NULL,
+  `checker_id` int(11) NOT NULL,
+  `locator_id` int(11) NOT NULL,
+  `modifier_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fault_error`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_error` (
+  `fault_id` int(11) NOT NULL,
+  `error_status` int(11) NOT NULL,
+  `error_info` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fault_locate`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_locate` (
+  `fault_id` int(11) NOT NULL,
+  `fault_subsystem` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fault_locate_detail` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fault_modify`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_modify` (
+  `fault_id` int(11) NOT NULL,
+  `fault_modify_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `fault_validation`
+--
+
+CREATE TABLE IF NOT EXISTS `fault_validation` (
+  `fault_id` int(11) NOT NULL,
+  `validator_id` int(11) NOT NULL,
+  `validation_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `project`
 --
 
@@ -37,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `project` (
 --
 
 INSERT INTO `project` (`project_id`, `project_name`, `project_version`) VALUES
-('P1', 'project1', 'v1.2'),
+('P1', 'project1', 'v1.2.3'),
 ('P2', 'project2', 'v0.3');
 
 -- --------------------------------------------------------
@@ -74,14 +152,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_authority` int(11) NOT NULL COMMENT '0:超级管理员 1:授权用户 2:审查用户'
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_account`, `user_password`, `user_name`, `user_authority`) VALUES
-(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', '12345', 2),
+(1, 'admin', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12345', 0),
 (22, 'peter1', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'st1', 2),
 (23, '123', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12344', 1),
 (24, '1232', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '123123123', 0),
@@ -106,11 +184,48 @@ CREATE TABLE IF NOT EXISTS `user_project` (
 
 INSERT INTO `user_project` (`user_id`, `project_id`) VALUES
 (22, 'P2'),
-(24, 'P1');
+(22, 'P1'),
+(23, 'P1');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `fault_basic`
+--
+ALTER TABLE `fault_basic`
+ ADD PRIMARY KEY (`fault_id`);
+
+--
+-- Indexes for table `fault_check`
+--
+ALTER TABLE `fault_check`
+ ADD PRIMARY KEY (`fault_id`);
+
+--
+-- Indexes for table `fault_error`
+--
+ALTER TABLE `fault_error`
+ ADD PRIMARY KEY (`fault_id`);
+
+--
+-- Indexes for table `fault_locate`
+--
+ALTER TABLE `fault_locate`
+ ADD PRIMARY KEY (`fault_id`);
+
+--
+-- Indexes for table `fault_modify`
+--
+ALTER TABLE `fault_modify`
+ ADD PRIMARY KEY (`fault_id`);
+
+--
+-- Indexes for table `fault_validation`
+--
+ALTER TABLE `fault_validation`
+ ADD PRIMARY KEY (`fault_id`);
 
 --
 -- Indexes for table `project`
@@ -129,10 +244,15 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `fault_basic`
+--
+ALTER TABLE `fault_basic`
+MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
