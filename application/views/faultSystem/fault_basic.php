@@ -247,7 +247,7 @@
                 <li>
                     <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#">缺陷报告</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
                         <li><a href="#">缺陷跟踪处理</a></li>
                         <li><a href="#">缺陷查询</a></li>
                         <li><a href="#">缺陷统计</a></li>
@@ -302,49 +302,55 @@
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷名称:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="Fault name" >
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="Fault name" name="faultId" id="faultId">
+                                                <div style="color:red" id="faultIdError"></div><!--这里是错误提醒-->
                                             </div>
                                             <label class="col-sm-1 control-label">提交人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId">
+                                                <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" >
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="faultLevel" id="faultLevel">
                                                     <option>高</option>
                                                     <option>中</option>
                                                     <option>低</option>
                                                 </select>
+                                                <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷描述:</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3"></textarea>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" rows="3" name="faultDetail" id="faultDetail"></textarea>
                                             </div>
+                                            <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" placeholder="" name="faultReappearInfo" id="faultReappearInfo">
+                                            </div>
+                                            <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">所属项目:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="项目">
-
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="faultProject" id=faultProject">
+                                                        <option></option>
+                                                </select>
+                                                <div style="color:red" id="faultProjectError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">下步处理安排:</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <select class="form-control" >
                                                     <option>保存缺陷</option>
                                                     <option>提交缺陷</option>
@@ -354,7 +360,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-11">
                                                 <button class="btn btn-primary pull-right" type="submit">确定</button>
                                             </div>
                                         </div>

@@ -366,21 +366,21 @@
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <input type="text" class="form-control" placeholder="Fault level" readonly="readonly">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷描述:</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <textarea class="form-control" rows="3" readonly="readonly"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <input type="text" class="form-control" placeholder="" readonly="readonly">
                                             </div>
                                         </div>
