@@ -20,7 +20,59 @@
     <link href="css/style.css" rel="stylesheet">
 
 
+    <script type="text/javascript">
+        function passCheck() {
+            var $check_idea = $("select[name=checkidea]").val();
+            if ($check_idea = '通过') {
+                $('#select_next').css('display','block');
+            }
+            else if($check_idea = '不通过'){
+                $('#select_next').css('display','none');
+            }
+            else if($check_idea = '延迟处理'){
+                $('#select_next').css('display','none');
+            }
+            else{
+                alert("请输入审核意见");
+            }
+        }
 
+        function check_idea() {
+            /*  var objS = document.getElementById("check_idea");
+             var grade = objS.options[objS.selectedIndex].grade;*/
+            var checkText=$("#check_idea").find("option:selected").text();
+            if(checkText=="通过")
+            {
+                $('#select_next').show();
+            }
+            else
+            {
+                $('#select_next').hide();
+            }
+        }
+
+        function locater_feedback() {
+            var locate_feedback=$("#locater_feedback").find("option:selected").text();
+            if(locate_feedback=="否")
+            {
+                $('#sub_system').show();
+                $('#locater_information').show();
+                $('#locater_back_reason').hide();
+            }
+            else if(locate_feedback=="是")
+            {
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').show();
+            }
+            else{
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').hide();
+            }
+        }
+
+    </script>
 </head>
 
 <body>
@@ -377,16 +429,16 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>缺陷报告</h2>
+                <h2>缺陷定位</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
                     </li>
                     <li>
-                        <a>缺陷管理</a>
+                        <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷报告</strong>
+                        <strong>缺陷定位</strong>
                     </li>
                 </ol>
             </div>
@@ -401,12 +453,11 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷名称:</label>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="Fault name" >
+                                                <input type="text" class="form-control" placeholder="Fault name" readonly="readonly">
                                                 <div style="color:red" ></div><!--这里是错误提醒-->
                                             </div>
                                             <label class="col-sm-1 control-label">提交人:</label>
@@ -416,57 +467,96 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷级别:</label>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷级别:</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" >
-                                                    <option>高</option>
-                                                    <option>中</option>
-                                                    <option>低</option>
-                                                </select>
+                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly">
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷描述:</label>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷描述:</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3"></textarea>
+                                                <textarea class="form-control" rows="3" readonly="readonly"></textarea>
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷重现:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="" readonly="readonly">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">审核人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="审核人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <label class="col-sm-1 control-label">审核意见:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="通过" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">返回审核:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control" required="required" id="locater_feedback"
+                                                            name="locater_feedback" onchange="locater_feedback()">
+                                                        <option>未选择</option>
+                                                        <option>是</option>
+                                                        <option>否</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">定位人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="定位人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <label class="col-sm-1 control-label">修改人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="修改人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">所属项目:</label>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="项目">
+                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly">
 
                                                 <div style="color:red" ></div><!--这里是错误提醒-->
                                             </div>
 
-                                            <!--<label class="col-sm-1 control-label">子系统:</label>
+                                            <div class="form-group" id="sub_system" style="display: none;">
+                                            <label class="col-sm-1 control-label">子系统:</label>
                                             <div class="col-sm-3">
                                                 <input type="text" class="form-control" placeholder="子系统">
-                                                <div style="color:red" ></div>&lt;!&ndash;这里是错误提醒&ndash;&gt;
-                                            </div>-->
-
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">下步处理安排:</label>
+                                        <div class="form-group" id="locater_information" style="display: none;">
+                                            <label class="col-sm-2 control-label">定位信息:</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" >
-                                                    <option>保存缺陷</option>
-                                                    <option>提交缺陷</option>
-                                                    <option>取消缺陷</option>
-                                                </select>
+                                                <input type="text" class="form-control" placeholder="locate_info" >
                                             </div>
+                                        </div>
 
-                                            <!--<label class="col-sm-1 control-label">选择用户:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="用户">
-                                                <div style="color:red" ></div>&lt;!&ndash;这里是错误提醒&ndash;&gt;
-                                            </div>-->
+                                        <div class="form-group" id="locater_back_reason" style="display: none;">
+                                            <label class="col-sm-2 control-label">返回理由:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="返回理由">
+                                            </div>
                                         </div>
 
                                         <div class="row">
@@ -474,6 +564,7 @@
                                                 <button class="btn btn-primary pull-right" type="submit">确定</button>
                                             </div>
                                         </div>
+
                                     </fieldset>
 
                                 </div>

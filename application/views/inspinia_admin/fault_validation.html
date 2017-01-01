@@ -8,18 +8,83 @@
 
     <title>产品-编辑</title>
 
-    <link href="<?= base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?= base_url('assets/font-awesome/css/font-awesome.css')?>" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="<?= base_url('assets/css/plugins/summernote/summernote.css')?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/plugins/summernote/summernote-bs3.css')?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css')?>" rel="stylesheet">
+    <link href="css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
 
-    <link href="<?= base_url('assets/css/animate.css')?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/style.css')?>" rel="stylesheet">
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 
+    <script type="text/javascript">
+        function passCheck() {
+            var $check_idea = $("select[name=checkidea]").val();
+            if ($check_idea = '通过') {
+                $('#select_next').css('display','block');
+            }
+            else if($check_idea = '不通过'){
+                $('#select_next').css('display','none');
+            }
+            else if($check_idea = '延迟处理'){
+                $('#select_next').css('display','none');
+            }
+            else{
+                alert("请输入审核意见");
+            }
+        }
 
+        function check_idea() {
+            /*  var objS = document.getElementById("check_idea");
+             var grade = objS.options[objS.selectedIndex].grade;*/
+            var checkText=$("#check_idea").find("option:selected").text();
+            if(checkText=="通过")
+            {
+                $('#select_next').show();
+            }
+            else
+            {
+                $('#select_next').hide();
+            }
+        }
+
+        function modifier_feedback() {
+            var modify_feedback=$("#modifier_feedback").find("option:selected").text();
+            if(modify_feedback=="否")
+            {
+                $('#modifier_information').show();
+                $('#modifier_back_reason').hide();
+            }
+            else if(modify_feedback=="是")
+            {
+                $('#modifier_information').hide();
+                $('#modifier_back_reason').show();
+            }
+            else{
+                $('#modifier_information').hide();
+                $('#modifier_back_reason').hide();
+            }
+        }
+
+        function validation_feedback() {
+            var validation_feedback=$("#validation_feedback").find("option:selected").text();
+            if(validation_feedback=="否")
+            {
+                $('#validation_back_reason').hide();
+            }
+            else if(validation_feedback=="是")
+            {
+                $('#validation_back_reason').show();
+            }
+            /*else{
+                $('#validation_back_reason').hide();
+            }*/
+        }
+
+    </script>
 </head>
 
 <body>
@@ -376,16 +441,16 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>缺陷报告</h2>
+                <h2>缺陷验证</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
                     </li>
                     <li>
-                        <a>缺陷管理</a>
+                        <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷报告</strong>
+                        <strong>缺陷验证</strong>
                     </li>
                 </ol>
             </div>
@@ -400,50 +465,122 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-
                                     <fieldset class="form-horizontal">
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷名称:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder="Fault name"></div>
-                                        </div>
-
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" >
-                                                    <option>1级</option>
-                                                    <option>2级</option>
-                                                    <option>3级</option>
-                                                </select>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷名称:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="Fault name" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                            <label class="col-sm-1 control-label">提交人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷描述:</label>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷级别:</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3"></textarea>
-
-                                                <!-- <div class="summernote">
-                                                     <h3>缺陷描述</h3>
-                                                         这里是缺陷描述
-                                                     <br/>
-
-                                                 </div>-->
+                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly">
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷描述:</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" rows="3" readonly="readonly"></textarea>
+                                            </div>
                                         </div>
-                                        <div class="form-group"><label class="col-sm-2 control-label">被测对象:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷重现:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="" readonly="readonly">
+                                            </div>
                                         </div>
-                                        <div class="form-group"><label class="col-sm-2 control-label">下步处理安排:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">审核人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="审核人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                            <label class="col-sm-1 control-label">审核意见:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="通过" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="select_next" >
+                                            <label class="col-sm-2 control-label">定位人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="定位人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <label class="col-sm-1 control-label">修改人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="修改人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">返回修改:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control" required="required" id="validation_feedback"
+                                                            name="validation_feedback" onchange="validation_feedback()">
+                                                        <option>未选择</option>
+                                                        <option>是</option>
+                                                        <option>否</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">所属项目:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly">
+
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <label class="col-sm-1 control-label">子系统:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="子系统" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">定位信息:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="locate_info" readonly="readonly">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="modifier_information" >
+                                            <label class="col-sm-2 control-label">修改信息:</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" rows="3" readonly="readonly"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="validation_back_reason" style="display: none;">
+                                            <label class="col-sm-2 control-label">返回理由:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="返回理由">
+                                            </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <button class="btn btn-primary pull-right" type="submit">提交缺陷</button>
+                                                <button class="btn btn-primary pull-right" type="submit">确定</button>
                                             </div>
                                         </div>
+
                                     </fieldset>
 
                                 </div>
@@ -466,26 +603,23 @@
     </div>
 </div>
 
+
+
 <!-- Mainly scripts -->
-<script src="<?= base_url('assets/js/jquery-2.1.1.js')?>"></script>
-<script src="<?= base_url('assets/js/bootstrap.min.js')?>"></script>
-<script src="<?= base_url('assets/js/plugins/metisMenu/jquery.metisMenu.js')?>"></script>
-<script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js')?>"></script>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="<?= base_url('assets/js/inspinia.js')?>"></script>
-<script src="<?= base_url('assets/js/plugins/pace/pace.min.js')?>"></script>
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
 
 <!-- SUMMERNOTE -->
-<script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js')?>"></script>
+<script src="js/plugins/summernote/summernote.min.js"></script>
 
 <!-- Data picker -->
-<script src="<?= base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js')?>"></script>
-
-<!-- Ladda -->
-<script src="<?= base_url('assets/js/plugins/ladda/spin.min.js')?>"></script>
-<script src="<?= base_url('assets/js/plugins/ladda/ladda.min.js')?>"></script>
-<script src="<?= base_url('assets/js/plugins/ladda/ladda.jquery.min.js')?>"></script>
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 <script>
     $(document).ready(function(){

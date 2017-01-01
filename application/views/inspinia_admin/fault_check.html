@@ -20,7 +20,44 @@
     <link href="css/style.css" rel="stylesheet">
 
 
+    <script type="text/javascript">
+        function passCheck() {
+            var $check_idea = $("select[name=checkidea]").val();
+            if ($check_idea = '通过') {
+                $('#select_next').css('display','block');
+            }
+            else if($check_idea = '不通过'){
+                $('#select_next').css('display','none');
+            }
+            else if($check_idea = '延迟处理'){
+                $('#select_next').css('display','none');
+            }
+            else{
+                alert("请输入审核意见");
+            }
+        }
 
+        function check_idea() {
+            /*  var objS = document.getElementById("check_idea");
+             var grade = objS.options[objS.selectedIndex].grade;*/
+            var check_idea=$("#check_idea").find("option:selected").text();
+            if(check_idea=="通过")
+            {
+                $('#select_next').show();
+            }
+            else if(check_idea=="不通过")
+            {
+                $('#select_next').hide();
+                $('#feedback').show();
+            }
+            else if(check_idea=="延迟处理")
+            {
+                $('#select_next').hide();
+                $('#feedback').hide();
+            }
+        }
+
+    </script>
 </head>
 
 <body>
@@ -377,16 +414,16 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>缺陷报告</h2>
+                <h2>缺陷审核</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
                     </li>
                     <li>
-                        <a>缺陷管理</a>
+                        <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷报告</strong>
+                        <strong>缺陷审核</strong>
                     </li>
                 </ol>
             </div>
@@ -401,72 +438,98 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷名称:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="Fault name" >
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
-                                            <label class="col-sm-1 control-label">提交人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷级别:</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control" >
-                                                    <option>高</option>
-                                                    <option>中</option>
-                                                    <option>低</option>
-                                                </select>
+                                                <input type="text" class="form-control" placeholder="Fault name" readonly="readonly">
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷描述:</label>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷级别:</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3"></textarea>
+                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly">
                                             </div>
                                         </div>
 
-                                        <div class="form-group"><label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control" placeholder=""></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷描述:</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" rows="3" readonly="readonly"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">缺陷重现:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="" readonly="readonly">
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">所属项目:</label>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="项目">
+                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly">
 
                                                 <div style="color:red" ></div><!--这里是错误提醒-->
                                             </div>
 
                                             <!--<label class="col-sm-1 control-label">子系统:</label>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="子系统">
+                                                <input type="text" class="form-control" placeholder="子系统" readonly="readonly">
                                                 <div style="color:red" ></div>&lt;!&ndash;这里是错误提醒&ndash;&gt;
                                             </div>-->
-
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">下步处理安排:</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" >
-                                                    <option>保存缺陷</option>
-                                                    <option>提交缺陷</option>
-                                                    <option>取消缺陷</option>
+                                            <label class="col-sm-2 control-label">审核人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="审核人" readonly="readonly">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                            <label class="col-sm-1 control-label">审核意见:</label>
+                                            <div class="col-sm-3">
+                                                <!--<select class="form-control" required="required" id="checkidea"
+                                                        name="checkidea" >
+                                                    <option>通过</option>
+                                                    <option>不通过</option>
+                                                    <option>延迟处理</option>
+                                                </select>
+                                                <div>
+                                                <button onclick="passCheck()" class="btn btn-primary" type="button">
+                                                    确定
+                                                </button>
+                                                </div>
+                                                -->
+                                                <select class="form-control" required="required" id="check_idea"
+                                                        name="check_idea" onchange="check_idea()">
+                                                    <option>通过</option>
+                                                    <option>不通过</option>
+                                                    <option>延迟处理</option>
                                                 </select>
                                             </div>
+                                        </div>
 
-                                            <!--<label class="col-sm-1 control-label">选择用户:</label>
+                                        <div class="form-group" id="select_next"> <!--style="display: none;"-->
+                                            <label class="col-sm-2 control-label">下一步 定位人:</label>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="用户">
-                                                <div style="color:red" ></div>&lt;!&ndash;这里是错误提醒&ndash;&gt;
-                                            </div>-->
+                                                <input type="text" class="form-control" placeholder="定位人">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+
+                                            <label class="col-sm-1 control-label">修改人:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" placeholder="修改人">
+                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="feedback" style="display: none;">
+                                            <label class="col-sm-2 control-label">反馈信息:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" placeholder="反馈信息">
+                                            </div>
                                         </div>
 
                                         <div class="row">
