@@ -12,6 +12,16 @@ class Fault_basic_model extends CI_Model{
         $this->load->library('session');
     }
 
+    public function get_fault_status($fault_id)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('fault_basic')
+            ->where('fault_id',$fault_id)
+            ->get();
+        return $res->row()->fault_status;
+    }
+
     public function creator_get_info($session_id)
     {
         $where = 'fault_status=0 OR fault_status=5 OR fault_status=6';

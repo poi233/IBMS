@@ -19,121 +19,6 @@
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
     <script type="text/javascript">
-        function projectIDValidation() {
-            if ($('#projectID').val() != '') {
-                var url = '<?= site_url('SystemManage/Project/projectCheck/')?>' + $('#projectID').val();
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    dataType: 'json',
-                    error: errFunction,  //错误执行方法
-                    success: successFunction //成功执行方法
-                })
-            }
-        }
-
-        function successFunction(data) {
-            var json = eval(data);
-            if (json != null)
-                $('#projectIDError').html('<p>项目已存在</p>');
-            else
-                $('#projectIDError').html('');
-        }
-
-        function errFunction(data) {
-            alert('error');
-        }
-
-        function addMember() {
-            var $member_id = $("select[name=projectMember]").val();
-            var $member_account = $("select[name=projectMember] option:selected").text();
-            if ($member_account != '') {
-                var $label = $('<label style=\"margin-right:10px\" id=\"toAdd' + $member_id + '\">' + '<label name=\"toAdd\">' + $member_account + '</label>' + '<a  href=\"javascript:cancelAddMember(' + $member_id + ',' + '\'' + $member_account + '\'' + ');\"><i class="fa fa-times"></i></a></label>')
-                $('#toAddMembers').append($label);
-                $("select[name=projectMember] option:selected").remove();
-            } else {
-                alert('无用户');
-            }
-        }
-
-        function addSubsystem() {
-            var $subSys = $('#projectSubsystem').val();
-            if ($subSys != '') {
-                var $flag = true;
-                $("label[name='toAddSubsystem']").each(function (index, item) {
-                        if ($(this).html() == $subSys)
-                            $flag = false;
-                    }
-                );
-                if ($flag) {
-                    var $label = $('<label style=\"margin-right:10px\" id=\"toAddSubsystem' + $subSys + '\">' + '<label name=\"toAddSubsystem\">' + $subSys + '</label>' + '<a  href=\"javascript:cancelAddSubsystem(' + '\'' + $subSys + '\'' + ');\"><i class="fa fa-times"></i></a></label>');
-                    $('#toAddSubsystems').append($label);
-                } else {alert('子系统已存在');}
-            } else {
-                alert('请输入需添加子系统名');
-            }
-
-        }
-
-        function cancelAddMember($member_id, $member_account) {
-            var $option = $('<option value=\"' + $member_id + '\">' + $member_account + '</option>');
-            $("select[name=projectMember]").append($option);
-            var $loc = $('#toAdd' + $member_id);
-            $(document).find($loc).remove();
-        }
-
-        function cancelAddSubsystem($subSys) {
-            var $loc = $('#toAddSubsystem' + $subSys);
-            $(document).find($loc).remove();
-        }
-
-        function toSubmit() {
-            $toAddValue = '';
-            $("label[name='toAdd']").each(function (index, item) {
-                    $toAddValue += $(this).html();
-                    $toAddValue += ',';
-                }
-            );
-            $toAddSubsystemValue ='';
-            $("label[name='toAddSubsystem']").each(function (index, item) {
-                    $toAddSubsystemValue += $(this).html();
-                    $toAddSubsystemValue += ',';
-                }
-            );
-            $('#allAddMembers').val($toAddValue);
-            $('#allAddSubsystems').val($toAddSubsystemValue);
-
-            //错误处理
-            if ($('#projectID').val() == '')
-                $('#projectIDError').html('<p>内容不能为空</p>');
-            else if ($('#projectIDError').html() == '<p>内容不能为空</p>')
-                $('#projectIDError').html('');
-
-            if ($('#projectName').val() == '')
-                $('#projectNameError').html('<p>内容不能为空</p>');
-            else
-                $('#projectNameError').html('');
-
-            if ($('#projectVersion').val() == '')
-                $('#projectVersionError').html('<p>内容不能为空</p>');
-            else
-                $('#projectVersionError').html('');
-
-            if ($('#allAddSubsystems').val() == '')
-                $('#projectSubsysError').html('<p>内容不能为空</p>');
-            else
-                $('#projectSubsysError').html('');
-
-            if ($('#allAddMembers').val() == '')
-                $('#projectMemberError').html('<p>参与者不能为空</p>');
-            else
-                $('#projectMemberError').html('');
-
-            if ($('#projectIDError').html() == '' && $('#projectNameError').html() == '' && $('#projectVersionError').html() == '' && $('#projectSubsysError').html() == '' && $('#projectMemberError').html() == '') {
-                $('#addProjectForm').submit();
-            }
-        }
-
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')
@@ -295,30 +180,17 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="tabs-container">
-
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
-                                    <fieldset class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">缺陷名称:</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="Fault name" name="faultId" id="faultId">
-                                                <div style="color:red" id="faultIdError"></div><!--这里是错误提醒-->
-                                            </div>
-                                            <label class="col-sm-1 control-label">提交人:</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId">
-                                                <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
-                                            </div>
-                                        </div>
-
+                                    <form method="post" action="<?= site_url('FaultManage/Fault/addFaultSend') ?>" id="addFaultForm" name="addFaultForm">
+                                        <fieldset class="form-horizontal">
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-2">
                                                 <select class="form-control" name="faultLevel" id="faultLevel">
-                                                    <option>高</option>
-                                                    <option>中</option>
-                                                    <option>低</option>
+                                                    <option value="0">低</option>
+                                                    <option value="1">中</option>
+                                                    <option value="2">高</option>
                                                 </select>
                                                 <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
                                             </div>
@@ -326,46 +198,62 @@
 
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷描述:</label>
                                             <div class="col-sm-9">
-                                                <textarea class="form-control" rows="3" name="faultDetail" id="faultDetail"></textarea>
+                                                <textarea class="form-control" rows="3" name="faultDetail" id="faultDetail" required="required"></textarea>
                                             </div>
                                             <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group"><label class="col-sm-2 control-label">缺陷重现:</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" placeholder="" name="faultReappearInfo" id="faultReappearInfo">
+                                                <input type="text" class="form-control" placeholder="" name="faultReappearInfo" id="faultReappearInfo" required="required">
                                             </div>
                                             <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">所属项目:</label>
-                                            <div class="col-sm-2">
-                                                <select class="form-control" name="faultProject" id=faultProject">
-                                                        <option></option>
+                                            <div class="col-sm-3">
+                                                <select class="form-control" name="projectID" id="projectID">
+                                                    <?php foreach($project->result() as $projectRow): ?>
+                                                        <option value="<?= $projectRow->project_id ?>"><?=  $projectRow->project_name?>(<?= $projectRow->project_id ?>)</option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                                 <div style="color:red" id="faultProjectError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label">审核人:</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="checkID" id="checkID">
+                                                    <?php foreach($user->result() as $userRow): ?>
+                                                        <?php if($userRow->user_id!=$this->session->userdata('user_id')): ?>
+                                                            <option value="<?php $userRow->user_id ?>"><?= $this->User_model->get_account_by_id($userRow->user_id) ?>
+                                                            </option>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <div style="color:red" id="checkIDError"></div><!--这里是错误提醒-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-sm-2 control-label">下步处理安排:</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" >
-                                                    <option>保存缺陷</option>
-                                                    <option>提交缺陷</option>
-                                                    <option>取消缺陷</option>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" id="faultStatus" name="faultStatus">
+                                                    <option value="0">保存缺陷</option>
+                                                    <option value="1">提交缺陷</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-xs-11">
-                                                <button class="btn btn-primary pull-right" type="submit">确定</button>
+                                                <button class="btn btn-primary pull-right" type="submit">提交</button>
                                             </div>
                                         </div>
                                     </fieldset>
-
+                                    </form>
                                 </div>
                             </div>
                         </div>

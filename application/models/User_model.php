@@ -23,6 +23,17 @@ class User_model extends CI_Model
         return $res;
     }
 
+    public function get_all_authority_user()
+    {
+        $where = 'user_authority=0 OR user_authority=1';
+        $res = $this->db
+            ->select('*')
+            ->from('user')
+            ->where($where)
+            ->get();
+        return $res;
+    }
+
     public function get_all_info($user_id)
     {
         $res = $this->db
