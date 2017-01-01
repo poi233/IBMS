@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2017-01-01 07:03:28
+-- Generation Time: 2017-01-01 12:51:32
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -35,8 +35,9 @@ CREATE TABLE IF NOT EXISTS `fault_basic` (
   `fault_close_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `fault_status` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
-  `project_id` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `checker_id` int(11) NOT NULL,
+  `project_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -59,7 +60,6 @@ CREATE TABLE IF NOT EXISTS `fault_check` (
 
 CREATE TABLE IF NOT EXISTS `fault_error` (
   `fault_id` int(11) NOT NULL,
-  `error_status` int(11) NOT NULL,
   `error_info` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -83,7 +83,8 @@ CREATE TABLE IF NOT EXISTS `fault_locate` (
 
 CREATE TABLE IF NOT EXISTS `fault_modify` (
   `fault_id` int(11) NOT NULL,
-  `fault_modify_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `fault_modify_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `validator_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -94,7 +95,6 @@ CREATE TABLE IF NOT EXISTS `fault_modify` (
 
 CREATE TABLE IF NOT EXISTS `fault_validation` (
   `fault_id` int(11) NOT NULL,
-  `validator_id` int(11) NOT NULL,
   `validation_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -184,7 +184,6 @@ CREATE TABLE IF NOT EXISTS `user_project` (
 
 INSERT INTO `user_project` (`user_id`, `project_id`) VALUES
 (22, 'P2'),
-(22, 'P1'),
 (23, 'P1');
 
 --
@@ -247,7 +246,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `fault_basic`
 --
 ALTER TABLE `fault_basic`
-MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user`
 --

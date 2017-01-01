@@ -35,6 +35,15 @@ class User_model extends CI_Model
         return $res;
     }
 
+    public function get_account_by_id($user_id)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('user')
+            ->where('user_id',$user_id)
+            ->get();
+        return $res->row()->user_account;
+    }
 
     public function get_by_id($id)
     {
