@@ -127,6 +127,7 @@
                         <li><a href="#">缺陷报告</a></li>
                         <li><a href="#">缺陷跟踪处理</a></li>
                         <li><a href="#">缺陷查询</a></li>
+                        <li><a href="#">我的缺陷</a></li>
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>
@@ -152,7 +153,7 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2>缺陷查询</h2>
+                <h2>我的缺陷</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
@@ -161,7 +162,7 @@
                         <a>缺陷管理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷查询</strong>
+                        <strong>我的缺陷</strong>
                     </li>
                 </ol>
             </div>
@@ -169,62 +170,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="ibox-content m-b-sm border-bottom">
-                        <div class="row m-b-sm m-t-sm">
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-ms-1 col-xs-2"><!--<div class="col-md-12">-->
-                                <div class="input-group">
-                                        <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索!</button>
-                                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="ibox">
                         <div class="ibox-content">

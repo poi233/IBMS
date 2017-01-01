@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>项目信息登记</title>
+    <title>缺陷修改</title>
 
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
@@ -212,7 +212,7 @@
         }
 
         function modifier_feedback() {
-            var modify_feedback=$("#modifier_feedback").find("option:selected").text();
+            var modify_feedback=$("#modifierFeedback").find("option:selected").text();
             if(modify_feedback=="否")
             {
                 $('#modifier_information').show();
@@ -332,6 +332,9 @@
                         <a href="index.html">首页</a>
                     </li>
                     <li>
+                        <a>缺陷管理</a>
+                    </li>
+                    <li>
                         <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
@@ -351,71 +354,104 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
                                     <fieldset class="form-horizontal">
+                                        <form method="post" action="" id="">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">缺陷名称:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="Fault name" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <label class="col-sm-2 control-label">所属项目:</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly" name="Project" id="Project">
+                                                <div style="color:red" id="ProjectError"></div><!--这里是错误提醒-->
                                             </div>
                                             <label class="col-sm-1 control-label">提交人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId">
+                                                <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly">
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly" name="faultLevel" id="faultLevel">
+                                                <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷描述:</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3" readonly="readonly"></textarea>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" rows="3" readonly="readonly" name="faultDetail" id="faultDetail"></textarea>
                                             </div>
+                                            <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" placeholder="" readonly="readonly">
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" placeholder="" readonly="readonly" name="faultReappearInfo" id="faultReappearInfo">
                                             </div>
+                                            <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">审核人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="审核人" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
-                                            <label class="col-sm-1 control-label">审核意见:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="通过" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
+                                                <label class="col-sm-2 control-label">审核人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="审核人" readonly="readonly" name="checkerId" id="checkerId">
+                                                    <div style="color:red" id="checkerIdError"></div><!--这里是错误提醒-->
+                                                </div>
+
+                                                <label class="col-sm-1 control-label">审核意见:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="通过" readonly="readonly">
+                                                    <div style="color:red" ></div><!--这里是错误提醒-->
+                                                </div>
                                         </div>
 
                                         <div class="form-group" id="select_next" >
                                             <label class="col-sm-2 control-label">定位人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="定位人" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="定位人" readonly="readonly" name="locatorId" id="locatorId">
+                                                <div style="color:red" id="locatorIdError"></div><!--这里是错误提醒-->
                                             </div>
 
-                                            <label class="col-sm-1 control-label">修改人:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="修改人" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
+                                            <label class="col-sm-1 control-label">子系统:</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="sub" readonly="readonly" name="faultSubsystem" id="faultSubsystem">
+                                                <div style="color:red" id="faultSubsystemError" ></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">定位信息:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="locate_info" readonly="readonly" name="faultLocateDetail" id="faultLocateDetail">
+                                                </div>
+                                            <div style="color:red" id="faultLocateDetailError" ></div>
+                                        </div>
+
+                                        <div class="form-group has-error">
+                                            <label class="col-sm-2 control-label">验证人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly">
+                                                </div>
+
+                                            <label class="col-sm-1 control-label">返回原因:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" placeholder="reason" readonly="readonly" >
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">修改人:</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" placeholder="person" readonly="readonly" name="modifierId" id="modifierId">
+                                                <div style="color:red" id="modifierIdError"></div><!--这里是错误提醒-->
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label">返回定位:</label>
                                                 <div class="col-sm-2">
-                                                    <select class="form-control" required="required" id="modifier_feedback"
-                                                            name="modifier_feedback" onchange="modifier_feedback()">
+                                                    <select class="form-control" required="required" id="modifierFeedback"
+                                                            name="modifierFeedback" onchange="modifier_feedback()">
                                                         <option>未选择</option>
                                                         <option>是</option>
                                                         <option>否</option>
@@ -424,48 +460,27 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">所属项目:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly">
-
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
-
-                                            <label class="col-sm-1 control-label">子系统:</label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" placeholder="子系统" readonly="readonly">
-                                                <div style="color:red" ></div><!--这里是错误提醒-->
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">定位信息:</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" placeholder="locate_info" readonly="readonly">
-                                            </div>
-                                        </div>
-
                                         <div class="form-group" id="modifier_information" style="display: none;">
                                             <label class="col-sm-2 control-label">修改信息:</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3"></textarea>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" rows="3" name="faultModifyInfo" id="faultModifyInfo"></textarea>
                                             </div>
+                                            <div style="color:red" id="faultModifyInfoError" ></div>
                                         </div>
 
                                         <div class="form-group" id="modifier_back_reason" style="display: none;">
                                             <label class="col-sm-2 control-label">返回理由:</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-9">
                                                 <input type="text" class="form-control" placeholder="返回理由">
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-11">
                                                 <button class="btn btn-primary pull-right" type="submit">确定</button>
                                             </div>
                                         </div>
-
+                                        </form>
                                     </fieldset>
                                 </div>
                             </div>

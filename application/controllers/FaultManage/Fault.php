@@ -18,43 +18,27 @@ class Fault extends CI_Controller{
 
     public function index()
     {
-        $this->load->view('faultSystem/fault_management');
+        $this->load->view('faultSystem/fault_validation');
     }
 
     public function addFault()
     {
-        $data['user'] = $this->User_model->get_all_authority_user();
-        $data['project'] = $this->Project_model->get_all();
-        $this->load->view('faultSystem/fault_basic',$data);
+        $this->load->view('faultSystem/fault_basic');
     }
 
     public function addFaultSend()
     {
         $data=array(
-            'fault_level' => $_POST['faultLevel'],
-            'fault_detail' => $_POST['faultDetail'],
-            'fault_reappear_info' => $_POST['faultReappearInfo'],
-            'project_id' => $_POST['projectID'],
-            'fault_status' => $_POST['faultStatus'],
-            'checker_id' => $_POST['checkID'],
+            'fault_level' => $_POST['fault_level'],
+            'fault_detail' => $_POST['fault_detail'],
+            'fault_reappear_info' => $_POST['fault_reappear_info'],
+            'project_id' => $_POST['project_id'],
+            'fault_status' => $_POST['fault_status'],
+            'checker_id' => $_POST['checker_id'],
             'creator_id' => $this->session->userdata('user_id'),
         );
         $this->Fault_basic_model->insert_fault_basic($data);
     }
-
-    public function checkFault($fault_id)
-    {
-        $status = $this->Fault_basic_model->get_fault_status($fault_id);
-        $data['fault'] = $this->Fault_status_model->get_info_by_status($fault_id,$status);
-        $this->load->view('faultSystem/fault_check',$data);
-    }
-
-    public function checkFaultSend()
-    {
-
-    }
-
-
 
 
 }
