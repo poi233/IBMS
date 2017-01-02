@@ -39,6 +39,12 @@ class Fault extends CI_Controller
             case 4:
                 redirect('FaultManage/Fault/validateFault/'.$fault_id);
                 break;
+            case 5:
+                redirect('FaultManage/Fault/toCompleteFault/' . $fault_id);
+                break;
+            case 6:
+                redirect('FaultManage/Fault/CompleteFault/' . $fault_id);
+                break;
             case 7:
                 redirect('FaultManage/Fault/checkFaultFail/' . $fault_id);
                 break;
@@ -176,6 +182,7 @@ class Fault extends CI_Controller
 
     public function hangFault($fault_id)
     {
+        $data['user'] = $this->User_model->get_all_authority_user();
         $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
         $this->load->view('faultSystem/fault_hang', $data);
     }
@@ -404,6 +411,32 @@ class Fault extends CI_Controller
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
         redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+    }
+
+    public function toCompleteFault($fault_id)
+    {
+        $data['user'] = $this->User_model->get_all_authority_user();
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultSystem/fault_to_complete', $data);
+    }
+
+    public function toCompleteFaultSend()
+    {
+        $data = array(
+            'fault_id' => $_POST['faultID'],
+            'fault_status' => 6,
+            'fault_close_time' => date('y-m-d h:i:s',time())
+        );
+        echo $data['fault_close_time'];
+        //$this->Fault_basic_model->update_fault_basic($data);
+        // qredirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+    }
+
+    public function CompleteFault($fault_id)
+    {
+        $data['user'] = $this->User_model->get_all_authority_user();
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultSystem/fault_complete', $data);
     }
 
 }

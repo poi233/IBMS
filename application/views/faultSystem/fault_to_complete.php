@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>缺陷验证</title>
+    <title>缺陷关闭</title>
 
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
@@ -19,6 +19,121 @@
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
     <script type="text/javascript">
+        function projectIDValidation() {
+            if ($('#projectID').val() != '') {
+                var url = '<?= site_url('SystemManage/Project/projectCheck/')?>' + $('#projectID').val();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    error: errFunction,  //错误执行方法
+                    success: successFunction //成功执行方法
+                })
+            }
+        }
+
+        function successFunction(data) {
+            var json = eval(data);
+            if (json != null)
+                $('#projectIDError').html('<p>项目已存在</p>');
+            else
+                $('#projectIDError').html('');
+        }
+
+        function errFunction(data) {
+            alert('error');
+        }
+
+        function addMember() {
+            var $member_id = $("select[name=projectMember]").val();
+            var $member_account = $("select[name=projectMember] option:selected").text();
+            if ($member_account != '') {
+                var $label = $('<label style=\"margin-right:10px\" id=\"toAdd' + $member_id + '\">' + '<label name=\"toAdd\">' + $member_account + '</label>' + '<a  href=\"javascript:cancelAddMember(' + $member_id + ',' + '\'' + $member_account + '\'' + ');\"><i class="fa fa-times"></i></a></label>')
+                $('#toAddMembers').append($label);
+                $("select[name=projectMember] option:selected").remove();
+            } else {
+                alert('无用户');
+            }
+        }
+
+        function addSubsystem() {
+            var $subSys = $('#projectSubsystem').val();
+            if ($subSys != '') {
+                var $flag = true;
+                $("label[name='toAddSubsystem']").each(function (index, item) {
+                        if ($(this).html() == $subSys)
+                            $flag = false;
+                    }
+                );
+                if ($flag) {
+                    var $label = $('<label style=\"margin-right:10px\" id=\"toAddSubsystem' + $subSys + '\">' + '<label name=\"toAddSubsystem\">' + $subSys + '</label>' + '<a  href=\"javascript:cancelAddSubsystem(' + '\'' + $subSys + '\'' + ');\"><i class="fa fa-times"></i></a></label>');
+                    $('#toAddSubsystems').append($label);
+                } else {alert('子系统已存在');}
+            } else {
+                alert('请输入需添加子系统名');
+            }
+
+        }
+
+        function cancelAddMember($member_id, $member_account) {
+            var $option = $('<option value=\"' + $member_id + '\">' + $member_account + '</option>');
+            $("select[name=projectMember]").append($option);
+            var $loc = $('#toAdd' + $member_id);
+            $(document).find($loc).remove();
+        }
+
+        function cancelAddSubsystem($subSys) {
+            var $loc = $('#toAddSubsystem' + $subSys);
+            $(document).find($loc).remove();
+        }
+
+        function toSubmit() {
+            $toAddValue = '';
+            $("label[name='toAdd']").each(function (index, item) {
+                    $toAddValue += $(this).html();
+                    $toAddValue += ',';
+                }
+            );
+            $toAddSubsystemValue ='';
+            $("label[name='toAddSubsystem']").each(function (index, item) {
+                    $toAddSubsystemValue += $(this).html();
+                    $toAddSubsystemValue += ',';
+                }
+            );
+            $('#allAddMembers').val($toAddValue);
+            $('#allAddSubsystems').val($toAddSubsystemValue);
+
+            //错误处理
+            if ($('#projectID').val() == '')
+                $('#projectIDError').html('<p>内容不能为空</p>');
+            else if ($('#projectIDError').html() == '<p>内容不能为空</p>')
+                $('#projectIDError').html('');
+
+            if ($('#projectName').val() == '')
+                $('#projectNameError').html('<p>内容不能为空</p>');
+            else
+                $('#projectNameError').html('');
+
+            if ($('#projectVersion').val() == '')
+                $('#projectVersionError').html('<p>内容不能为空</p>');
+            else
+                $('#projectVersionError').html('');
+
+            if ($('#allAddSubsystems').val() == '')
+                $('#projectSubsysError').html('<p>内容不能为空</p>');
+            else
+                $('#projectSubsysError').html('');
+
+            if ($('#allAddMembers').val() == '')
+                $('#projectMemberError').html('<p>参与者不能为空</p>');
+            else
+                $('#projectMemberError').html('');
+
+            if ($('#projectIDError').html() == '' && $('#projectNameError').html() == '' && $('#projectVersionError').html() == '' && $('#projectSubsysError').html() == '' && $('#projectMemberError').html() == '') {
+                $('#addProjectForm').submit();
+            }
+        }
+
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')
@@ -63,17 +178,60 @@
             $('#formerPasswordError').html('<p>原密码输入不正确</p>');
         }
 
+        function locater_feedback() {
+            var locate_feedback=$("#locater_feedback").find("option:selected").text();
+            if(locate_feedback=="否")
+            {
+                $('#sub_system').show();
+                $('#locater_information').show();
+                $('#locater_back_reason').hide();
+            }
+            else if(locate_feedback=="是")
+            {
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').show();
+            }
+            else{
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').hide();
+            }
+        }
+
+        function modifier_feedback() {
+            var modify_feedback=$("#modifier_feedback").find("option:selected").text();
+            if(modify_feedback=="否")
+            {
+                $('#modifier_information').show();
+                $('#modifier_back_reason').hide();
+            }
+            else if(modify_feedback=="是")
+            {
+                $('#modifier_information').hide();
+                $('#modifier_back_reason').show();
+            }
+            else{
+                $('#modifier_information').hide();
+                $('#modifier_back_reason').hide();
+            }
+        }
+
         function validation_feedback() {
-            var faultStatus=$("#faultStatus").find("option:selected").text();
-            if(faultStatus=="否")
+            var validation_feedback=$("#validationFeedback").find("option:selected").text();
+            if(validation_feedback=="否")
             {
                 $('#validation_information').show();
                 $('#validation_back_reason').hide();
             }
-            else if(faultStatus=="是")
+            else if(validation_feedback=="是")
             {
                 $('#validation_information').hide();
                 $('#validation_back_reason').show();
+            }
+            else{
+                $('#validation_information').hide();
+                $('#validation_back_reason').hide();
             }
         }
     </script>
@@ -174,7 +332,7 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>缺陷验证</h2>
+                <h2>缺陷关闭</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
@@ -186,7 +344,7 @@
                         <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷验证</strong>
+                        <strong>缺陷关闭</strong>
                     </li>
                 </ol>
             </div>
@@ -202,9 +360,10 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
                                     <fieldset class="form-horizontal">
-                                        <form method="post" action="<?= site_url('FaultManage/Fault/validateFaultSend') ?>" id="">
-                                            <input hidden="hidden" name="faultID" id="faultID"
-                                                   value="<?= $fault->fault_id ?>">
+                                        <form method="post" action="<?= site_url('FaultManage/Fault/toCompleteFaultSend') ?>"
+                                              id="toCompleteFault" name="toCompleteFault">
+                                            <input hidden="hidden" name="faultID" id="faultID" value="<?= $fault->fault_id ?>">
+
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">所属项目:</label>
                                                 <div class="col-sm-2">
@@ -287,16 +446,12 @@
                                                     <div style="color:red" id="modifierIdError"></div><!--这里是错误提醒-->
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-1 control-label">返回修改:</label>
-                                                    <div class="col-sm-2">
-                                                        <select class="form-control" required="required" id="faultStatus"
-                                                                name="faultStatus" onchange="validation_feedback()">
-                                                            <option value="11">是</option>
-                                                            <option value="5" selected="selected">否</option>
-                                                        </select>
-                                                    </div>
+                                                <label class="col-sm-1 control-label">验证人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly" name="validation" id="validation" value="<?= $this->User_model->get_account_by_id($fault->validator_id) ?>" >
+                                                    <div style="color:red" id="validationError"></div><!--这里是错误提醒-->
                                                 </div>
+
                                             </div>
 
                                             <div class="form-group" id="modifier_information">
@@ -310,21 +465,14 @@
                                             <div class="form-group" id="validation_information">
                                                 <label class="col-sm-2 control-label">验证信息:</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" rows="3" name="validationInfo" id="validationInfo"></textarea>
+                                                    <textarea class="form-control" rows="3" readonly="readonly" name="validationInfo" id="validationInfo"><?= $fault->validation_info ?></textarea>
                                                 </div>
                                                 <div style="color:red" id="validationInfoError" ></div>
                                             </div>
 
-                                            <div class="form-group" id="validation_back_reason" style="display: none;">
-                                                <label class="col-sm-2 control-label">返回理由:</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="reason" id="errorInfo" name="errorInfo">
-                                                </div>
-                                            </div>
-
                                             <div class="row">
                                                 <div class="col-xs-11">
-                                                    <button class="btn btn-primary pull-right" type="submit">确定</button>
+                                                    <button class="btn btn-primary pull-right" type="submit">关闭缺陷</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -383,8 +531,8 @@
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<!--<script src="<?/*= base_url('assets/js/inspinia.js') */?>"></script>
---><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+<!--<script src="<?/*= base_url('assets/js/inspinia.js') */?>"></script>-->
+<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>

@@ -311,11 +311,6 @@
 
                                             </div>
 
-                                            <div class="form-group" id="select_next">
-
-
-                                            </div>
-
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">定位信息:</label>
 
