@@ -347,11 +347,11 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group has-error" id="locater_back_reason">
+                                            <div class="form-group has-error">
                                                 <label class="col-sm-2 control-label">返回理由:</label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="返回理由" name="errorInfo" id="errorInfo" readonly="readonly" value="<?= $fault->error_info ?>">
+                                                    <input type="text" class="form-control" placeholder="返回理由" readonly="readonly" value="<?= $fault->error_info ?>">
                                                 </div>
                                             </div>
 
