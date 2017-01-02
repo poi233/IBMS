@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2017-01-01 12:51:32
+-- Generation Time: 2017-01-02 05:55:46
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -37,7 +37,15 @@ CREATE TABLE IF NOT EXISTS `fault_basic` (
   `creator_id` int(11) NOT NULL,
   `checker_id` int(11) NOT NULL,
   `project_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `fault_basic`
+--
+
+INSERT INTO `fault_basic` (`fault_id`, `fault_level`, `fault_detail`, `fault_reappear_info`, `fault_open_time`, `fault_close_time`, `fault_status`, `creator_id`, `checker_id`, `project_id`) VALUES
+(2, 0, '第一个缺陷', '我又出来了', '2017-01-02 04:54:57', '0000-00-00 00:00:00', 2, 1, 22, 'P1'),
+(4, 0, '12', '123', '2017-01-02 03:59:07', '0000-00-00 00:00:00', 1, 1, 23, 'P1');
 
 -- --------------------------------------------------------
 
@@ -47,10 +55,16 @@ CREATE TABLE IF NOT EXISTS `fault_basic` (
 
 CREATE TABLE IF NOT EXISTS `fault_check` (
   `fault_id` int(11) NOT NULL,
-  `checker_id` int(11) NOT NULL,
   `locator_id` int(11) NOT NULL,
   `modifier_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `fault_check`
+--
+
+INSERT INTO `fault_check` (`fault_id`, `locator_id`, `modifier_id`) VALUES
+(2, 23, 23);
 
 -- --------------------------------------------------------
 
@@ -183,8 +197,9 @@ CREATE TABLE IF NOT EXISTS `user_project` (
 --
 
 INSERT INTO `user_project` (`user_id`, `project_id`) VALUES
-(22, 'P2'),
-(23, 'P1');
+(25, 'P1'),
+(1, 'P2'),
+(23, 'P2');
 
 --
 -- Indexes for dumped tables
@@ -246,7 +261,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `fault_basic`
 --
 ALTER TABLE `fault_basic`
-MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user`
 --
