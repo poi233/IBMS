@@ -19,121 +19,6 @@
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
     <script type="text/javascript">
-        function projectIDValidation() {
-            if ($('#projectID').val() != '') {
-                var url = '<?= site_url('SystemManage/Project/projectCheck/')?>' + $('#projectID').val();
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    dataType: 'json',
-                    error: errFunction,  //错误执行方法
-                    success: successFunction //成功执行方法
-                })
-            }
-        }
-
-        function successFunction(data) {
-            var json = eval(data);
-            if (json != null)
-                $('#projectIDError').html('<p>项目已存在</p>');
-            else
-                $('#projectIDError').html('');
-        }
-
-        function errFunction(data) {
-            alert('error');
-        }
-
-        function addMember() {
-            var $member_id = $("select[name=projectMember]").val();
-            var $member_account = $("select[name=projectMember] option:selected").text();
-            if ($member_account != '') {
-                var $label = $('<label style=\"margin-right:10px\" id=\"toAdd' + $member_id + '\">' + '<label name=\"toAdd\">' + $member_account + '</label>' + '<a  href=\"javascript:cancelAddMember(' + $member_id + ',' + '\'' + $member_account + '\'' + ');\"><i class="fa fa-times"></i></a></label>')
-                $('#toAddMembers').append($label);
-                $("select[name=projectMember] option:selected").remove();
-            } else {
-                alert('无用户');
-            }
-        }
-
-        function addSubsystem() {
-            var $subSys = $('#projectSubsystem').val();
-            if ($subSys != '') {
-                var $flag = true;
-                $("label[name='toAddSubsystem']").each(function (index, item) {
-                        if ($(this).html() == $subSys)
-                            $flag = false;
-                    }
-                );
-                if ($flag) {
-                    var $label = $('<label style=\"margin-right:10px\" id=\"toAddSubsystem' + $subSys + '\">' + '<label name=\"toAddSubsystem\">' + $subSys + '</label>' + '<a  href=\"javascript:cancelAddSubsystem(' + '\'' + $subSys + '\'' + ');\"><i class="fa fa-times"></i></a></label>');
-                    $('#toAddSubsystems').append($label);
-                } else {alert('子系统已存在');}
-            } else {
-                alert('请输入需添加子系统名');
-            }
-
-        }
-
-        function cancelAddMember($member_id, $member_account) {
-            var $option = $('<option value=\"' + $member_id + '\">' + $member_account + '</option>');
-            $("select[name=projectMember]").append($option);
-            var $loc = $('#toAdd' + $member_id);
-            $(document).find($loc).remove();
-        }
-
-        function cancelAddSubsystem($subSys) {
-            var $loc = $('#toAddSubsystem' + $subSys);
-            $(document).find($loc).remove();
-        }
-
-        function toSubmit() {
-            $toAddValue = '';
-            $("label[name='toAdd']").each(function (index, item) {
-                    $toAddValue += $(this).html();
-                    $toAddValue += ',';
-                }
-            );
-            $toAddSubsystemValue ='';
-            $("label[name='toAddSubsystem']").each(function (index, item) {
-                    $toAddSubsystemValue += $(this).html();
-                    $toAddSubsystemValue += ',';
-                }
-            );
-            $('#allAddMembers').val($toAddValue);
-            $('#allAddSubsystems').val($toAddSubsystemValue);
-
-            //错误处理
-            if ($('#projectID').val() == '')
-                $('#projectIDError').html('<p>内容不能为空</p>');
-            else if ($('#projectIDError').html() == '<p>内容不能为空</p>')
-                $('#projectIDError').html('');
-
-            if ($('#projectName').val() == '')
-                $('#projectNameError').html('<p>内容不能为空</p>');
-            else
-                $('#projectNameError').html('');
-
-            if ($('#projectVersion').val() == '')
-                $('#projectVersionError').html('<p>内容不能为空</p>');
-            else
-                $('#projectVersionError').html('');
-
-            if ($('#allAddSubsystems').val() == '')
-                $('#projectSubsysError').html('<p>内容不能为空</p>');
-            else
-                $('#projectSubsysError').html('');
-
-            if ($('#allAddMembers').val() == '')
-                $('#projectMemberError').html('<p>参与者不能为空</p>');
-            else
-                $('#projectMemberError').html('');
-
-            if ($('#projectIDError').html() == '' && $('#projectNameError').html() == '' && $('#projectVersionError').html() == '' && $('#projectSubsysError').html() == '' && $('#projectMemberError').html() == '') {
-                $('#addProjectForm').submit();
-            }
-        }
-
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')
@@ -178,72 +63,17 @@
             $('#formerPasswordError').html('<p>原密码输入不正确</p>');
         }
 
-        /*function check_idea() {
-         var checkText=$("#check_idea").find("option:selected").text();
-         if(checkText=="通过")
-         {
-         $('#select_next').show();
-         }
-         else
-         {
-         $('#select_next').hide();
-         }
-         }*/
-
-        function locater_feedback() {
-            var locate_feedback=$("#locater_feedback").find("option:selected").text();
-            if(locate_feedback=="否")
-            {
-                $('#sub_system').show();
-                $('#locater_information').show();
-                $('#locater_back_reason').hide();
-            }
-            else if(locate_feedback=="是")
-            {
-                $('#sub_system').hide();
-                $('#locater_information').hide();
-                $('#locater_back_reason').show();
-            }
-            else{
-                $('#sub_system').hide();
-                $('#locater_information').hide();
-                $('#locater_back_reason').hide();
-            }
-        }
-
-        function modifier_feedback() {
-            var modify_feedback=$("#modifier_feedback").find("option:selected").text();
-            if(modify_feedback=="否")
-            {
-                $('#modifier_information').show();
-                $('#modifier_back_reason').hide();
-            }
-            else if(modify_feedback=="是")
-            {
-                $('#modifier_information').hide();
-                $('#modifier_back_reason').show();
-            }
-            else{
-                $('#modifier_information').hide();
-                $('#modifier_back_reason').hide();
-            }
-        }
-
         function validation_feedback() {
-            var validation_feedback=$("#validationFeedback").find("option:selected").text();
-            if(validation_feedback=="否")
+            var faultStatus=$("#faultStatus").find("option:selected").text();
+            if(faultStatus=="否")
             {
                 $('#validation_information').show();
                 $('#validation_back_reason').hide();
             }
-            else if(validation_feedback=="是")
+            else if(faultStatus=="是")
             {
                 $('#validation_information').hide();
                 $('#validation_back_reason').show();
-            }
-            else{
-                $('#validation_information').hide();
-                $('#validation_back_reason').hide();
             }
         }
     </script>
@@ -372,16 +202,18 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
                                     <fieldset class="form-horizontal">
-                                        <form method="post" action="" id="">
+                                        <form method="post" action="<?= site_url('FaultManage/Fault/validateFaultSend') ?>" id="">
+                                            <input hidden="hidden" name="faultID" id="faultID"
+                                                   value="<?= $fault->fault_id ?>">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">所属项目:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="项目" readonly="readonly" name="Project" id="Project">
+                                                    <input type="text" class="form-control" placeholder="项目" readonly="readonly" name="Project" id="Project" value="<?= $fault->project_id ?>">
                                                     <div style="color:red" id="ProjectError"></div><!--这里是错误提醒-->
                                                 </div>
                                                 <label class="col-sm-1 control-label">提交人:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId">
+                                                    <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId" value="<?= $this->User_model->get_account_by_id($fault->creator_id) ?>">
                                                     <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
                                                 </div>
                                             </div>
@@ -389,7 +221,18 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">缺陷级别:</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="Fault level" readonly="readonly" name="faultLevel" id="faultLevel">
+                                                    <input type="text" class="form-control" placeholder="Fault level" readonly="readonly" name="faultLevel" id="faultLevel" value="<?php
+                                                    switch ($fault->fault_level) {
+                                                        case 0:
+                                                            echo '低';
+                                                            break;
+                                                        case 1:
+                                                            echo '中';
+                                                            break;
+                                                        case 2:
+                                                            echo '高';
+                                                            break;
+                                                    } ?>">
                                                     <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
                                                 </div>
                                             </div>
@@ -397,7 +240,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">缺陷描述:</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" rows="3" readonly="readonly" name="faultDetail" id="faultDetail"></textarea>
+                                                    <textarea class="form-control" rows="3" readonly="readonly" name="faultDetail" id="faultDetail"><?= $fault->fault_detail ?></textarea>
                                                 </div>
                                                 <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
                                             </div>
@@ -405,7 +248,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">缺陷重现:</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="" readonly="readonly" name="faultReappearInfo" id="faultReappearInfo">
+                                                    <input type="text" class="form-control" placeholder="" readonly="readonly" name="faultReappearInfo" id="faultReappearInfo" value="<?= $fault->fault_reappear_info ?>">
                                                 </div>
                                                 <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
                                             </div>
@@ -413,35 +256,27 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">审核人:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="审核人" readonly="readonly" name="checkerId" id="checkerId">
+                                                    <input type="text" class="form-control" placeholder="审核人" readonly="readonly" name="checkerId" id="checkerId" value="<?= $this->User_model->get_account_by_id($fault->checker_id) ?>">
                                                     <div style="color:red" id="checkerIdError"></div><!--这里是错误提醒-->
                                                 </div>
-
-                                                <label class="col-sm-1 control-label">审核意见:</label>
+                                                <label class="col-sm-1 control-label">定位人:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="通过" readonly="readonly">
-                                                    <div style="color:red" ></div><!--这里是错误提醒-->
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group" id="select_next" >
-                                                <label class="col-sm-2 control-label">定位人:</label>
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="定位人" readonly="readonly" name="locatorId" id="locatorId">
+                                                    <input type="text" class="form-control" placeholder="定位人" readonly="readonly" name="locatorId" id="locatorId" value="<?= $this->User_model->get_account_by_id($fault->locator_id) ?>">
                                                     <div style="color:red" id="locatorIdError"></div><!--这里是错误提醒-->
                                                 </div>
 
                                                 <label class="col-sm-1 control-label">子系统:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="sub" readonly="readonly" name="faultSubsystem" id="faultSubsystem">
+                                                    <input type="text" class="form-control" placeholder="sub" readonly="readonly" name="faultSubsystem" id="faultSubsystem" value="<?= $fault->fault_subsystem ?>">
                                                     <div style="color:red" id="faultSubsystemError" ></div>
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">定位信息:</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="locate_info" readonly="readonly" name="faultLocateDetail" id="faultLocateDetail">
+                                                    <input type="text" class="form-control" placeholder="locate_info" readonly="readonly" name="faultLocateDetail" id="faultLocateDetail" value="<?= $fault->fault_locate_detail ?>">
                                                 </div>
                                                 <div style="color:red" id="faultLocateDetailError" ></div>
                                             </div>
@@ -449,24 +284,17 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">修改人:</label>
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly" name="modifierId" id="modifierId">
+                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly" name="modifierId" id="modifierId" value="<?= $this->User_model->get_account_by_id($fault->modifier_id) ?>">
                                                     <div style="color:red" id="modifierIdError"></div><!--这里是错误提醒-->
-                                                </div>
-
-                                                <label class="col-sm-1 control-label">验证人:</label>
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly" name="validation" id="validation">
-                                                    <div style="color:red" id="validationError"></div><!--这里是错误提醒-->
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-1 control-label">返回修改:</label>
                                                     <div class="col-sm-2">
-                                                        <select class="form-control" required="required" id="validationFeedback"
-                                                                name="validationFeedback" onchange="validation_feedback()">
-                                                            <option>未选择</option>
-                                                            <option>是</option>
-                                                            <option>否</option>
+                                                        <select class="form-control" required="required" id="faultStatus"
+                                                                name="faultStatus" onchange="validation_feedback()">
+                                                            <option value="11">是</option>
+                                                            <option value="5" selected="selected">否</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -475,12 +303,12 @@
                                             <div class="form-group" id="modifier_information">
                                                 <label class="col-sm-2 control-label">修改信息:</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" rows="3" readonly="readonly" name="faultModifyInfo" id="faultModifyInfo"></textarea>
+                                                    <textarea class="form-control" rows="3" readonly="readonly" name="faultModifyInfo" id="faultModifyInfo"><?= $fault->fault_modify_info ?></textarea>
                                                 </div>
                                                 <div style="color:red" id="faultModifyInfoError" ></div>
                                             </div>
 
-                                            <div class="form-group" id="validation_information" style="display: none;">
+                                            <div class="form-group" id="validation_information">
                                                 <label class="col-sm-2 control-label">验证信息:</label>
                                                 <div class="col-sm-9">
                                                     <textarea class="form-control" rows="3" name="validationInfo" id="validationInfo"></textarea>
@@ -491,7 +319,7 @@
                                             <div class="form-group" id="validation_back_reason" style="display: none;">
                                                 <label class="col-sm-2 control-label">返回理由:</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="reason">
+                                                    <input type="text" class="form-control" placeholder="reason" id="errorInfo" name="errorInfo">
                                                 </div>
                                             </div>
 
@@ -556,8 +384,8 @@
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="<?= base_url('assets/js/inspinia.js') ?>"></script>
-<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+<!--<script src="<?/*= base_url('assets/js/inspinia.js') */?>"></script>
+--><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>

@@ -36,6 +36,9 @@ class Fault extends CI_Controller
             case 3:
                 redirect('FaultManage/Fault/modifyFault/' . $fault_id);
                 break;
+            case 4:
+                redirect('FaultManage/Fault/validateFault/'.$fault_id);
+                break;
             case 7:
                 redirect('FaultManage/Fault/checkFaultFail/' . $fault_id);
                 break;
@@ -47,6 +50,9 @@ class Fault extends CI_Controller
                 break;
             case 10:
                 redirect('FaultManage/Fault/modifyFaultFail/' . $fault_id);
+                break;
+            case 11:
+                redirect('FaultManage/Fault/validationFaultFail/'.$fault_id);
                 break;
             default:
                 return;
@@ -301,6 +307,77 @@ class Fault extends CI_Controller
     }
 
     public function modifyFaultFailSend()
+    {
+        $status = $_POST['faultStatus'];
+        $basic_update = array(
+            'fault_id' => $_POST['faultID'],
+            'fault_status' => $_POST['faultStatus']
+        );
+        switch ($status) {
+            case 2:
+                $data2 = array(
+                    'fault_id' => $_POST['faultID'],
+                    'locator_id' => $_POST['locatorID'],
+                );
+                $this->Fault_basic_model->handle_fault_check($data2);
+                break;
+            case 7:
+                $data7 = array(
+                    'fault_id' => $_POST['faultID'],
+                    'error_info' => $_POST['errorInfo']
+                );
+                $this->Fault_basic_model->handle_error($data7);
+                break;
+            case 8:
+                break;
+        }
+        $this->Fault_basic_model->update_fault_basic($basic_update);
+        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+    }
+
+    public function validateFault($fault_id)
+    {
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultSystem/fault_validation',$data);
+    }
+
+    public function validateFaultSend()
+    {
+        $status = $_POST['faultStatus'];
+        $basic_update = array(
+            'fault_id' => $_POST['faultID'],
+            'fault_status' => $_POST['faultStatus']
+        );
+        switch ($status) {
+            case 5:
+                $data5 = array(
+                    'fault_id' => $_POST['faultID'],
+                    'validation_info' => $_POST['validationInfo'],
+                );
+                $this->Fault_basic_model->handle_fault_validation($data5);
+                break;
+            case 11:
+                $data11 = array(
+                    'fault_id' => $_POST['faultID'],
+                    'error_info' => $_POST['errorInfo']
+                );
+                $this->Fault_basic_model->handle_error($data11);
+                break;
+            case 8:
+                break;
+        }
+        $this->Fault_basic_model->update_fault_basic($basic_update);
+        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+    }
+
+    public function validationFaultFail($fault_id)
+    {
+        $data['user'] = $this->User_model->get_all_authority_user();
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultSystem/fault_validation_fail',$data);
+    }
+
+    public function validationFaultFailSend()
     {
         $status = $_POST['faultStatus'];
         $basic_update = array(
