@@ -18,7 +18,7 @@ class Fault extends CI_Controller{
 
     public function index()
     {
-        $this->load->view('faultSystem/fault_validation');
+        $this->load->view('faultSystem/fault_management');
     }
 
     public function addFault()
