@@ -16,7 +16,7 @@ class Fault extends CI_Controller{
 
     public function index()
     {
-        $this->load->view('faultSystem/fault_mine');
+        $this->load->view('faultSystem/fault_stat');
     }
 
     public function choose_status($fault_id)
@@ -95,6 +95,8 @@ class Fault extends CI_Controller{
             'checker_id' => $_POST['checkerID']
         );
         $this->Fault_basic_model->handle_fault_basic($data);
+        redirect('FaultManage/Fault/choose_status/'.$data['fault_id']);
+        
     }
 
     public function checkFault($fault_id)
@@ -132,6 +134,8 @@ class Fault extends CI_Controller{
                 break;
         }
         $this->Fault_basic_model->handle_fault_basic($basic_update);
+        redirect('FaultManage/Fault/choose_status/'.$basic_update['fault_id']);
+        
     }
 
     public function checkFaultFail($fault_id)
@@ -159,13 +163,24 @@ class Fault extends CI_Controller{
             'checker_id' => $_POST['checkerID']
         );
         $this->Fault_basic_model->handle_fault_basic($data);
+        redirect('FaultManage/Fault/choose_status/'.$data['fault_id']);
+        
     }
 
     public function hangFault($fault_id)
     {
         $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
         $this->load->view('faultSystem/fault_hang',$data);
+    }
 
+    public function hangFaultSend()
+    {
+        $data=array(
+            'fault_id' => $_POST['faultID'],
+            'fault_status' => $_POST['faultStatus']
+        );
+        $this->Fault_basic_model->handle_fault_basic($data);
+        redirect('FaultManage/Fault/choose_status/'.$data['fault_id']);
     }
 
     public function locateFault($fault_id)
@@ -202,6 +217,7 @@ class Fault extends CI_Controller{
                 break;
         }
         $this->Fault_basic_model->handle_fault_basic($basic_update);
+        redirect('FaultManage/Fault/choose_status/'.$basic_update['fault_id']);
     }
 
     public function locateFaultFail($fault_id)
@@ -238,6 +254,8 @@ class Fault extends CI_Controller{
                 break;
         }
         $this->Fault_basic_model->handle_fault_basic($basic_update);
+        redirect('FaultManage/Fault/choose_status/'.$basic_update['fault_id']);
+        
     }
 
     public function modifyFault($fault_id)
