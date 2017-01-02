@@ -12,14 +12,14 @@ class Fault_basic_model extends CI_Model{
         $this->load->library('session');
     }
 
-    public function get_fault_status($fault_id)
+    public function get_fault($fault_id)
     {
         $res = $this->db
             ->select('*')
             ->from('fault_basic')
             ->where('fault_id',$fault_id)
             ->get();
-        return $res->row()->fault_status;
+        return $res;
     }
 
     public function creator_get_info($session_id)
@@ -128,6 +128,16 @@ class Fault_basic_model extends CI_Model{
             $this->db->insert('fault_error',$data);
         else
             $this->db->update('fault_error',$data);
+    }
+
+    public function update_basic($data)
+    {
+        $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
+    }
+
+    public function delete_basic($fault_id)
+    {
+        $this->db->delete('fault_basic', array('fault_id' => $fault_id));
     }
 
 

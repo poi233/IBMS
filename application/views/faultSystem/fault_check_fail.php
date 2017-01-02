@@ -64,7 +64,7 @@
         }
 
         function check_idea() {
-            var check_idea=$("#faultStatus").find("option:selected").text();
+            var check_idea=$("#checkIdea").find("option:selected").text();
             if(check_idea=="通过")
             {
                 $('#select_next').show();
@@ -207,105 +207,104 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
                                     <fieldset class="form-horizontal">
-                                        <form method="post" action="<?= site_url('FaultManage/Fault/checkFaultSend') ?>" id="checkFaultForm">
-                                        <input hidden="hidden" name="faultID" id="faultID" value="<?= $fault->fault_id ?>">
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">所属项目:</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="项目" readonly="readonly" name="Project" id="Project" value="<?=$fault->project_id ?>">
-                                                <div style="color:red" id="ProjectError"></div><!--这里是错误提醒-->
-                                            </div>
-                                            <label class="col-sm-1 control-label">提交人:</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorID" id="creatorID" value="<?= $this->User_model->get_account_by_id($fault->creator_id) ?>">
-                                                <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
-                                            </div>
-                                        </div>
+                                        <form method="post" action="" id="">
 
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">缺陷级别:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" placeholder="Fault level" readonly="readonly" name="faultLevel" id="faultLevel" value="<?php
-                                                switch($fault->fault_level){
-                                                case 0:echo '低';break;
-                                                case 1:echo '中';break;
-                                                case 2:echo '高';break;
-                                                }?>">
-                                                <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">缺陷描述:</label>
-                                            <div class="col-sm-9">
-                                                <textarea class="form-control" rows="3" readonly="readonly" name="faultDetail" id="faultDetail"><?= $fault->fault_detail ?></textarea>
-                                            </div>
-                                            <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">缺陷重现:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" placeholder="" readonly="readonly" name="faultReappearInfo" id="faultReappearInfo" value="<?= $fault->fault_reappear_info ?>">
-                                            </div>
-                                            <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">审核人:</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" placeholder="审核人" readonly="readonly" name="checkerID" id="checkerID" value="<?= $this->User_model->get_account_by_id($fault->checker_id) ?>">
-                                                <div style="color:red" id="checkerIdError"></div><!--这里是错误提醒-->
-                                            </div>
-                                            <label class="col-sm-1 control-label">审核意见:</label>
-                                            <div class="col-sm-2">
-                                                <select class="form-control" required="required" id="faultStatus"
-                                                        name="faultStatus" onchange="check_idea()">
-                                                    <option value="2">通过</option>
-                                                    <option value="7">不通过</option>
-                                                    <option value="8">延迟处理</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group" id="select_next"> <!--style="display: none;"-->
-                                            <label class="col-sm-2 control-label">下一步 定位人:</label>
-                                            <div class="col-sm-2">
-                                                <select class="form-control" name="locatorID" id="locatorID">
-                                                    <?php foreach($user->result() as $locatorRow): ?>
-                                                        <?php if($locatorRow->user_id!=$fault->creator_id && $locatorRow->user_id!=$fault->checker_id): ?>
-                                                            <option value="<?= $locatorRow->user_id ?>"><?= $this->User_model->get_account_by_id($locatorRow->user_id) ?></option>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <div style="color:red" id="locatorIDError"></div><!--这里是错误提醒-->
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">所属项目:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="项目" readonly="readonly" name="Project" id="Project">
+                                                    <div style="color:red" id="ProjectError"></div><!--这里是错误提醒-->
+                                                </div>
+                                                <label class="col-sm-1 control-label">提交人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="creator" readonly="readonly" name="creatorId" id="creatorId">
+                                                    <div style="color:red" id="creatorIdError"></div><!--这里是错误提醒-->
+                                                </div>
                                             </div>
 
-                                            <label class="col-sm-1 control-label">修改人:</label>
-                                            <div class="col-sm-2">
-                                                <select class="form-control" name="modifierID" id="modifierID">
-                                                    <?php foreach($user->result() as $modifierRow): ?>
-                                                        <?php if($modifierRow->user_id!=$fault->creator_id && $modifierRow->user_id!=$fault->checker_id): ?>
-                                                            <option value="<?= $modifierRow->user_id ?>"><?= $this->User_model->get_account_by_id($modifierRow->user_id) ?></option>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <div style="color:red" id="modifierIDError" ></div><!--这里是错误提醒-->
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">缺陷级别:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Fault level" readonly="readonly" name="faultLevel" id="faultLevel">
+                                                    <div style="color:red" id="faultLevelError"></div><!--这里是错误提醒-->
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="form-group" id="feedback" style="display: none;">
-                                            <label class="col-sm-2 control-label">反馈信息:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" placeholder="反馈信息" id="errorInfo" name="errorInfo">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">缺陷描述:</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" rows="3" readonly="readonly" name="faultDetail" id="faultDetail"></textarea>
+                                                </div>
+                                                <div style="color:red" id="faultDetailError"></div><!--这里是错误提醒-->
                                             </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-xs-11">
-                                                <button class="btn btn-primary pull-right" type="submit">确定</button>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">缺陷重现:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="" readonly="readonly" name="faultReappearInfo" id="faultReappearInfo">
+                                                </div>
+                                                <div style="color:red" id="faultReappearInfoError"></div><!--这里是错误提醒-->
                                             </div>
-                                        </div>
+
+                                            <div class="form-group has-error">
+                                                <label class="col-sm-2 control-label">定位人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="person" readonly="readonly">
+                                                </div>
+
+                                                <label class="col-sm-1 control-label">返回原因:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" placeholder="reason" readonly="readonly" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">审核人:</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" placeholder="审核人" readonly="readonly" name="checkerId" id="checkerId">
+                                                    <div style="color:red" id="checkerIdError"></div><!--这里是错误提醒-->
+                                                </div>
+                                                <label class="col-sm-1 control-label">审核意见:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control" required="required" id="checkIdea"
+                                                            name="checkIdea" onchange="check_idea()">
+                                                        <option>通过</option>
+                                                        <option>不通过</option>
+                                                        <option>延迟处理</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="select_next"> <!--style="display: none;"-->
+                                                <label class="col-sm-2 control-label">下一步 定位人:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control" name="locatorId" id="locatorId">
+                                                        <option></option>
+                                                    </select>
+                                                    <div style="color:red" id="locatorIdError"></div><!--这里是错误提醒-->
+                                                </div>
+
+                                                <label class="col-sm-1 control-label">修改人:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control" name="modifierId" id="modifierId">
+                                                        <option></option>
+                                                    </select>
+                                                    <div style="color:red" id="modifierIdError" ></div><!--这里是错误提醒-->
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="feedback" style="display: none;">
+                                                <label class="col-sm-2 control-label">反馈信息:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="反馈信息">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-11">
+                                                    <button class="btn btn-primary pull-right" type="submit">确定</button>
+                                                </div>
+                                            </div>
                                         </form>
                                     </fieldset>
 

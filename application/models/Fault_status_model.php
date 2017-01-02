@@ -11,10 +11,12 @@ class Fault_status_model extends CI_Model
     {
         parent::__construct();
         $this->load->library('session');
+        $this->load->model('Fault_basic_model');
     }
 
-    public function get_info_by_status($fault_id, $status)
+    public function get_info_of_each_status($fault_id)
     {
+        $status = $this->Fault_basic_model->get_fault($fault_id)->row()->fault_status;
         switch ($status) {
             case 0:
                 return $this->get_drift_info($fault_id);

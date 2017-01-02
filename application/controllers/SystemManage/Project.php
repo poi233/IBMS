@@ -68,7 +68,7 @@ class Project extends CI_Controller
         redirect('SystemManage/Project');
     }
 
-    public function modifyProjectIndex($projectID=0)
+    public function modifyProjectIndex($projectID)
     {
         $data['otherUsers'] = $this->User_model->get_other_user_by_projectID($projectID);
         $data['allMembers'] = $this->User_model->get_user_project_by_projectID($projectID);

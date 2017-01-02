@@ -225,10 +225,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">审核人:</label>
                                             <div class="col-sm-2">
-                                                <select class="form-control" name="checkID" id="checkID">
+                                                <select class="form-control" name="checkerID" id="checkerID">
                                                     <?php foreach($user->result() as $userRow): ?>
                                                         <?php if($userRow->user_id!=$this->session->userdata('user_id')): ?>
-                                                            <option value="<?php $userRow->user_id ?>"><?= $this->User_model->get_account_by_id($userRow->user_id) ?>
+                                                            <option value="<?= $userRow->user_id ?>"><?= $this->User_model->get_account_by_id($userRow->user_id) ?>
                                                             </option>
                                                         <?php endif; ?>
                                                     <?php endforeach; ?>
