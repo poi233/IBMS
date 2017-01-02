@@ -33,6 +33,9 @@ class Fault extends CI_Controller{
             case 2:
                 redirect('FaultManage/Fault/locateFault/'.$fault_id);
                 break;
+            case 3:
+                redirect('FaultManage/Fault/modifyFault/'.$fault_id);
+                break;
             case 7:
                 redirect('FaultManage/Fault/checkFaultFail/'.$fault_id);
                 break;
@@ -235,6 +238,17 @@ class Fault extends CI_Controller{
                 break;
         }
         $this->Fault_basic_model->update_basic($basic_update);
+    }
+
+    public function modifyFault($fault_id)
+    {
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultSystem/fault_modify',$data);
+    }
+
+    public function modifyFaultSend()
+    {
+
     }
 
 

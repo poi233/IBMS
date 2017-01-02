@@ -127,7 +127,7 @@ class Fault_basic_model extends CI_Model{
         if ($res->num_rows() == 0)
             $this->db->insert('fault_error',$data);
         else
-            $this->db->update('fault_error',$data);
+            $this->db->update('fault_error',$data,array('fault_id' => $data['fault_id']));
     }
 
     public function update_basic($data)
