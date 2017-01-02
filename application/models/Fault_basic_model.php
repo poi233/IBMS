@@ -87,34 +87,70 @@ class Fault_basic_model extends CI_Model{
 
 
 
-    public function insert_fault_basic($data)
+    public function handle_fault_basic($data)
     {
-        $this->db->insert('fault_basic',$data);
+        $res = $this->db
+            ->select('*')
+            ->from('fault_basic')
+            ->where('fault_id',$data['fault_id'])
+            ->get();
+        if ($res->num_rows() == 0)
+            $this->db->insert('fault_basic',$data);
+        else
+            $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
     }
 
-    public function insert_fault_check($data)
+    public function handle_fault_check($data)
     {
-        $this->db->insert('fault_check',$data);
+
+        $res = $this->db
+            ->select('*')
+            ->from('fault_check')
+            ->where('fault_id',$data['fault_id'])
+            ->get();
+        if ($res->num_rows() == 0)
+            $this->db->insert('fault_check',$data);
+        else
+            $this->db->update('fault_check',$data,array('fault_id' => $data['fault_id']));
     }
 
-    public function insert_fault_locate($data)
+    public function handle_fault_locate($data)
     {
-        $this->db->insert('fault_locate',$data);
+        $res = $this->db
+            ->select('*')
+            ->from('fault_locate')
+            ->where('fault_id',$data['fault_id'])
+            ->get();
+        if ($res->num_rows() == 0)
+            $this->db->insert('fault_locate',$data);
+        else
+            $this->db->update('fault_locate',$data,array('fault_id' => $data['fault_id']));
     }
 
-    public function insert_fault_modify($data)
+    public function handle_fault_modify($data)
     {
-        $this->db->insert('fault_modify',$data);
+        $res = $this->db
+            ->select('*')
+            ->from('fault_modify')
+            ->where('fault_id',$data['fault_id'])
+            ->get();
+        if ($res->num_rows() == 0)
+            $this->db->insert('fault_modify',$data);
+        else
+            $this->db->update('fault_modify',$data,array('fault_id' => $data['fault_id']));
     }
 
-    public function insert_fault_validation($data)
+    public function handle_fault_validation($data)
     {
-        $this->db->insert('fault_validation',$data);
-    }
-
-    public function insert_fault_transfer($data)
-    {
-        $this->db->insert('fault_transfer',$data);
+        $res = $this->db
+            ->select('*')
+            ->from('fault_validation')
+            ->where('fault_id',$data['fault_id'])
+            ->get();
+        if ($res->num_rows() == 0)
+            $this->db->insert('fault_validation',$data);
+        else
+            $this->db->update('fault_validation',$data,array('fault_id' => $data['fault_id']));
     }
 
     public function handle_error($data)
@@ -128,16 +164,6 @@ class Fault_basic_model extends CI_Model{
             $this->db->insert('fault_error',$data);
         else
             $this->db->update('fault_error',$data,array('fault_id' => $data['fault_id']));
-    }
-
-    public function update_basic($data)
-    {
-        $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
-    }
-
-    public function update_check($data)
-    {
-        $this->db->update('fault_check',$data,array('fault_id' => $data['fault_id']));
     }
 
     public function delete_basic($fault_id)

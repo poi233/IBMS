@@ -67,7 +67,7 @@ class Fault extends CI_Controller{
             'checker_id' => $_POST['checkerID'],
             'creator_id' => $this->session->userdata('user_id')
         );
-        $this->Fault_basic_model->insert_fault_basic($data);
+        $this->Fault_basic_model->handle_fault_basic($data);
     }
 
     public function driftFault($fault_id)
@@ -94,7 +94,7 @@ class Fault extends CI_Controller{
             'fault_status' => $_POST['faultStatus'],
             'checker_id' => $_POST['checkerID']
         );
-        $this->Fault_basic_model->update_basic($data);
+        $this->Fault_basic_model->handle_fault_basic($data);
     }
 
     public function checkFault($fault_id)
@@ -119,7 +119,7 @@ class Fault extends CI_Controller{
                     'locator_id'=>$_POST['locatorID'],
                     'modifier_id'=>$_POST['modifierID'],
                 );
-                $this->Fault_basic_model->insert_fault_check($data2);
+                $this->Fault_basic_model->handle_fault_check($data2);
                 break;
             case 7:
                 $data7=array(
@@ -131,7 +131,7 @@ class Fault extends CI_Controller{
             case 8:
                 break;
         }
-        $this->Fault_basic_model->update_basic($basic_update);
+        $this->Fault_basic_model->handle_fault_basic($basic_update);
     }
 
     public function checkFaultFail($fault_id)
@@ -158,7 +158,7 @@ class Fault extends CI_Controller{
             'fault_status' => $_POST['faultStatus'],
             'checker_id' => $_POST['checkerID']
         );
-        $this->Fault_basic_model->update_basic($data);
+        $this->Fault_basic_model->handle_fault_basic($data);
     }
 
     public function hangFault($fault_id)
@@ -191,7 +191,7 @@ class Fault extends CI_Controller{
                     'fault_subsystem'=>$_POST['faultSubsystem'],
                     'fault_locate_detail'=>$_POST['faultLocateDetail']
                 );
-                $this->Fault_basic_model->insert_fault_locate($data3);
+                $this->Fault_basic_model->handle_fault_locate($data3);
                 break;
             case 9:
                 $data9=array(
@@ -201,7 +201,7 @@ class Fault extends CI_Controller{
                 $this->Fault_basic_model->handle_error($data9);
                 break;
         }
-        $this->Fault_basic_model->update_basic($basic_update);
+        $this->Fault_basic_model->handle_fault_basic($basic_update);
     }
 
     public function locateFaultFail($fault_id)
@@ -225,7 +225,7 @@ class Fault extends CI_Controller{
                     'fault_id'=>$_POST['faultID'],
                     'locator_id'=>$_POST['locatorID'],
                 );
-                $this->Fault_basic_model->update_check($data2);
+                $this->Fault_basic_model->handle_fault_check($data2);
                 break;
             case 7:
                 $data7=array(
@@ -237,7 +237,7 @@ class Fault extends CI_Controller{
             case 8:
                 break;
         }
-        $this->Fault_basic_model->update_basic($basic_update);
+        $this->Fault_basic_model->handle_fault_basic($basic_update);
     }
 
     public function modifyFault($fault_id)
