@@ -169,7 +169,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="ibox-content m-b-sm border-bottom">
+                    <!--<div class="ibox-content m-b-sm border-bottom">
                         <div class="row m-b-sm m-t-sm">
                             <div class="col-sm-1">
                                 <div class="form-group">
@@ -216,13 +216,20 @@
                                     <input type="text" id="" name="" value="" placeholder="" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-ms-1 col-xs-2"><!--<div class="col-md-12">-->
+                            <div class="col-ms-1 col-xs-2">
                                 <div class="input-group">
                                         <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> 搜索!</button>
                                         </span>
                                 </div>
                             </div>
+                        </div>
+                    </div>-->
+
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-12">
+                            <div class="input-group"><input type="text" placeholder="请输入搜索关键字" class="input-sm form-control"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary"> 搜索!</button> </span></div>
                         </div>
                     </div>
 
@@ -232,34 +239,28 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
+                                        <th data-hide="phone" class="col-md-1">项目ID</th>
                                         <th data-hide="phone" class="col-md-1">缺陷ID</th>
                                         <th data-hide="phone" class="col-md-1">提交人</th>
-                                        <th data-hide="phone" class="col-md-1">当前责任人</th>
-                                        <th data-hide="phone" class="col-md-1">当前状态</th>
-                                        <th data-hide="phone" class="col-md-1">项目ID</th>
                                         <th data-hide="phone" class="col-md-1">版本号</th>
                                         <th data-hide="phone" class="col-md-1">子系统</th>
                                         <th data-hide="phone" class="col-md-1">严重程度</th>
                                         <th data-hide="phone" class="col-md-2">指定提交日期</th>
+                                        <th data-hide="phone" class="col-md-1">当前责任人</th>
+                                        <th data-hide="phone" class="col-md-1">当前状态</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
                                     <tr>
+                                        <td class="project-id">
+                                            <span class="">项目ID111</span>
+                                        </td>
                                         <td class="fault-id">
                                             <span class="">缺陷ID111</span>
                                         </td>
                                         <td class="fault-creator">
                                             提交人
-                                        </td>
-                                        <td class="fault-dealer">
-                                            当前
-                                        </td>
-                                        <td class="fault-status">
-                                            <span class="label label-primary">完成</span>
-                                        </td>
-                                        <td class="project-id">
-                                            <span class="">项目ID111</span>
                                         </td>
                                         <td class="project-version">
                                             <small>v1.0</small>
@@ -272,6 +273,12 @@
                                         </td>
                                         <td  class="fault-date">
                                             1996-03-21
+                                        </td>
+                                        <td class="fault-dealer">
+                                            当前
+                                        </td>
+                                        <td class="fault-status">
+                                            <span class="label label-primary">完成</span>
                                         </td>
                                         <td class="project-actions">
                                             <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
@@ -279,20 +286,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="project-id">
+                                            <span class="">项目ID111</span>
+                                        </td>
                                         <td class="fault-id">
                                             <span class="">缺陷ID111</span>
                                         </td>
                                         <td class="fault-creator">
                                             提交人
-                                        </td>
-                                        <td class="fault-dealer">
-                                            当前
-                                        </td>
-                                        <td class="fault-status">
-                                            <span class="label label-primary">完成</span>
-                                        </td>
-                                        <td class="project-id">
-                                            <span class="">项目ID111</span>
                                         </td>
                                         <td class="project-version">
                                             <small>v1.0</small>
@@ -305,6 +306,12 @@
                                         </td>
                                         <td  class="fault-date">
                                             1996-03-21
+                                        </td>
+                                        <td class="fault-dealer">
+                                            当前
+                                        </td>
+                                        <td class="fault-status">
+                                            <span class="label label-primary">完成</span>
                                         </td>
                                         <td class="project-actions">
                                             <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
