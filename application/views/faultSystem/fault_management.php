@@ -169,67 +169,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content animated fadeInUp">
-                    <!--<div class="ibox-content m-b-sm border-bottom">
-                        <div class="row m-b-sm m-t-sm">
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-1">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" id="" name="" value="" placeholder="" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-ms-1 col-xs-2">
-                                <div class="input-group">
-                                        <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索!</button>
-                                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
                     <div class="row m-b-sm m-t-sm">
                         <div class="col-md-12">
                             <div class="input-group"><input type="text" placeholder="请输入搜索关键字" class="input-sm form-control"> <span class="input-group-btn">
-                                    <button type="button" class="btn btn-sm btn-primary"> 搜索!</button> </span></div>
+                                    <button type="button" class="btn btn-sm btn-primary"> 搜索 </button> </span></div>
                         </div>
                     </div>
 

@@ -15,7 +15,7 @@
 
     <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
-    <script type="te">
+    <script type="text/javascript">
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')
@@ -186,6 +186,7 @@
                                         <th data-hide="phone" class="col-md-1">子系统</th>
                                         <th data-hide="phone" class="col-md-1">严重程度</th>
                                         <th data-hide="phone" class="col-md-2">指定提交日期</th>
+                                        <th> </th>
                                     </tr>
                                     </thead>
 
@@ -219,7 +220,6 @@
                                             1996-03-21
                                         </td>
                                         <td class="project-actions">
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
                                             <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
                                         </td>
                                     </tr>
@@ -252,7 +252,6 @@
                                             1996-03-21
                                         </td>
                                         <td class="project-actions">
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
                                             <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
                                         </td>
                                     </tr>

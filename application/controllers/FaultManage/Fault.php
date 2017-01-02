@@ -17,7 +17,7 @@ class Fault extends CI_Controller
 
     public function index()
     {
-        $this->load->view('faultSystem/fault_stat');
+        $this->load->view('faultSystem/fault_mine');
     }
 
     public function choose_status($fault_id)
@@ -422,14 +422,14 @@ class Fault extends CI_Controller
 
     public function toCompleteFaultSend()
     {
+        date_default_timezone_set('PRC');
         $data = array(
             'fault_id' => $_POST['faultID'],
             'fault_status' => 6,
             'fault_close_time' => date('y-m-d h:i:s',time())
         );
-        echo $data['fault_close_time'];
-        //$this->Fault_basic_model->update_fault_basic($data);
-        // qredirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+        $this->Fault_basic_model->update_fault_basic($data);
+        redirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
     }
 
     public function CompleteFault($fault_id)
