@@ -39,10 +39,8 @@ class Fault_status_model extends CI_Model
             case 9:
                 return $this->get_locate_fail_info($fault_id);
             case 10:
-                return $this->get_transfer_info($fault_id);
-            case 11:
                 return $this->get_modify_fail_info($fault_id);
-            case 12:
+            case 11:
                 return $this->get_validation_fail_info($fault_id);
             default:
                 return false;
@@ -75,7 +73,7 @@ class Fault_status_model extends CI_Model
             ->select('*')
             ->from('fault_basic')
             ->join('fault_check', 'fault_basic.fault_id=fault_check.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -86,7 +84,7 @@ class Fault_status_model extends CI_Model
             ->select('*')
             ->from('fault_basic')
             ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -99,7 +97,7 @@ class Fault_status_model extends CI_Model
             ->join('fault_check', 'fault_basic.fault_id=fault_check.fault_id')
             ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
             ->join('fault_modify', 'fault_basic.fault_id=fault_modify.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -113,7 +111,7 @@ class Fault_status_model extends CI_Model
             ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
             ->join('fault_modify', 'fault_basic.fault_id=fault_modify.fault_id')
             ->join('fault_validation', 'fault_basic.fault_id=fault_validation.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -127,7 +125,7 @@ class Fault_status_model extends CI_Model
             ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
             ->join('fault_modify', 'fault_basic.fault_id=fault_modify.fault_id')
             ->join('fault_validation', 'fault_basic.fault_id=fault_validation.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -138,7 +136,7 @@ class Fault_status_model extends CI_Model
             ->select('*')
             ->from('fault_basic')
             ->join('fault_error','fault_basic.fault_id=fault_error.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -160,18 +158,7 @@ class Fault_status_model extends CI_Model
             ->from('fault_basic')
             ->join('fault_error','fault_basic.fault_id=fault_error.fault_id')
             ->join('fault_check', 'fault_basic.fault_id=fault_check.fault_id')
-            ->where('fault_id', $fault_id)
-            ->get();
-        return $res;
-    }
-
-    public function get_transfer_info($fault_id)
-    {
-        $res = $this->db
-            ->select('*')
-            ->from('fault_basic')
-            ->join('fault_transfer','fault_basic.fault_id=fault_transfer.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -183,7 +170,7 @@ class Fault_status_model extends CI_Model
             ->from('fault_basic')
             ->join('fault_error','fault_basic.fault_id=fault_error.fault_id')
             ->join('fault_check', 'fault_basic.fault_id=fault_check.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }
@@ -195,7 +182,7 @@ class Fault_status_model extends CI_Model
             ->from('fault_basic')
             ->join('fault_error','fault_basic.fault_id=fault_error.fault_id')
             ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
-            ->where('fault_id', $fault_id)
+            ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
     }

@@ -135,6 +135,11 @@ class Fault_basic_model extends CI_Model{
         $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
     }
 
+    public function update_check($data)
+    {
+        $this->db->update('fault_check',$data,array('fault_id' => $data['fault_id']));
+    }
+
     public function delete_basic($fault_id)
     {
         $this->db->delete('fault_basic', array('fault_id' => $fault_id));

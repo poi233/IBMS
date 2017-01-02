@@ -15,7 +15,7 @@
 
     <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
-    <script type="te">
+    <script type="text/javascript">
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')

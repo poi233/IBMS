@@ -28,6 +28,17 @@ class Project_model extends CI_Model{
         return $res;
     }
 
+    public function get_name_by_id($project_id)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('project')
+            ->where('project_id',$project_id)
+            ->get();
+        return $res->row()->project_name;
+    }
+
+
     public function get_by_name($name)
     {
         $result = $this->db->get_where('project', array('project_name' => $name));
