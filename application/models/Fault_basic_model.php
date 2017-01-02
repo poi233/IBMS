@@ -86,18 +86,14 @@ class Fault_basic_model extends CI_Model{
     }
 
 
-
-    public function handle_fault_basic($data)
+    public function insert_fault_basic($data)
     {
-        $res = $this->db
-            ->select('*')
-            ->from('fault_basic')
-            ->where('fault_id',$data['fault_id'])
-            ->get();
-        if ($res->num_rows() == 0)
-            $this->db->insert('fault_basic',$data);
-        else
-            $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
+        $this->db->insert('fault_basic',$data);
+    }
+
+    public function update_fault_basic($data)
+    {
+        $this->db->update('fault_basic',$data,array('fault_id' => $data['fault_id']));
     }
 
     public function handle_fault_check($data)

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>缺陷修改</title>
+    <title>缺陷定位</title>
 
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
@@ -61,19 +61,31 @@
             $('#formerPasswordError').html('<p>原密码输入不正确</p>');
         }
 
-        function modifier_feedback() {
+        function locater_feedback() {
             var faultStatus = $("#faultStatus").find("option:selected").text();
             if (faultStatus == "否") {
-                $('#validator').show();
-                $('#validator_selector').show();
-                $('#modifier_information').show();
-                $('#modifier_back_reason').hide();
+                $('#label_sub').show();
+                $('#sub_system').show();
+                $('#locater_information').show();
+                $('#locater_back_reason').hide();
             }
             else if (faultStatus == "是") {
-                $('#validator').hide();
-                $('#validator_selector').hide();
-                $('#modifier_information').hide();
-                $('#modifier_back_reason').show();
+                $('#label_sub').hide();
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').show();
+            }
+            else if (faultStatus == "转手项目") {
+                $('#label_sub').hide();
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').hide();
+            }
+            else {
+                $('#label_sub').hide();
+                $('#sub_system').hide();
+                $('#locater_information').hide();
+                $('#locater_back_reason').hide();
             }
         }
     </script>
@@ -152,7 +164,7 @@
                     <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#">缺陷报告</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
                         <li><a href="#">缺陷跟踪处理</a></li>
                         <li><a href="#">缺陷查询</a></li>
                         <li><a href="#">缺陷统计</a></li>
@@ -181,7 +193,7 @@
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>缺陷修改</h2>
+                <h2>缺陷定位</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
@@ -193,7 +205,7 @@
                         <a>缺陷跟踪处理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷修改</strong>
+                        <strong>缺陷定位</strong>
                     </li>
                 </ol>
             </div>
@@ -209,9 +221,10 @@
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body ">
                                     <fieldset class="form-horizontal">
-                                        <form method="post" action="<?= site_url('FaultManage/Fault/modifyFaultSend') ?>" id="modifyFaultForm">
+                                        <form method="post" action="<?= site_url('FaultManage/Fault/locateFaultSend') ?>" id="">
                                             <input hidden="hidden" name="faultID" id="faultID"
                                                    value="<?= $fault->fault_id ?>">
+
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">所属项目:</label>
 
@@ -226,9 +239,9 @@
 
                                                 <div class="col-sm-2">
                                                     <input type="text" class="form-control" placeholder="creator"
-                                                           readonly="readonly" name="creatorId" id="creatorId" value="<?= $this->User_model->get_account_by_id($fault->creator_id) ?>">
+                                                           readonly="readonly" name="creatorID" id="creatorID" value="<?= $this->User_model->get_account_by_id($fault->creator_id) ?>">
 
-                                                    <div style="color:red" id="creatorIdError"></div>
+                                                    <div style="color:red" id="creatorIDError"></div>
                                                     <!--这里是错误提醒-->
                                                 </div>
                                             </div>
@@ -238,8 +251,7 @@
 
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" placeholder="Fault level"
-                                                           readonly="readonly" name="faultLevel" id="faultLevel" value="<?php
-                                                    switch ($fault->fault_level) {
+                                                           readonly="readonly" name="faultLevel" id="faultLevel" value="<?php switch ($fault->fault_level) {
                                                         case 0:
                                                             echo '低';
                                                             break;
@@ -284,91 +296,75 @@
 
                                                 <div class="col-sm-2">
                                                     <input type="text" class="form-control" placeholder="审核人"
-                                                           readonly="readonly" name="checkerId" id="checkerId" value="<?= $this->User_model->get_account_by_id($fault->checker_id) ?>">
+                                                           readonly="readonly" name="checkerID" id="checkerID" value="<?= $this->User_model->get_account_by_id($fault->checker_id) ?>">
 
-                                                    <div style="color:red" id="checkerIdError"></div>
-
+                                                    <div style="color:red" id="checkerIDError"></div>
                                                     <!--这里是错误提醒-->
                                                 </div>
-                                                <label class="col-sm-1 control-label">定位人:</label>
+
+                                                <label class="col-sm-1 control-label">修改人:</label>
 
                                                 <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="定位人"
-                                                           readonly="readonly" name="locatorId" id="locatorId" value="<?= $this->User_model->get_account_by_id($fault->locator_id) ?>">
+                                                    <input type="text" class="form-control"
+                                                           readonly="readonly" name="locatorID" id="locatorID" value="<?= $this->User_model->get_account_by_id($fault->modifier_id) ?>">
 
-                                                    <div style="color:red" id="locatorIdError"></div>
+                                                    <div style="color:red" id="locatorIDError"></div>
                                                     <!--这里是错误提醒-->
                                                 </div>
-                                                <label class="col-sm-1 control-label">子系统:</label>
-
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" placeholder="sub"
-                                                           readonly="readonly" name="faultSubsystem"
-                                                           id="faultSubsystem" value="<?= $fault->fault_subsystem ?>">
-
-                                                    <div style="color:red" id="faultSubsystemError"></div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="form-group" id="select_next">
-
 
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">定位信息:</label>
-
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="locate_info"
-                                                           readonly="readonly" name="faultLocateDetail"
-                                                           id="faultLocateDetail" value="<?= $fault->fault_locate_detail ?>">
-                                                </div>
-                                                <div style="color:red" id="faultLocateDetailError"></div>
-                                            </div>
 
 
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">返回定位:</label>
+                                                <label class="col-sm-2 control-label">返回审核:</label>
 
                                                 <div class="col-sm-2">
                                                     <select class="form-control" required="required"
                                                             id="faultStatus"
-                                                            name="faultStatus" onchange="modifier_feedback()">
-                                                        <option value="10">是</option>
-                                                        <option value="4" selected="selected">否</option>
+                                                            name="faultStatus" onchange="locater_feedback()">
+                                                        <option value="9">是</option>
+                                                        <option value="3" selected="selected">否</option>
                                                     </select>
                                                 </div>
 
-                                                <label class="col-sm-1 control-label" id="validator">验证人:</label>
-                                                <div class="col-sm-2" id="validator_selector">
-                                                    <select class="form-control" required="required"
-                                                            id="validatorID"
-                                                            name="validatorID">
-                                                        <?php foreach($user->result() as $userRow): ?>
-                                                            <?php if($userRow->user_id!=$fault->creator_id && $userRow->user_id!=$fault->checker_id && $userRow->user_id!=$fault->locator_id && $userRow->user_id!=$fault->modifier_id): ?>
-                                                                <option value="<?= $userRow->user_id ?>"><?= $this->User_model->get_account_by_id($userRow->user_id) ?></option>
-                                                            <?php endif; ?>
+                                                <label class="col-sm-1 control-label" id="label_sub">子系统:</label>
+
+                                                <div class="col-sm-2" id="sub_system" >
+                                                    <select class="form-control" name="faultSubsystem"
+                                                            id="faultSubsystem">
+                                                        <?php foreach($subsystem->result() as $subsystemRow): ?>
+                                                            <option value="<?= $subsystemRow->subsystem ?>" <?php if($subsystemRow->subsystem==$fault->fault_subsystem){ ?> selected="selected"<?php } ?>><?= $subsystemRow->subsystem ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
+
+                                                    <div style="color:red" id="faultSubsystemError"></div>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group" id="modifier_information">
-                                                <label class="col-sm-2 control-label">修改信息:</label>
+                                            <div class="form-group" id="locater_information">
+                                                <label class="col-sm-2 control-label">定位信息:</label>
 
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" rows="3" name="faultModifyInfo"
-                                                              id="faultModifyInfo"></textarea>
+                                                    <input type="text" class="form-control" placeholder="定位信息"
+                                                           name="faultLocateDetail" id="faultLocateDetail" value="<?= $fault->fault_locate_detail ?>">
                                                 </div>
-                                                <div style="color:red" id="faultModifyInfoError"></div>
+                                                <div style="color:red" id="faultLocateDetailError"></div>
                                             </div>
 
-                                            <div class="form-group" id="modifier_back_reason" style="display: none;">
+                                            <div class="form-group" id="locater_back_reason" style="display: none;">
                                                 <label class="col-sm-2 control-label">返回理由:</label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="返回理由" id="errorInfo" name="errorInfo">
+                                                    <input type="text" class="form-control" placeholder="返回理由" name="errorInfo" id="errorInfo">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group has-error">
+                                                <label class="col-sm-2 control-label">返回理由:</label>
+
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" readonly="readonly" value="<?= $fault->error_info ?>">
                                                 </div>
                                             </div>
 
@@ -379,6 +375,7 @@
                                             </div>
                                         </form>
                                     </fieldset>
+
                                 </div>
                             </div>
                         </div>

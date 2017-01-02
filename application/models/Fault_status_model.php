@@ -171,6 +171,7 @@ class Fault_status_model extends CI_Model
             ->from('fault_basic')
             ->join('fault_error','fault_basic.fault_id=fault_error.fault_id')
             ->join('fault_check', 'fault_basic.fault_id=fault_check.fault_id')
+            ->join('fault_locate', 'fault_basic.fault_id=fault_locate.fault_id')
             ->where('fault_basic.fault_id', $fault_id)
             ->get();
         return $res;
