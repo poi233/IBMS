@@ -177,84 +177,236 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th data-hide="phone" class="col-md-1">缺陷ID</th>
-                                        <th data-hide="phone" class="col-md-1">提交人</th>
-                                        <th data-hide="phone" class="col-md-1">当前责任人</th>
-                                        <th data-hide="phone" class="col-md-1">当前状态</th>
-                                        <th data-hide="phone" class="col-md-1">项目ID</th>
-                                        <th data-hide="phone" class="col-md-1">版本号</th>
-                                        <th data-hide="phone" class="col-md-1">子系统</th>
-                                        <th data-hide="phone" class="col-md-1">严重程度</th>
-                                        <th data-hide="phone" class="col-md-2">指定提交日期</th>
+                                        <th data-hide="phone" class="col-md-2">提交人</th>
+                                        <th data-hide="phone" class="col-md-2">项目ID</th>
+                                        <th data-hide="phone" class="col-md-2">严重程度</th>
+                                        <th data-hide="phone" class="col-md-2">发起日期</th>
+                                        <th data-hide="phone" class="col-md-2">当前状态</th>
                                         <th> </th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
+                                    <?php if($creator->num_rows()>0): ?>
+                                    <?php foreach($creator->result() as $creatorRow): ?>
+                                            <?php $rowInfo = $this->Fault_status_model->get_info_of_each_status($creatorRow->fault_id)->row() ?>
                                     <tr>
-                                        <td class="fault-id">
-                                            <span class="">缺陷ID111</span>
-                                        </td>
                                         <td class="fault-creator">
-                                            提交人
-                                        </td>
-                                        <td class="fault-dealer">
-                                            当前
-                                        </td>
-                                        <td class="fault-status">
-                                            <span class="label label-primary">完成</span>
+                                            <?= $this->User_model->get_account_by_id($rowInfo->creator_id) ?><?= $rowInfo->fault_status ?>
                                         </td>
                                         <td class="project-id">
-                                            <span class="">项目ID111</span>
-                                        </td>
-                                        <td class="project-version">
-                                            <small>v1.0</small>
-                                        </td>
-                                        <td class="project-subsys">
-                                            <small>subsys</small>
+                                            <span class=""><?= $rowInfo->project_id ?></span>
                                         </td>
                                         <td class="fault-level">
-                                            <small>高</small>
+                                            <small><?php switch ($rowInfo->fault_level) {
+                                                    case 0:
+                                                        echo '低';
+                                                        break;
+                                                    case 1:
+                                                        echo '中';
+                                                        break;
+                                                    case 2:
+                                                        echo '高';
+                                                        break;
+                                                } ?></small>
                                         </td>
                                         <td  class="fault-date">
-                                            1996-03-21
-                                        </td>
-                                        <td class="project-actions">
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fault-id">
-                                            <span class="">缺陷ID111</span>
-                                        </td>
-                                        <td class="fault-creator">
-                                            提交人
-                                        </td>
-                                        <td class="fault-dealer">
-                                            当前
+                                            <?= $rowInfo->fault_open_time ?>
                                         </td>
                                         <td class="fault-status">
-                                            <span class="label label-primary">完成</span>
-                                        </td>
-                                        <td class="project-id">
-                                            <span class="">项目ID111</span>
-                                        </td>
-                                        <td class="project-version">
-                                            <small>v1.0</small>
-                                        </td>
-                                        <td class="project-subsys">
-                                            <small>subsys</small>
-                                        </td>
-                                        <td class="fault-level">
-                                            <small>高</small>
-                                        </td>
-                                        <td  class="fault-date">
-                                            1996-03-21
+                                            <?php switch ($rowInfo->fault_status) {
+                                                    case 0:
+                                                        echo '<span class="label label-info">草稿</span>';
+                                                        break;
+                                                    case 5:
+                                                        echo '<span class="label label-warning">待完成</span>';
+                                                        break;
+                                                    case 6:
+                                                        echo '<span class="label label-primary">已完成</span>';
+                                                        break;
+                                                    case 7:
+                                                        echo '<span class="label label-danger">未过申</span>';
+                                                        break;
+                                                } ?>
                                         </td>
                                         <td class="project-actions">
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                            <a href="<?= site_url('FaultManage/Fault/choose_status/'.$rowInfo->fault_id) ?>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
                                         </td>
                                     </tr>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                    <?php if($checker->num_rows()>0): ?>
+                                        <?php foreach($checker->result() as $checkerRow): ?>
+                                            <?php $rowInfo = $this->Fault_status_model->get_info_of_each_status($checkerRow->fault_id)->row() ?>
+                                            <tr>
+                                                <td class="fault-creator">
+                                                    <?= $this->User_model->get_account_by_id($rowInfo->creator_id) ?>
+                                                </td>
+                                                <td class="project-id">
+                                                    <span class=""><?= $rowInfo->project_id ?></span>
+                                                </td>
+                                                <td class="fault-level">
+                                                    <small><?php switch ($rowInfo->fault_level) {
+                                                            case 0:
+                                                                echo '低';
+                                                                break;
+                                                            case 1:
+                                                                echo '中';
+                                                                break;
+                                                            case 2:
+                                                                echo '高';
+                                                                break;
+                                                        } ?></small>
+                                                </td>
+                                                <td  class="fault-date">
+                                                    <?= $rowInfo->fault_open_time ?>
+                                                </td>
+                                                <td class="fault-status">
+                                                    <?php switch ($rowInfo->fault_status) {
+                                                        case 1:
+                                                            echo '<span class="label label-warning">待审核</span>';
+                                                            break;
+                                                        case 8:
+                                                            echo '<span class="label label-info">已挂起</span>';
+                                                            break;
+                                                        case 9:
+                                                            echo '<span class="label label-danger">定位失败</span>';
+                                                            break;
+                                                    } ?>
+                                                </td>
+                                                <td class="project-actions">
+                                                    <a href="<?= site_url('FaultManage/Fault/choose_status/'.$rowInfo->fault_id) ?>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                    <?php if($locator->num_rows()>0): ?>
+                                        <?php foreach($locator->result() as $locatorRow): ?>
+                                            <?php $rowInfo = $this->Fault_status_model->get_info_of_each_status($locatorRow->fault_id)->row() ?>
+                                            <tr>
+                                                <td class="fault-creator">
+                                                    <?= $this->User_model->get_account_by_id($rowInfo->creator_id) ?>
+                                                </td>
+                                                <td class="project-id">
+                                                    <span class=""><?= $rowInfo->project_id ?></span>
+                                                </td>
+                                                <td class="fault-level">
+                                                    <small><?php switch ($rowInfo->fault_level) {
+                                                            case 0:
+                                                                echo '低';
+                                                                break;
+                                                            case 1:
+                                                                echo '中';
+                                                                break;
+                                                            case 2:
+                                                                echo '高';
+                                                                break;
+                                                        } ?></small>
+                                                </td>
+                                                <td  class="fault-date">
+                                                    <?= $rowInfo->fault_open_time ?>
+                                                </td>
+                                                <td class="fault-status">
+                                                    <?php switch ($rowInfo->fault_status) {
+                                                        case 2:
+                                                            echo '<span class="label label-warning">待定位</span>';
+                                                            break;
+                                                        case 10:
+                                                            echo '<span class="label label-danger">修改失败</span>';
+                                                            break;
+                                                    } ?>
+                                                </td>
+                                                <td class="project-actions">
+                                                    <a href="<?= site_url('FaultManage/Fault/choose_status/'.$rowInfo->fault_id) ?>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                    <?php if($modifier->num_rows()>0): ?>
+                                        <?php foreach($modifier->result() as $modifierRow): ?>
+                                            <?php $rowInfo = $this->Fault_status_model->get_info_of_each_status($modifierRow->fault_id)->row() ?>
+                                            <tr>
+                                                <td class="fault-creator">
+                                                    <?= $this->User_model->get_account_by_id($rowInfo->creator_id) ?>
+                                                </td>
+                                                <td class="project-id">
+                                                    <span class=""><?= $rowInfo->project_id ?></span>
+                                                </td>
+                                                <td class="fault-level">
+                                                    <small><?php switch ($rowInfo->fault_level) {
+                                                            case 0:
+                                                                echo '低';
+                                                                break;
+                                                            case 1:
+                                                                echo '中';
+                                                                break;
+                                                            case 2:
+                                                                echo '高';
+                                                                break;
+                                                        } ?></small>
+                                                </td>
+                                                <td  class="fault-date">
+                                                    <?= $rowInfo->fault_open_time ?>
+                                                </td>
+                                                <td class="fault-status">
+                                                    <?php switch ($rowInfo->fault_status) {
+                                                        case 3:
+                                                            echo '<span class="label label-warning">待修改</span>';
+                                                            break;
+                                                        case 11:
+                                                            echo '<span class="label label-danger">验证失败</span>';
+                                                            break;
+                                                    } ?>
+                                                </td>
+                                                <td class="project-actions">
+                                                    <a href="<?= site_url('FaultManage/Fault/choose_status/'.$rowInfo->fault_id) ?>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                    <?php if($validator->num_rows()>0): ?>
+                                        <?php foreach($validator->result() as $validatorRow): ?>
+                                            <?php $rowInfo = $this->Fault_status_model->get_info_of_each_status($validatorRow->fault_id)->row() ?>
+                                            <tr>
+                                                <td class="fault-creator">
+                                                    <?= $this->User_model->get_account_by_id($rowInfo->creator_id) ?>
+                                                </td>
+                                                <td class="project-id">
+                                                    <span class=""><?= $rowInfo->project_id ?></span>
+                                                </td>
+                                                <td class="fault-level">
+                                                    <small><?php switch ($rowInfo->fault_level) {
+                                                            case 0:
+                                                                echo '低';
+                                                                break;
+                                                            case 1:
+                                                                echo '中';
+                                                                break;
+                                                            case 2:
+                                                                echo '高';
+                                                                break;
+                                                        } ?></small>
+                                                </td>
+                                                <td  class="fault-date">
+                                                    <?= $rowInfo->fault_open_time ?>
+                                                </td>
+                                                <td class="fault-status">
+                                                    <?php switch ($rowInfo->fault_status) {
+                                                        case 4:
+                                                            echo '<span class="label label-warning">待验证</span>';
+                                                            break;
+                                                    } ?>
+                                                </td>
+                                                <td class="project-actions">
+                                                    <a href="<?= site_url('FaultManage/Fault/choose_status/'.$rowInfo->fault_id) ?>" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>

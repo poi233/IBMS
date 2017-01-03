@@ -17,7 +17,12 @@ class Fault extends CI_Controller
 
     public function index()
     {
-        $this->load->view('faultSystem/fault_mine');
+        $data['creator'] = $this->Fault_basic_model->creator_get_info($this->session->userdata('user_id'));
+        $data['checker'] = $this->Fault_basic_model->checker_get_info($this->session->userdata('user_id'));
+        $data['locator'] = $this->Fault_basic_model->locator_get_info($this->session->userdata('user_id'));
+        $data['modifier'] = $this->Fault_basic_model->modifier_get_info($this->session->userdata('user_id'));
+        $data['validator'] = $this->Fault_basic_model->validator_get_info($this->session->userdata('user_id'));
+        $this->load->view('faultSystem/fault_mine',$data);
     }
 
     public function choose_status($fault_id)
@@ -84,6 +89,7 @@ class Fault extends CI_Controller
             'creator_id' => $this->session->userdata('user_id')
         );
         $this->Fault_basic_model->insert_fault_basic($data);
+        redirect('FaultManage/Fault');
     }
 
     public function driftFault($fault_id)
@@ -110,7 +116,7 @@ class Fault extends CI_Controller
             'checker_id' => $_POST['checkerID']
         );
         $this->Fault_basic_model->update_fault_basic($data);
-        redirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+        redirect('FaultManage/Fault');
 
     }
 
@@ -148,7 +154,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
 
     }
 
@@ -176,7 +182,7 @@ class Fault extends CI_Controller
             'checker_id' => $_POST['checkerID']
         );
         $this->Fault_basic_model->update_fault_basic($data);
-        redirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+        redirect('FaultManage/Fault');
 
     }
 
@@ -194,7 +200,7 @@ class Fault extends CI_Controller
             'fault_status' => $_POST['faultStatus']
         );
         $this->Fault_basic_model->update_fault_basic($data);
-        redirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function locateFault($fault_id)
@@ -230,7 +236,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function locateFaultFail($fault_id)
@@ -266,7 +272,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
 
     }
 
@@ -302,7 +308,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function modifyFaultFail($fault_id)
@@ -339,7 +345,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function validateFault($fault_id)
@@ -374,7 +380,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function validationFaultFail($fault_id)
@@ -410,7 +416,7 @@ class Fault extends CI_Controller
                 break;
         }
         $this->Fault_basic_model->update_fault_basic($basic_update);
-        redirect('FaultManage/Fault/choose_status/' . $basic_update['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function toCompleteFault($fault_id)
@@ -429,7 +435,7 @@ class Fault extends CI_Controller
             'fault_close_time' => date('y-m-d h:i:s',time())
         );
         $this->Fault_basic_model->update_fault_basic($data);
-        redirect('FaultManage/Fault/choose_status/' . $data['fault_id']);
+        redirect('FaultManage/Fault');
     }
 
     public function CompleteFault($fault_id)
