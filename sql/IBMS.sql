@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2017-01-02 08:08:29
+-- Generation Time: 2017-01-06 12:52:46
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -31,22 +31,26 @@ CREATE TABLE IF NOT EXISTS `fault_basic` (
   `fault_level` int(11) NOT NULL,
   `fault_detail` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `fault_reappear_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `fault_open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fault_open_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fault_close_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `fault_status` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
   `checker_id` int(11) NOT NULL,
   `project_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `fault_basic`
 --
 
 INSERT INTO `fault_basic` (`fault_id`, `fault_level`, `fault_detail`, `fault_reappear_info`, `fault_open_time`, `fault_close_time`, `fault_status`, `creator_id`, `checker_id`, `project_id`) VALUES
-(2, 0, '第一个缺陷', '我又出来了', '2017-01-02 07:01:14', '0000-00-00 00:00:00', 2, 1, 22, 'P1'),
-(5, 0, '测试1', '测试测试', '2017-01-02 06:24:22', '0000-00-00 00:00:00', 3, 1, 23, 'P1'),
-(6, 0, '有一个缺陷', '缺陷', '2017-01-02 06:36:09', '0000-00-00 00:00:00', 2, 1, 23, 'P1');
+(1, 0, '1', '1', '2017-01-03 01:18:05', '0000-00-00 00:00:00', 0, 1, 24, 'P1'),
+(2, 0, '2', '2', '2017-01-03 01:19:31', '0000-00-00 00:00:00', 1, 1, 23, 'P1'),
+(3, 0, '3', '3', '2017-01-03 01:19:47', '0000-00-00 00:00:00', 2, 1, 23, 'P1'),
+(4, 0, '4', '4', '2017-01-03 01:20:41', '0000-00-00 00:00:00', 2, 1, 23, 'P1'),
+(5, 0, '5', '5', '2017-01-03 01:21:18', '0000-00-00 00:00:00', 4, 1, 23, 'P1'),
+(6, 0, '6', '6', '2017-01-03 01:22:21', '0000-00-00 00:00:00', 5, 1, 23, 'P1'),
+(7, 0, '7', '7', '2017-01-03 01:26:09', '2017-01-03 01:30:12', 6, 1, 23, 'P1');
 
 -- --------------------------------------------------------
 
@@ -65,9 +69,11 @@ CREATE TABLE IF NOT EXISTS `fault_check` (
 --
 
 INSERT INTO `fault_check` (`fault_id`, `locator_id`, `modifier_id`) VALUES
-(2, 25, 23),
-(5, 24, 25),
-(6, 24, 24);
+(3, 24, 24),
+(4, 24, 26),
+(5, 24, 24),
+(6, 25, 26),
+(7, 24, 25);
 
 -- --------------------------------------------------------
 
@@ -85,9 +91,7 @@ CREATE TABLE IF NOT EXISTS `fault_error` (
 --
 
 INSERT INTO `fault_error` (`fault_id`, `error_info`) VALUES
-(2, '定位失败'),
-(4, '还是不通过'),
-(5, '');
+(7, '7');
 
 -- --------------------------------------------------------
 
@@ -106,7 +110,9 @@ CREATE TABLE IF NOT EXISTS `fault_locate` (
 --
 
 INSERT INTO `fault_locate` (`fault_id`, `fault_subsystem`, `fault_locate_detail`) VALUES
-(5, 'sub1', '123');
+(5, 'sub1', ''),
+(6, 'sub1', '6'),
+(7, 'sub1', '7');
 
 -- --------------------------------------------------------
 
@@ -120,6 +126,15 @@ CREATE TABLE IF NOT EXISTS `fault_modify` (
   `validator_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- 转存表中的数据 `fault_modify`
+--
+
+INSERT INTO `fault_modify` (`fault_id`, `fault_modify_info`, `validator_id`) VALUES
+(5, '5', 25),
+(6, '6', 24),
+(7, '7', 26);
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +145,14 @@ CREATE TABLE IF NOT EXISTS `fault_validation` (
   `fault_id` int(11) NOT NULL,
   `validation_info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `fault_validation`
+--
+
+INSERT INTO `fault_validation` (`fault_id`, `validation_info`) VALUES
+(6, '6'),
+(7, '7');
 
 -- --------------------------------------------------------
 
@@ -185,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `user_authority` int(11) NOT NULL COMMENT '0:超级管理员 1:授权用户 2:审查用户'
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `user`
@@ -193,12 +216,14 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `user_account`, `user_password`, `user_name`, `user_authority`) VALUES
 (1, 'admin', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12345', 0),
-(22, 'peter1', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'st1', 2),
 (23, '123', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '12344', 1),
 (24, '1232', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '123123123', 0),
 (25, '1234123', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '41234123412', 1),
 (26, '21342341234123', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '412341234', 1),
-(27, '123412312351234', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '2341234', 2);
+(27, '123412312351234', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '2341234', 2),
+(28, 'asdfa', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'asdf', 0),
+(29, '31231', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '23123', 1),
+(30, 'qw', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'ddqwdq', 1);
 
 -- --------------------------------------------------------
 
@@ -280,12 +305,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `fault_basic`
 --
 ALTER TABLE `fault_basic`
-MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `fault_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -12,6 +12,15 @@ class Fault_basic_model extends CI_Model{
         $this->load->library('session');
     }
 
+    public function get_all()
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('fault_basic')
+            ->get();
+        return $res;
+    }
+
     public function get_fault($fault_id)
     {
         $res = $this->db

@@ -182,15 +182,13 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th data-hide="phone" class="col-md-1">项目ID</th>
-                                        <th data-hide="phone" class="col-md-1">缺陷ID</th>
-                                        <th data-hide="phone" class="col-md-1">提交人</th>
-                                        <th data-hide="phone" class="col-md-1">版本号</th>
-                                        <th data-hide="phone" class="col-md-1">子系统</th>
-                                        <th data-hide="phone" class="col-md-1">严重程度</th>
-                                        <th data-hide="phone" class="col-md-2">指定提交日期</th>
-                                        <th data-hide="phone" class="col-md-1">当前责任人</th>
-                                        <th data-hide="phone" class="col-md-1">当前状态</th>
+                                        <th data-hide="phone" class="col-md-2">项目ID</th>
+                                        <th data-hide="phone" class="col-md-2">提交人</th>
+                                        <th data-hide="phone" class="col-md-2">严重程度</th>
+                                        <th data-hide="phone" class="col-md-2">发起日期</th>
+                                        <th data-hide="phone" class="col-md-2">当前状态</th>
+                                        <th></th>
+
                                     </tr>
                                     </thead>
 
@@ -199,17 +197,8 @@
                                         <td class="project-id">
                                             <span class="">项目ID111</span>
                                         </td>
-                                        <td class="fault-id">
-                                            <span class="">缺陷ID111</span>
-                                        </td>
                                         <td class="fault-creator">
                                             提交人
-                                        </td>
-                                        <td class="project-version">
-                                            <small>v1.0</small>
-                                        </td>
-                                        <td class="project-subsys">
-                                            <small>subsys</small>
                                         </td>
                                         <td class="fault-level">
                                             <small>高</small>
@@ -217,48 +206,11 @@
                                         <td  class="fault-date">
                                             1996-03-21
                                         </td>
-                                        <td class="fault-dealer">
-                                            当前
-                                        </td>
                                         <td class="fault-status">
                                             <span class="label label-primary">完成</span>
                                         </td>
                                         <td class="project-actions">
                                             <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="project-id">
-                                            <span class="">项目ID111</span>
-                                        </td>
-                                        <td class="fault-id">
-                                            <span class="">缺陷ID111</span>
-                                        </td>
-                                        <td class="fault-creator">
-                                            提交人
-                                        </td>
-                                        <td class="project-version">
-                                            <small>v1.0</small>
-                                        </td>
-                                        <td class="project-subsys">
-                                            <small>subsys</small>
-                                        </td>
-                                        <td class="fault-level">
-                                            <small>高</small>
-                                        </td>
-                                        <td  class="fault-date">
-                                            1996-03-21
-                                        </td>
-                                        <td class="fault-dealer">
-                                            当前
-                                        </td>
-                                        <td class="fault-status">
-                                            <span class="label label-primary">完成</span>
-                                        </td>
-                                        <td class="project-actions">
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
-                                            <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
                                         </td>
                                     </tr>
                                     </tbody>
