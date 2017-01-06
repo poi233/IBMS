@@ -17,12 +17,16 @@ class Fault extends CI_Controller
 
     public function index()
     {
-        $data['creator'] = $this->Fault_basic_model->creator_get_info($this->session->userdata('user_id'));
+        /*$data['creator'] = $this->Fault_basic_model->creator_get_info($this->session->userdata('user_id'));
         $data['checker'] = $this->Fault_basic_model->checker_get_info($this->session->userdata('user_id'));
         $data['locator'] = $this->Fault_basic_model->locator_get_info($this->session->userdata('user_id'));
         $data['modifier'] = $this->Fault_basic_model->modifier_get_info($this->session->userdata('user_id'));
         $data['validator'] = $this->Fault_basic_model->validator_get_info($this->session->userdata('user_id'));
-        $this->load->view('faultSystem/fault_mine',$data);
+        $this->load->view('faultSystem/fault_mine',$data);*/
+
+       /* redirect('FaultManage/Fault/watchMyFault');*/
+
+        $this->load->view('faultSystem/fault_search_view');
     }
 
     public function choose_status($fault_id)
@@ -443,6 +447,16 @@ class Fault extends CI_Controller
         $data['user'] = $this->User_model->get_all_authority_user();
         $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
         $this->load->view('faultSystem/fault_complete', $data);
+    }
+
+    public function watchMyFault()
+    {
+        $data['creator'] = $this->Fault_basic_model->creator_get_info($this->session->userdata('user_id'));
+        $data['checker'] = $this->Fault_basic_model->checker_get_info($this->session->userdata('user_id'));
+        $data['locator'] = $this->Fault_basic_model->locator_get_info($this->session->userdata('user_id'));
+        $data['modifier'] = $this->Fault_basic_model->modifier_get_info($this->session->userdata('user_id'));
+        $data['validator'] = $this->Fault_basic_model->validator_get_info($this->session->userdata('user_id'));
+        $this->load->view('faultSystem/fault_mine',$data);
     }
 
 }
