@@ -191,8 +191,9 @@
                             IN+
                         </div>
                     </li>
+                    <?php if($this->session->userdata('user_authority')==0): ?>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
                         </ul>
@@ -206,13 +207,16 @@
                             <li><a href="#">系统信息导入</a></li>
                         </ul>
                     </li>
-
+                    <?php endif; ?>
                     <li>
                         <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            <?php if($this->session->userdata('user_authority')==0||$this->session->userdata('user_authority')==1):?>
                             <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
-                            <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
                             <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
+
                             <li><a href="#">缺陷统计</a></li>
                         </ul>
                     </li>
@@ -447,8 +451,8 @@
     <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js')?>"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="<?= base_url('assets/js/inspinia.js')?>"></script>
-    <script src="<?= base_url('assets/js/plugins/pace/pace.min.js')?>"></script>
+<!--    <script src="<?/*= base_url('assets/js/inspinia.js')*/?>"></script>
+-->    <script src="<?= base_url('assets/js/plugins/pace/pace.min.js')?>"></script>
 
 </body>
 </html>
