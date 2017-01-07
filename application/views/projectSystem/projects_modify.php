@@ -84,6 +84,7 @@
 
         function cancelAddSubsystem($subSys) {
             var url = '<?= site_url('SystemManage/Project/subsystemCheck/')?>' + $subSys;
+            //alert(url);
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -95,14 +96,14 @@
 
         function errorSubsystemFunction(data)
         {
-            alert(data);
+            alert('存在缺陷包括子系统,无法删除');
         }
 
         function successSubsystemFunction(data)
         {
-            alert(data);
-            //var $loc = $('#toAddSubsystem' + $subSys);
-            //$(document).find($loc).remove();
+            var json = eval(data);
+            var $loc = $('#toAddSubsystem' + json.subsystem);
+            $(document).find($loc).remove();
         }
 
         function toSubmit() {

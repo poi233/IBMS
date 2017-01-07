@@ -101,25 +101,27 @@ class Project extends CI_Controller
             $this->Project_model->add_to_project($to_project);
         }
 
-        /*for($index=0;$index<count($subsystems)-1;$index++)
+        $this->Project_model->delete_project_subsystem($_POST['projectID']);
+        for($index=0;$index<count($subsystems)-1;$index++)
         {
             $to_project = array(
                 'subsystem' => $subsystems[$index],
                 'project_id' => $_POST['projectID']
             );
             $this->Project_model->add_subsystem($to_project);
-        }*/
+        }
 
         redirect('SystemManage/Project');
     }
 
     public function subsystemCheck($subsystem)
     {
+        $data=array('subsystem'=>$subsystem);
         $res = $this->Fault_basic_model->findSubsystem($subsystem);
         if($res->num_rows()==0)
-            return $subsystem;
+            echo json_encode($data);
         else
-            return false;
+            echo false;
     }
 
     public function search()

@@ -65,6 +65,11 @@ class Project_model extends CI_Model{
         $this->db->delete('project', array('project_id' => $project_id));
     }
 
+    public function delete_project_subsystem($project_id)
+    {
+        $this->db->delete('project_subsystem',array('project_id'=>$project_id));
+    }
+
     public function update($data)
     {
         $this->db->update('project', $data, array('project_id' => $data['project_id']));
