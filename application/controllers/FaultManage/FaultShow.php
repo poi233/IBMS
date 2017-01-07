@@ -27,6 +27,12 @@ class FaultShow extends CI_Controller
         $this->load->view('faultShow/fault_search_view',$data);
     }
 
+    public function showStatistic()
+    {
+        $this->load->view('faultShow/fault_stat');
+    }
+
+
     public function search()
     {
         if ($_POST['search'] == '') {
