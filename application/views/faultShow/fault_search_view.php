@@ -6,15 +6,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>缺陷查看</title>
+
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>" rel="stylesheet">
 
     <link href="<?= base_url('assets/css/plugins/summernote/summernote.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/plugins/summernote/summernote-bs3.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/plugins/datapicker/datepicker3.css') ?>" rel="stylesheet">
-
     <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
+
     <script type="text/javascript">
         function changePasswordToSubmit() {
             if ($('#passwordChangeFormer').val() == '')
@@ -58,6 +59,8 @@
             $('#formerPasswordError').html('<p>原密码输入不正确</p>');
         }
     </script>
+
+
 </head>
 
 <body>
@@ -109,12 +112,14 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
+
                     </ul>
                 </li>
+
                 <li class="active">
                     <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span
                             class="fa arrow"></span></a>
@@ -124,8 +129,9 @@
                         <li><a href="#">系统信息导入</a></li>
                     </ul>
                 </li>
+
                 <li>
-                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span
+                    <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="#">缺陷报告</a></li>
@@ -143,21 +149,25 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary "><i class="fa fa-bars"></i> </a>
+
+
                 </div>
+
                 <ul class="nav navbar-top-links navbar-right">
+
                     <li>
                         <a href="<?= site_url('Login/logout') ?>">
                             <i class="fa fa-sign-out"></i> 退出登录
                         </a>
                     </li>
+
                 </ul>
             </nav>
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
-                <h2>缺陷查询</h2>
+            <div class="col-lg-10">
+                <h2>缺陷查看</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">首页</a>
@@ -166,119 +176,142 @@
                         <a>缺陷管理</a>
                     </li>
                     <li class="active">
-                        <strong>缺陷查询</strong>
+                        <strong>缺陷查看</strong>
                     </li>
                 </ol>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="wrapper wrapper-content animated fadeInUp">
-                    <div class="row m-b-sm m-t-sm">
-                        <div class="col-md-12">
-                            <form method="post" action="<?= site_url('FaultManage/FaultShow/search') ?>">
-                            <div class="input-group"><input type="text" placeholder="请输入搜索关键字"
-                                                            class="input-sm form-control" name="search" value="<?= set_value('search') ?>"> <span
-                                    class="input-group-btn">
-                                    <button type="submit" class="btn btn-sm btn-primary">搜索</button> </span></div>
-                            </form>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox-content m-b-sm border-bottom">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="order_id">所属项目</label>
+                            <input type="text" id="Project" name="Project" placeholder="" class="form-control"
+                                   readonly="readonly" value="<?= $fault->project_id ?>">
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="status">缺陷级别</label>
+                            <input type="text" id="faultSubsystem" name="faultSubsystem" placeholder=""
+                                   class="form-control" readonly="readonly" value="<?php
+                            switch ($fault->fault_level) {
+                                case 0:
+                                    echo '低';
+                                    break;
+                                case 1:
+                                    echo '中';
+                                    break;
+                                case 2:
+                                    echo '高';
+                                    break;
+                            } ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="amount">创建人</label>
+                            <input type="text" id="creatorId" name="creatorId" placeholder="" class="form-control"
+                                   readonly="readonly"
+                                   value="<?= $this->User_model->get_account_by_id($fault->creator_id) ?>">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">创建日期</label>
+                            <input id="fault_open_date" type="text" class="form-control"
+                                   value="<?= $fault->fault_open_time ?>" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <div class="project-list">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th data-hide="phone" class="col-md-2">项目ID</th>
-                                        <th data-hide="phone" class="col-md-2">提交人</th>
-                                        <th data-hide="phone" class="col-md-2">严重程度</th>
-                                        <th data-hide="phone" class="col-md-2">发起日期</th>
-                                        <th data-hide="phone" class="col-md-2">当前状态</th>
-                                        <th></th>
+            <div class="row animated fadeInRight">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ($all_fault->result() as $faultRow): ?>
-                                        <?php if ($faultRow->fault_status != 0): ?>
-                                            <tr>
-                                                <td class="project-id">
-                                                    <span class=""><?= $faultRow->project_id ?></span>
-                                                </td>
-                                                <td class="fault-creator">
-                                                    <?= $this->User_model->get_account_by_id($faultRow->creator_id) ?>
-                                                </td>
-                                                <td class="fault-level">
-                                                    <small>
-                                                        <?php switch ($faultRow->fault_level) {
-                                                            case 0:
-                                                                echo '低';
-                                                                break;
-                                                            case 1:
-                                                                echo '中';
-                                                                break;
-                                                            case 2:
-                                                                echo '高';
-                                                                break;
-                                                        } ?>
-                                                    </small>
-                                                </td>
-                                                <td class="fault-date">
-                                                    <?= $faultRow->fault_open_time ?>
-                                                </td>
-                                                <td class="fault-status">
-                                                    <?php switch ($faultRow->fault_status) {
-                                                        case 1:
-                                                            echo '<span class="label label-warning">待审核</span>';
-                                                            break;
-                                                        case 2:
-                                                            echo '<span class="label label-warning">待定位</span>';
-                                                            break;
-                                                        case 3:
-                                                            echo '<span class="label label-warning">待修改</span>';
-                                                            break;
-                                                        case 4:
-                                                            echo '<span class="label label-warning">待验证</span>';
-                                                            break;
-                                                        case 5:
-                                                            echo '<span class="label label-warning">待完成</span>';
-                                                            break;
-                                                        case 6:
-                                                            echo '<span class="label label-primary">已完成</span>';
-                                                            break;
-                                                        case 7:
-                                                            echo '<span class="label label-danger">未过申</span>';
-                                                            break;
-                                                        case 8:
-                                                            echo '<span class="label label-info">已挂起</span>';
-                                                            break;
-                                                        case 9:
-                                                            echo '<span class="label label-danger">定位失败</span>';
-                                                            break;
-                                                        case 10:
-                                                            echo '<span class="label label-danger">修改失败</span>';
-                                                            break;
-                                                        case 11:
-                                                            echo '<span class="label label-danger">验证失败</span>';
-                                                            break;
+                        <div class="ibox-content" id="ibox-content">
 
-                                                        default:
-                                                            echo '<span class="label label-warning">空</span>';
-                                                            break;
-                                                    } ?>
-                                                </td>
-                                                <td class="project-actions">
-                                                    <a href="<?= site_url('FaultManage/FaultShow/detailInfo/'.$faultRow->fault_id) ?>" class="btn btn-white btn-sm"><i
-                                                            class="fa fa-folder"></i> 查看 </a>
-                                                </td>
-                                            </tr>
+                            <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon lazur-bg">
+                                        <i class="fa fa-upload"></i>
+                                    </div>
+
+                                    <div class="vertical-timeline-content">
+                                        <h2>缺陷描述</h2>
+
+                                        <p>
+                                            <?= $fault->fault_detail ?>
+                                        </p>
+
+                                        <h2>缺陷重现</h2>
+
+                                        <p>
+                                            <?= $fault->fault_reappear_info ?>
+                                        </p>
+                                    <span class="vertical-date">提交人<br/>
+                                        <small><?= $this->User_model->get_account_by_id($fault->creator_id) ?></small>
+                                    </span>
+                                    </div>
+                                </div>
+
+                                <?php if ($fault->fault_status != 0 && $fault->fault_status != 1 && $fault->fault_status != 2 && $fault->fault_status != 7 && $fault->fault_status != 8): ?>
+
+
+                                    <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon yellow-bg">
+                                            <i class="fa fa-location-arrow"></i>
+                                        </div>
+
+                                        <div class="vertical-timeline-content">
+                                            <h2>定位信息</h2>
+
+                                            <p><?= $fault->fault_locate_detail ?></p>
+                                        <span class="vertical-date">定位人<br/>
+                                        <small><?= $this->User_model->get_account_by_id($fault->locator_id) ?></small>
+                                    </span>
+                                        </div>
+                                    </div>
+
+                                    <?php if ($fault->fault_status != 3 && $fault->fault_status != 10): ?>
+
+                                        <div class="vertical-timeline-block">
+                                            <div class="vertical-timeline-icon blue-bg">
+                                                <i class="fa fa-file-text"></i>
+                                            </div>
+
+                                            <div class="vertical-timeline-content">
+                                                <h2>修改信息</h2>
+
+                                                <p><?= $fault->fault_modify_info ?></p>
+                                                <span class="vertical-date">修改人<br/><small><?= $this->User_model->get_account_by_id($fault->modifier_id) ?></small></span>
+                                            </div>
+                                        </div>
+                                        <?php if ($fault->fault_status != 4 && $fault->fault_status != 11): ?>
+                                            <div class="vertical-timeline-block">
+                                                <div class="vertical-timeline-icon navy-bg">
+                                                    <i class="fa fa-check"></i>
+                                                </div>
+
+                                                <div class="vertical-timeline-content">
+                                                    <h2>验证信息:</h2>
+
+                                                    <p><?= $fault->validation_info ?></p>
+                                                    <span class="vertical-date">验证人<br/><small><?= $this->User_model->get_account_by_id($fault->validator_id) ?></small></span>
+                                                </div>
+                                            </div>
                                         <?php endif; ?>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                <?php endif; ?>
+                                <?php endif; ?>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -339,48 +372,109 @@
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="<?= base_url('assets/js/inspinia.js') ?>"></script>
+<!--<script src="<? /*= base_url('assets/js/inspinia.js') */ ?>"></script>-->
 <script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>
-
-<!-- Data picker -->
-<script src="<?= base_url('assets/js/plugins/datapicker/bootstrap-datepicker.js') ?>"></script>
 
 <!-- Ladda -->
 <script src="<?= base_url('assets/js/plugins/ladda/spin.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/plugins/ladda/ladda.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/plugins/ladda/ladda.jquery.min.js') ?>"></script>
 
+<!-- Peity -->
+<script src="<?= base_url('assets/js/plugins/peity/jquery.peity.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/demo/peity-demo.js') ?>"></script>
+
 <script>
     $(document).ready(function () {
 
-        $('#loading-example-btn').click(function () {
-            btn = $(this);
-            simpleLoad(btn, true)
+        $('.summernote').summernote();
 
-            // Ajax example
-//                $.ajax().always(function () {
-//                    simpleLoad($(this), false)
-//                });
-
-            simpleLoad(btn, false)
+        $('.input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true
         });
+
     });
 
-    function simpleLoad(btn, state) {
-        if (state) {
-            btn.children().addClass('fa-spin');
-            btn.contents().last().replaceWith(" Loading");
-        } else {
-            setTimeout(function () {
-                btn.children().removeClass('fa-spin');
-                btn.contents().last().replaceWith(" Refresh");
-            }, 2000);
-        }
-    }
 </script>
+
+<script>
+
+    $(document).ready(function () {
+
+        // Bind normal buttons
+        $('.ladda-button').ladda('bind', {timeout: 2000});
+
+        // Bind progress buttons and simulate loading progress
+        Ladda.bind('.progress-demo .ladda-button', {
+            callback: function (instance) {
+                var progress = 0;
+                var interval = setInterval(function () {
+                    progress = Math.min(progress + Math.random() * 0.1, 1);
+                    instance.setProgress(progress);
+
+                    if (progress === 1) {
+                        instance.stop();
+                        clearInterval(interval);
+                    }
+                }, 200);
+            }
+        });
+
+
+        var l = $('.ladda-button-demo').ladda();
+
+        l.click(function () {
+            // Start loading
+            l.ladda('start');
+
+            // Timeout example
+            // Do something in backend and then stop ladda
+            setTimeout(function () {
+                l.ladda('stop');
+            }, 12000)
+
+
+        });
+
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        // Local script for demo purpose only
+        $('#lightVersion').click(function (event) {
+            event.preventDefault()
+            $('#ibox-content').removeClass('ibox-content');
+            $('#vertical-timeline').removeClass('dark-timeline');
+            $('#vertical-timeline').addClass('light-timeline');
+        });
+
+        $('#darkVersion').click(function (event) {
+            event.preventDefault()
+            $('#ibox-content').addClass('ibox-content');
+            $('#vertical-timeline').removeClass('light-timeline');
+            $('#vertical-timeline').addClass('dark-timeline');
+        });
+
+        $('#leftVersion').click(function (event) {
+            event.preventDefault()
+            $('#vertical-timeline').toggleClass('center-orientation');
+        });
+
+
+    });
+</script>
+
+
 </body>
 
 </html>

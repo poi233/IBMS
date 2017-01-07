@@ -18,7 +18,13 @@ class FaultShow extends CI_Controller
     public function index()
     {
         $data['all_fault'] = $this->Fault_basic_model->get_all();
-        $this->load->view('faultSystem/fault_management');
+        $this->load->view('faultShow/fault_management',$data);
+    }
+
+    public function detailInfo($fault_id)
+    {
+        $data['fault'] = $this->Fault_status_model->get_info_of_each_status($fault_id)->row();
+        $this->load->view('faultShow/fault_search_view',$data);
     }
 
     public function search()
@@ -27,7 +33,7 @@ class FaultShow extends CI_Controller
             redirect('FaultManage/FaultShow');
         } else {
             $data['all_fault'] = $this->Fault_basic_model->search($_POST['search']);
-            $this->load->view('faultSystem/fault_management', $data);
+            $this->load->view('faultShow/fault_management', $data);
         }
     }
 }

@@ -24,9 +24,9 @@ class Fault extends CI_Controller
         $data['validator'] = $this->Fault_basic_model->validator_get_info($this->session->userdata('user_id'));
         $this->load->view('faultSystem/fault_mine',$data);*/
 
-       /* redirect('FaultManage/Fault/watchMyFault');*/
+        redirect('FaultManage/Fault/watchMyFault');
 
-        $this->load->view('faultSystem/fault_search_view');
+        //$this->load->view('faultSystem/fault_search_view');
     }
 
     public function choose_status($fault_id)

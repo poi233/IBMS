@@ -172,5 +172,19 @@ class Fault_basic_model extends CI_Model{
         $this->db->delete('fault_basic', array('fault_id' => $fault_id));
     }
 
+    public function search($search)
+    {
+        $like_array = array(
+            'fault_basic.project_id' => $search,
+            'user.user_account' => $search,
+        );
+        $res = $this->db
+            ->select('*')
+            ->from('fault_basic')
+            ->join('user','fault_basic.creator_id=user.user_id')
+            ->or_like($like_array)
+            ->get();
+        return $res;
+    }
 
 }
