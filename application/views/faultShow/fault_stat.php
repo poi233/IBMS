@@ -153,8 +153,8 @@
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
-                        <li><a href="#">缺陷跟踪处理</a></li>
-                        <li><a href="#">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>

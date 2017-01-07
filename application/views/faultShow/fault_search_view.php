@@ -120,7 +120,7 @@
                     </ul>
                 </li>
 
-                <li class="active">
+                <li>
                     <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -130,13 +130,13 @@
                     </ul>
                 </li>
 
-                <li>
+                <li class="active">
                     <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#">缺陷报告</a></li>
-                        <li><a href="#">缺陷跟踪处理</a></li>
-                        <li><a href="#">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                        <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>
@@ -280,7 +280,6 @@
                                     </div>
 
                                     <?php if ($fault->fault_status != 3 && $fault->fault_status != 10): ?>
-
                                         <div class="vertical-timeline-block">
                                             <div class="vertical-timeline-icon blue-bg">
                                                 <i class="fa fa-file-text"></i>
@@ -293,7 +292,7 @@
                                                 <span class="vertical-date">修改人<br/><small><?= $this->User_model->get_account_by_id($fault->modifier_id) ?></small></span>
                                             </div>
                                         </div>
-                                        <?php if ($fault->fault_status != 4 && $fault->fault_status != 11): ?>
+                                            <?php if ($fault->fault_status != 4 && $fault->fault_status != 11): ?>
                                             <div class="vertical-timeline-block">
                                                 <div class="vertical-timeline-icon navy-bg">
                                                     <i class="fa fa-check"></i>
@@ -306,8 +305,8 @@
                                                     <span class="vertical-date">验证人<br/><small><?= $this->User_model->get_account_by_id($fault->validator_id) ?></small></span>
                                                 </div>
                                             </div>
-                                        <?php endif; ?>
-                                <?php endif; ?>
+                                            <?php endif; ?>
+                                    <?php endif; ?>
                                 <?php endif; ?>
 
                             </div>

@@ -292,7 +292,7 @@
                     </ul>
                 </li>
 
-                <li  class="active">
+                <li>
                     <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
@@ -301,12 +301,12 @@
                     </ul>
                 </li>
 
-                <li>
+                <li class="active">
                     <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#">缺陷报告</a></li>
-                        <li><a href="#">缺陷跟踪处理</a></li>
-                        <li><a href="#">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                        <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
+                        <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>
