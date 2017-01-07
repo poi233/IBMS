@@ -31,6 +31,16 @@ class Fault_basic_model extends CI_Model{
         return $res;
     }
 
+    public function findSubsystem($subsystem)
+    {
+        $res = $this->db
+            ->select('*')
+            ->from('fault_locate')
+            ->where('fault_subsystem',$subsystem)
+            ->get();
+        return $res;
+    }
+
     public function creator_get_info($session_id)
     {
         $where = '(fault_status=0 OR fault_status=5 OR fault_status=6 OR fault_status=7) AND creator_id= ';

@@ -70,27 +70,24 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                            <span>
-                             <?php if ($this->session->userdata('user_authority') == 0): ?>
-                                 <img alt="image" class="img-circle"
-                                      src="<?= base_url('assets/img/user_authority_0.png') ?>"/>
-                             <?php elseif ($this->session->userdata('user_authority') == 1): ?>
-                                 <img alt="image" class="img-circle"
-                                      src="<?= base_url('assets/img/user_authority_1.png') ?>"/>
-                             <?php elseif ($this->session->userdata('user_authority') == 2): ?>
-                                 <img alt="image" class="img-circle"
-                                      src="<?= base_url('assets/img/user_authority_2.png') ?>"/>
+                             <?php if($this->session->userdata('user_authority') == 0):?>
+                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_0.png') ?>" />
+                             <?php elseif($this->session->userdata('user_authority') == 1): ?>
+                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_1.png') ?>" />
+                             <?php elseif($this->session->userdata('user_authority') == 2): ?>
+                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_2.png') ?>" />
                              <?php endif; ?>
                            </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs">
-                                   <strong class="font-bold"><?= $this->session->userdata('user_account') ?></strong>
+                                   <strong class="font-bold"><?=$this->session->userdata('user_account')?></strong>
 
                             <span class="text-muted text-xs block">
-                                    <?php if ($this->session->userdata('user_authority') == 0): ?>
-                                        <?= "超级管理员" ?>
-                                    <?php elseif ($this->session->userdata('user_authority') == 1): ?>
+                                    <?php if($this->session->userdata('user_authority') == 0):?>
+                                        <?="超级管理员"?>
+                                    <?php elseif($this->session->userdata('user_authority') == 1): ?>
                                         <?= "授权用户" ?>
-                                    <?php elseif ($this->session->userdata('user_authority') == 2): ?>
+                                    <?php elseif($this->session->userdata('user_authority') == 2): ?>
                                         <?= "审查用户" ?>
                                     <?php endif; ?>
                                 <b class="caret"></b>
@@ -108,29 +105,31 @@
                         IN+
                     </div>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
-                        <li><a href="<?= site_url('SystemManage/Project') ?>">项目信息维护</a></li>
-                        <li><a href="#">系统信息导入</a></li>
-                    </ul>
-                </li>
+                <?php if($this->session->userdata('user_authority')==0): ?>
+                    <li>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
+                            <li><a href="<?= site_url('SystemManage/Project') ?>">项目信息维护</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
                 <li class="active">
-                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span
-                            class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                        <?php if($this->session->userdata('user_authority')==0||$this->session->userdata('user_authority')==1):?>
+                            <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                            <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
+                        <?php endif; ?>
                         <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
-                        <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
+
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>

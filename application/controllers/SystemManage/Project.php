@@ -113,6 +113,15 @@ class Project extends CI_Controller
         redirect('SystemManage/Project');
     }
 
+    public function subsystemCheck($subsystem)
+    {
+        $res = $this->Fault_basic_model->findSubsystem($subsystem);
+        if($res->num_rows()==0)
+            return $subsystem;
+        else
+            return false;
+    }
+
     public function search()
     {
         if ($_POST['search'] == '') {

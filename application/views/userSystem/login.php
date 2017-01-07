@@ -23,9 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-
-                <h1 class="logo-name">IN+</h1>
-
+                <h1 class="logo-name" style="margin-left:-40px;">IBMS</h1>
             </div>
             <h3>欢迎进入+</h3>
             <form class="m-t" role="form" action="<?=site_url('Login/login')?>" method="post">

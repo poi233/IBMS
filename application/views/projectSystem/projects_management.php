@@ -15,7 +15,7 @@
 
     <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
-    <script type="te">
+    <script type="text/javascript">
         function changePasswordToSubmit()
         {
             if($('#passwordChangeFormer').val()=='')
@@ -107,26 +107,31 @@
                         IN+
                     </div>
                 </li>
+                <?php if($this->session->userdata('user_authority')==0): ?>
+                    <li>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="active">
+                        <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
+                            <li><a href="<?= site_url('SystemManage/Project') ?>">项目信息维护</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
                 <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span> <span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('SystemManage/userManage') ?>">用户管理</a></li>
-                    </ul>
-                </li>
-                <li class="active">
-                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">项目管理</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('SystemManage/Project/addProjectIndex') ?>">项目信息登记</a></li>
-                        <li><a href="<?= site_url('SystemManage/Project') ?>">项目信息维护</a></li>
-                        <li><a href="#">系统信息导入</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                        <?php if($this->session->userdata('user_authority')==0||$this->session->userdata('user_authority')==1):?>
+                            <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
+                            <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
+                        <?php endif; ?>
                         <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
-                        <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
+
                         <li><a href="#">缺陷统计</a></li>
                     </ul>
                 </li>
