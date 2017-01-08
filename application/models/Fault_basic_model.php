@@ -197,4 +197,37 @@ class Fault_basic_model extends CI_Model{
         return $res;
     }
 
+    public function get_creator_stat($project_id)
+    {
+       $res = $this->db
+           ->select('creator_id,count(creator_id) as creator_cnt')
+           ->from('fault_basic')
+           ->where('project_id',$project_id)
+           ->group_by('creator_id')
+           ->get();
+       return $res;
+    }
+
+    public function get_level_stat($project_id)
+    {
+        $res = $this->db
+            ->select('fault_level,count(fault_level) as level_cnt')
+            ->from('fault_basic')
+            ->where('project_id',$project_id)
+            ->group_by('fault_level')
+            ->get();
+        return $res;
+    }
+
+    public function get_status_stat($project_id)
+    {
+        $res = $this->db
+            ->select('fault_status,count(fault_status) as status_cnt')
+            ->from('fault_basic')
+            ->where('project_id',$project_id)
+            ->group_by('fault_status')
+            ->get();
+        return $res;
+    }
+
 }

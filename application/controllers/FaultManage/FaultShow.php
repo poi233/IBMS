@@ -29,7 +29,56 @@ class FaultShow extends CI_Controller
 
     public function showStatistic()
     {
-        $this->load->view('faultShow/fault_stat');
+        $data['barData'] = null;
+        $data['xy'] = null;
+        $data['project'] = $this->Project_model->get_all();
+        $data['type']=array(
+            'type' => -1
+        );
+        $this->load->view('faultShow/fault_stat',$data);
+    }
+
+    public function generateStat()
+    {
+        $project_id = $_POST['projectID'];
+        switch($_POST['type']) {
+            case 0:
+                $data['barData'] = $this->Fault_basic_model->get_creator_stat($project_id);
+                $data['xy'] = array(
+                  'x'=>'创建人',
+                  'y'=>'缺陷个数'
+                );
+                $data['type']=array(
+                    'type' => 0
+                );
+                break;
+            case 1:
+                $data['barData'] = $this->Fault_basic_model->get_level_stat($project_id);
+                $data['xy'] = array(
+                    'x'=>'缺陷级别',
+                    'y'=>'缺陷个数'
+                );
+                $data['type']=array(
+                    'type' => 1
+                );
+                break;
+            case 2:
+                $data['barData'] = $this->Fault_basic_model->get_status_stat($project_id);
+                $data['xy'] = array(
+                    'x'=>'缺陷状态',
+                    'y'=>'缺陷个数'
+                );
+                $data['type']=array(
+                    'type' => 2
+                );
+                break;
+            default:
+                $data['barData'] = null;
+                $data['xy'] = null;
+                break;
+        }
+        $data['project'] = $this->Project_model->get_all();
+        $this->load->view('faultShow/fault_stat',$data);
     }
 
 

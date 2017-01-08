@@ -19,10 +19,24 @@
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
     <script>
-        window.onload=function() {
+        <?php switch($type['type']):case 0:?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                <?php $count=0; ?>
+                <?php foreach($barData->result() as $dataRow): ?>
+                [<?= $count ?>,'<?= $this->User_model->get_account_by_id($dataRow->creator_id) ?>'],
+                <?php $count++; ?>
+                <?php endforeach; ?>
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
             var barOptions = {
                 series: {
                     bars: {
+
                         show: true,
                         barWidth: 0.6,
                         fill: true,
@@ -36,7 +50,8 @@
                     }
                 },
                 xaxis: {
-                    tickDecimals: 0
+                    //tickDecimals: 0
+                    ticks: ticks
                 },
                 colors: ["#1ab394"],
                 grid: {
@@ -44,30 +59,303 @@
                     hoverable: true,
                     clickable: true,
                     tickColor: "#D4D4D4",
-                    borderWidth:0
+                    borderWidth: 0
                 },
                 legend: {
                     show: false
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: "x: 2333, y: 1333"
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
                 }
             };
             var barData = {
                 label: "bar",
                 data: [
-                    [1, 20],
-                    [2, 2],
-                    [3, 3],
-                    [4, 4],
-                    [5, 5],
-                    [6, 6]
-                ]
+                        <?php if($barData!=null): ?>
+                    <?php $count=0; ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $count ?>, <?= $dataRow->creator_cnt ?>],
+                    <?php $count++; ?>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
             };
             $.plot($("#flot-bar-chart"), [barData], barOptions);
 
-        }
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                label: "<?= $this->User_model->get_account_by_id($dataRow->creator_id) ?>",
+                data: "<?= $dataRow->creator_cnt ?>",
+                color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+            },
+                <?php endforeach; ?>
+                ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php case 1: ?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                [0,'低'],[1,'中'],[2,'高'],
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
+            var barOptions = {
+                series: {
+                    bars: {
+
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    //tickDecimals: 0
+                    ticks: ticks
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    <?php if($barData!=null): ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $dataRow->fault_level ?>, <?= $dataRow->level_cnt ?>],
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                    label: "<?php switch ($dataRow->fault_level) {
+                                                    case 0:
+                                                        echo '低';
+                                                        break;
+                                                    case 1:
+                                                        echo '中';
+                                                        break;
+                                                    case 2:
+                                                        echo '高';
+                                                        break;
+                                                } ?>",
+                    data: "<?= $dataRow->level_cnt ?>",
+                    color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+                },
+                <?php endforeach; ?>
+            ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php case 2: ?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                [0,'草稿'],[1,'待审核'],[2,'待定位'],[3,'待修改'],[4,'待验证'],[5,'待完成'],[6,'已完成'],[7,'未过申'],[8,'已挂起'],[9,'定位失败'],[10,'修改失败'],[11,'验证失败']
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
+            var barOptions = {
+                series: {
+                    bars: {
+
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    //tickDecimals: 0
+                    ticks: ticks
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    <?php if($barData!=null): ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $dataRow->fault_status ?>, <?= $dataRow->status_cnt ?>],
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                    label: "<?php switch ($dataRow->fault_status) {
+                                                        case 0:
+                                                            echo '草稿';
+                                                            break;
+                                                        case 1:
+                                                            echo '待审核';
+                                                            break;
+                                                        case 2:
+                                                            echo '待定位';
+                                                            break;
+                                                        case 3:
+                                                            echo '待修改';
+                                                            break;
+                                                        case 4:
+                                                            echo '待验证';
+                                                            break;
+                                                        case 5:
+                                                            echo '待完成';
+                                                            break;
+                                                        case 6:
+                                                            echo '已完成';
+                                                            break;
+                                                        case 7:
+                                                            echo '未过申';
+                                                            break;
+                                                        case 8:
+                                                            echo '已挂起';
+                                                            break;
+                                                        case 9:
+                                                            echo '定位失败';
+                                                            break;
+                                                        case 10:
+                                                            echo '修改失败';
+                                                            break;
+                                                        case 11:
+                                                            echo '验证失败';
+                                                            break;
+                                                    } ?>",
+                    data: "<?= $dataRow->status_cnt ?>",
+                    color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+                },
+                <?php endforeach; ?>
+            ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php default:break; ?>
+        <?php endswitch; ?>
 
         function changePasswordToSubmit() {
             if ($('#passwordChangeFormer').val() == '')
@@ -141,24 +429,27 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                            <span>
-                             <?php if($this->session->userdata('user_authority') == 0):?>
-                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_0.png') ?>" />
-                             <?php elseif($this->session->userdata('user_authority') == 1): ?>
-                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_1.png') ?>" />
-                             <?php elseif($this->session->userdata('user_authority') == 2): ?>
-                                 <img alt="image" class="img-circle" src="<?= base_url('assets/img/user_authority_2.png') ?>" />
+                             <?php if ($this->session->userdata('user_authority') == 0): ?>
+                                 <img alt="image" class="img-circle"
+                                      src="<?= base_url('assets/img/user_authority_0.png') ?>"/>
+                             <?php elseif ($this->session->userdata('user_authority') == 1): ?>
+                                 <img alt="image" class="img-circle"
+                                      src="<?= base_url('assets/img/user_authority_1.png') ?>"/>
+                             <?php elseif ($this->session->userdata('user_authority') == 2): ?>
+                                 <img alt="image" class="img-circle"
+                                      src="<?= base_url('assets/img/user_authority_2.png') ?>"/>
                              <?php endif; ?>
                            </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs">
-                                   <strong class="font-bold"><?=$this->session->userdata('user_account')?></strong>
+                                   <strong class="font-bold"><?= $this->session->userdata('user_account') ?></strong>
 
                             <span class="text-muted text-xs block">
-                                    <?php if($this->session->userdata('user_authority') == 0):?>
-                                        <?="超级管理员"?>
-                                    <?php elseif($this->session->userdata('user_authority') == 1): ?>
+                                    <?php if ($this->session->userdata('user_authority') == 0): ?>
+                                        <?= "超级管理员" ?>
+                                    <?php elseif ($this->session->userdata('user_authority') == 1): ?>
                                         <?= "授权用户" ?>
-                                    <?php elseif($this->session->userdata('user_authority') == 2): ?>
+                                    <?php elseif ($this->session->userdata('user_authority') == 2): ?>
                                         <?= "审查用户" ?>
                                     <?php endif; ?>
                                 <b class="caret"></b>
@@ -176,7 +467,7 @@
                         IN+
                     </div>
                 </li>
-                <?php if($this->session->userdata('user_authority')==0): ?>
+                <?php if ($this->session->userdata('user_authority') == 0): ?>
                     <li>
                         <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户信息</span></a>
                         <ul class="nav nav-second-level">
@@ -195,7 +486,7 @@
                 <li class="active">
                     <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">缺陷管理</span></a>
                     <ul class="nav nav-second-level">
-                        <?php if($this->session->userdata('user_authority')==0||$this->session->userdata('user_authority')==1):?>
+                        <?php if ($this->session->userdata('user_authority') == 0 || $this->session->userdata('user_authority') == 1): ?>
                             <li><a href="<?= site_url('FaultManage/Fault/addFault') ?>">缺陷报告</a></li>
                             <li><a href="<?= site_url('FaultManage/Fault/watchMyFault') ?>">我的缺陷</a></li>
                         <?php endif; ?>
@@ -245,41 +536,41 @@
         <div class="wrapper wrapper-content animated fadeInRight">
 
             <div class="ibox-content m-b-sm border-bottom">
-                <form action="index.html" method="post">
-                <div class="row"><!-- col-md-offset-1 -->
-                    <div class="col-sm-3">
-
-                        <div class="form-group">
-                            <label class="control-label">项目ID</label>
-                            <select name="status" id="status" class="form-control">
-                                <option value="1" selected>Enabled</option>
-                                <option value="0">Disabled</option>
-                            </select>
+                <form action="<?= site_url('FaultManage/FaultShow/generateStat') ?>" method="post">
+                    <div class="row"><!-- col-md-offset-1 -->
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label">项目ID</label>
+                                <select name="projectID" id="status" class="form-control">
+                                    <?php foreach ($project->result() as $projectRow): ?>
+                                        <option
+                                            value="<?= $projectRow->project_id ?>"><?= $projectRow->project_id ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="control-label ">统计条件</label>
-                            <select name="status" id="status" class="form-control">
-                                <option value="1" selected>Enabled</option>
-                                <option value="0">Disabled</option>
-                            </select>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label ">统计条件</label>
+                                <select name="type" id="status" class="form-control">
+                                    <option value="0" selected>创建人</option>
+                                    <option value="1">严重程度</option>
+                                    <option value="2">缺陷状态</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label invisible">X</label>
 
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="control-label invisible" >X</label>
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary" type="submit">
-                                    搜索
-                                </button>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit">
+                                        搜索
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
                 </form>
 
             </div>
@@ -288,24 +579,7 @@
                 <div class="col-lg-6">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>柱状图 <small>自定义颜色.</small></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link" onclick="showStat()">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">设置 1</a>
-                                    </li>
-                                    <li><a href="#">设置 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
+                            <h5>柱状图</h5>
                         </div>
                         <div class="ibox-content">
                             <div class="flot-chart">
@@ -319,23 +593,6 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>饼图</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">设置 1</a>
-                                    </li>
-                                    <li><a href="#">设置 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
                         </div>
                         <div class="ibox-content">
                             <div class="flot-chart">
@@ -345,68 +602,68 @@
                     </div>
                 </div>
             </div>
-           <!-- <div class="row">
+            <!-- <div class="row">
+                 <div class="col-lg-6">
+                     <div class="ibox float-e-margins">
+                         <div class="ibox-title">
+                             <h5>折线图</h5>
+                             <div class="ibox-tools">
+                                 <a class="collapse-link">
+                                     <i class="fa fa-chevron-up"></i>
+                                 </a>
+                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                     <i class="fa fa-wrench"></i>
+                                 </a>
+                                 <ul class="dropdown-menu dropdown-user">
+                                     <li><a href="#">设置 1</a>
+                                     </li>
+                                     <li><a href="#">设置 2</a>
+                                     </li>
+                                 </ul>
+                                 <a class="close-link">
+                                     <i class="fa fa-times"></i>
+                                 </a>
+                             </div>
+                         </div>
+                         <div class="ibox-content">
+
+                             <div class="flot-chart">
+                                 <div class="flot-chart-content" id="flot-line-chart"></div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
                 <div class="col-lg-6">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>折线图</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">设置 1</a>
-                                    </li>
-                                    <li><a href="#">设置 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
+                     <div class="ibox float-e-margins">
+                         <div class="ibox-title">
+                             <h5>实时图</h5>
+                             <div class="ibox-tools">
+                                 <a class="collapse-link">
+                                     <i class="fa fa-chevron-up"></i>
+                                 </a>
+                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                     <i class="fa fa-wrench"></i>
+                                 </a>
+                                 <ul class="dropdown-menu dropdown-user">
+                                     <li><a href="#">设置 1</a>
+                                     </li>
+                                     <li><a href="#">设置 2</a>
+                                     </li>
+                                 </ul>
+                                 <a class="close-link">
+                                     <i class="fa fa-times"></i>
+                                 </a>
+                             </div>
+                         </div>
+                         <div class="ibox-content">
 
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-               <div class="col-lg-6">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>实时图</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">设置 1</a>
-                                    </li>
-                                    <li><a href="#">设置 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart-moving"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+                             <div class="flot-chart">
+                                 <div class="flot-chart-content" id="flot-line-chart-moving"></div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>-->
             <!--<div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -495,8 +752,9 @@
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<!--<script src="<?/*= base_url('assets/js/inspinia.js')  */?>"></script>
---><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+<!--<script src="<? /*= base_url('assets/js/inspinia.js')  */ ?>"></script>
+-->
+<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>
@@ -518,13 +776,13 @@
 <script src="<?= base_url('assets/js/plugins/flot/jquery.flot.time.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<!--<script src="<?/*= base_url('assets/js/inspinia.js') */?>"></script>
---><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+<!--<script src="<? /*= base_url('assets/js/inspinia.js') */ ?>"></script>
+-->
+<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- Flot demo data -->
-<!--<script src="<?/*= base_url('assets/js/demo/flot-demo.js') */?>"></script>
+<!--<script src="<? /*= base_url('assets/js/demo/flot-demo.js') */ ?>"></script>
 -->
-
 
 
 </body>
