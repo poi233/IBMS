@@ -355,7 +355,344 @@
         };
         <?php break; ?>
         <?php default:break; ?>
+        <?php endswitch; ?>        <?php switch($type['type']):case 0:?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                <?php $count=0; ?>
+                <?php foreach($barData->result() as $dataRow): ?>
+                [<?= $count ?>,'<?= $this->User_model->get_account_by_id($dataRow->creator_id) ?>'],
+                <?php $count++; ?>
+                <?php endforeach; ?>
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
+            var barOptions = {
+                series: {
+                    bars: {
+
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    //tickDecimals: 0
+                    ticks: ticks
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    <?php if($barData!=null): ?>
+                    <?php $count=0; ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $count ?>, <?= $dataRow->creator_cnt ?>],
+                    <?php $count++; ?>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                    label: "<?= $this->User_model->get_account_by_id($dataRow->creator_id) ?>",
+                    data: "<?= $dataRow->creator_cnt ?>",
+                    color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+                },
+                <?php endforeach; ?>
+            ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php case 1: ?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                [0,'低'],[1,'中'],[2,'高'],
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
+            var barOptions = {
+                series: {
+                    bars: {
+
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    //tickDecimals: 0
+                    ticks: ticks
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    <?php if($barData!=null): ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $dataRow->fault_level ?>, <?= $dataRow->level_cnt ?>],
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                    label: "<?php switch ($dataRow->fault_level) {
+                                                    case 0:
+                                                        echo '低';
+                                                        break;
+                                                    case 1:
+                                                        echo '中';
+                                                        break;
+                                                    case 2:
+                                                        echo '高';
+                                                        break;
+                                                } ?>",
+                    data: "<?= $dataRow->level_cnt ?>",
+                    color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+                },
+                <?php endforeach; ?>
+            ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php case 2: ?>
+        window.onload = function () {
+            <?php if($barData!=null): ?>
+            var ticks = [
+                [0,'草稿'],[1,'待审核'],[2,'待定位'],[3,'待修改'],[4,'待验证'],[5,'待完成'],[6,'已完成'],[7,'未过申'],[8,'已挂起'],[9,'定位失败'],[10,'修改失败'],[11,'验证失败']
+            ];
+            <?php else: ?>
+            var ticks = [
+            ];
+            <?php endif; ?>
+            var barOptions = {
+                series: {
+                    bars: {
+
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    //tickDecimals: 0
+                    ticks: ticks
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "<?= $xy==null?'x':$xy['x'] ?>:%x,<?= $xy==null?'x':$xy['y'] ?>:%y"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    <?php if($barData!=null): ?>
+                    <?php foreach($barData->result() as $dataRow): ?>
+                    [<?= $dataRow->fault_status ?>, <?= $dataRow->status_cnt ?>],
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                ],
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+            <?php if($barData==null):?>
+            var data = [];
+            <?php else: ?>
+            var data = [
+                <?php foreach($barData->result() as $dataRow): ?>
+                {
+                    label: "<?php switch ($dataRow->fault_status) {
+                                                        case 0:
+                                                            echo '草稿';
+                                                            break;
+                                                        case 1:
+                                                            echo '待审核';
+                                                            break;
+                                                        case 2:
+                                                            echo '待定位';
+                                                            break;
+                                                        case 3:
+                                                            echo '待修改';
+                                                            break;
+                                                        case 4:
+                                                            echo '待验证';
+                                                            break;
+                                                        case 5:
+                                                            echo '待完成';
+                                                            break;
+                                                        case 6:
+                                                            echo '已完成';
+                                                            break;
+                                                        case 7:
+                                                            echo '未过申';
+                                                            break;
+                                                        case 8:
+                                                            echo '已挂起';
+                                                            break;
+                                                        case 9:
+                                                            echo '定位失败';
+                                                            break;
+                                                        case 10:
+                                                            echo '修改失败';
+                                                            break;
+                                                        case 11:
+                                                            echo '验证失败';
+                                                            break;
+                                                    } ?>",
+                    data: "<?= $dataRow->status_cnt ?>",
+                    color: "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6)
+                },
+                <?php endforeach; ?>
+            ];
+            <?php endif; ?>
+
+            var plotObj = $.plot($("#flot-pie-chart"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        };
+        <?php break; ?>
+        <?php default:break; ?>
         <?php endswitch; ?>
+
 
         function changePasswordToSubmit() {
             if ($('#passwordChangeFormer').val() == '')
