@@ -309,7 +309,7 @@
                         <?php endif; ?>
                         <li><a href="<?= site_url('FaultManage/FaultShow') ?>">缺陷查询</a></li>
 
-                        <li><a href="#">缺陷统计</a></li>
+                        <li><a href="<?= site_url('FaultManage/FaultShow/showStatistic') ?>">缺陷统计</a></li>
                     </ul>
                 </li>
             </ul>

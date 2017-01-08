@@ -36,7 +36,7 @@ class Login extends CI_Controller
             $this->load->view('userSystem/login');
         } else {
             $this->User_model->to_login($_POST['user_account']);
-            redirect('SystemManage/userManage');
+            redirect('FaultManage/FaultShow');
         }
     }
 
