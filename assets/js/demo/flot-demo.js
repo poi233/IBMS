@@ -37,12 +37,12 @@ $(function() {
     var barData = {
         label: "bar",
         data: [
-            [1, 34],
-            [2, 25],
-            [3, 19],
-            [4, 34],
-            [5, 32],
-            [6, 44]
+            [1, 1],
+            [2, 2],
+            [3, 3],
+            [4, 4],
+            [5, 5],
+            [6, 6]
         ]
     };
     $.plot($("#flot-bar-chart"), [barData], barOptions);

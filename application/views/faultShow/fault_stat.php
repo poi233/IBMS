@@ -18,7 +18,57 @@
     <link href="<?= base_url('assets/css/animate.css') ?>" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 
-    <script type="text/javascript">
+    <script>
+        window.onload=function() {
+            var barOptions = {
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.8
+                            }, {
+                                opacity: 0.8
+                            }]
+                        }
+                    }
+                },
+                xaxis: {
+                    tickDecimals: 0
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth:0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "x: 2333, y: 1333"
+                }
+            };
+            var barData = {
+                label: "bar",
+                data: [
+                    [1, 20],
+                    [2, 2],
+                    [3, 3],
+                    [4, 4],
+                    [5, 5],
+                    [6, 6]
+                ]
+            };
+            $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+        }
+
         function changePasswordToSubmit() {
             if ($('#passwordChangeFormer').val() == '')
                 $('#formerPasswordError').html('<p>输入不能为空</p>');
@@ -192,17 +242,20 @@
             </div>
         </div>
 
+
+
         <div class="wrapper wrapper-content animated fadeInRight">
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>柱状图 <small>自定义颜色.</small></h5>
                             <div class="ibox-tools">
-                                <a class="collapse-link">
+                                <a class="collapse-link" onclick="showStat()">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <a class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
@@ -404,9 +457,8 @@
 <script src="<?= base_url('assets/js/plugins/slimscroll/jquery.slimscroll.min.js') ?>"></script>
 
 <!-- Custom and plugin javascript -->
-<!--<script src="<? /*= base_url('assets/js/inspinia.js') */ ?>"></script>
--->
-<script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
+<!--<script src="<?/*= base_url('assets/js/inspinia.js')  */?>"></script>
+--><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- SUMMERNOTE -->
 <script src="<?= base_url('assets/js/plugins/summernote/summernote.min.js') ?>"></script>
@@ -432,66 +484,9 @@
 --><script src="<?= base_url('assets/js/plugins/pace/pace.min.js') ?>"></script>
 
 <!-- Flot demo data -->
-<script src="<?= base_url('assets/js/demo/flot-demo.js') ?>"></script>
+<!--<script src="<?/*= base_url('assets/js/demo/flot-demo.js') */?>"></script>
+-->
 
-<script>
-    $(document).ready(function () {
-
-        $('.summernote').summernote();
-
-        $('.input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true
-        });
-
-    });
-</script>
-
-<script>
-
-    $(document).ready(function () {
-
-        // Bind normal buttons
-        $('.ladda-button').ladda('bind', {timeout: 2000});
-
-        // Bind progress buttons and simulate loading progress
-        Ladda.bind('.progress-demo .ladda-button', {
-            callback: function (instance) {
-                var progress = 0;
-                var interval = setInterval(function () {
-                    progress = Math.min(progress + Math.random() * 0.1, 1);
-                    instance.setProgress(progress);
-
-                    if (progress === 1) {
-                        instance.stop();
-                        clearInterval(interval);
-                    }
-                }, 200);
-            }
-        });
-
-
-        var l = $('.ladda-button-demo').ladda();
-
-        l.click(function () {
-            // Start loading
-            l.ladda('start');
-
-            // Timeout example
-            // Do something in backend and then stop ladda
-            setTimeout(function () {
-                l.ladda('stop');
-            }, 12000)
-
-
-        });
-
-    });
-
-</script>
 
 
 </body>
